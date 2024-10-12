@@ -69,11 +69,11 @@ public class Coupe extends javax.swing.JFrame {
 
         jLabel2.setText("Type de coupe:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Axiale", "Verticale" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "       ", "Axiale", "Verticale" }));
 
         jLabel3.setText("Type d'Outils:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10 mm", "12 mm", "14 mm" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "    ", "10 mm", "12 mm", "14 mm" }));
 
         longueur.setBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(longueur);

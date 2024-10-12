@@ -198,9 +198,10 @@
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Axiale"/>
-            <StringItem index="1" value="Verticale"/>
+          <StringArray count="3">
+            <StringItem index="0" value="       "/>
+            <StringItem index="1" value="Axiale"/>
+            <StringItem index="2" value="Verticale"/>
           </StringArray>
         </Property>
       </Properties>
@@ -216,10 +217,11 @@
     <Component class="javax.swing.JComboBox" name="jComboBox2">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="3">
-            <StringItem index="0" value="10 mm"/>
-            <StringItem index="1" value="12 mm"/>
-            <StringItem index="2" value="14 mm"/>
+          <StringArray count="4">
+            <StringItem index="0" value="    "/>
+            <StringItem index="1" value="10 mm"/>
+            <StringItem index="2" value="12 mm"/>
+            <StringItem index="3" value="14 mm"/>
           </StringArray>
         </Property>
       </Properties>
