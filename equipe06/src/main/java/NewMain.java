@@ -5,7 +5,7 @@
 
 /**
  *
- * @author ziedd
+ * @author equipe6
  */
 
 public class NewMain {
@@ -19,4 +19,4 @@ public class NewMain {
         mainWindow.setVisible(true);
     }
     
-}
+}  
