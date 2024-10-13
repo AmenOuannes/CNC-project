@@ -50,7 +50,17 @@ public class Coupe extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         New = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,11 +68,11 @@ public class Coupe extends javax.swing.JFrame {
 
         jLabel2.setText("Type de coupe:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "       ", "Axiale", "Verticale" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Axiale", "Rectangulaire", "Bordure" }));
 
         jLabel3.setText("Type d'Outils:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "    ", "10 mm", "12 mm", "14 mm" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10 mm", "12 mm", "14 mm" }));
 
         longueur.setBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(longueur);
@@ -71,7 +81,7 @@ public class Coupe extends javax.swing.JFrame {
         jScrollPane2.setViewportView(largeur);
 
         jButton1.setBackground(new java.awt.Color(255, 255, 102));
-        jButton1.setText("COUPER");
+        jButton1.setText("Ajouter Coupe");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -91,7 +101,7 @@ public class Coupe extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 85, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,6 +149,11 @@ public class Coupe extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         New.setText("Nouveau");
+        New.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewActionPerformed(evt);
+            }
+        });
         jMenu1.add(New);
 
         Exit.setText("Quitter");
@@ -151,8 +166,45 @@ public class Coupe extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu6.setText("Sauvgarder");
+        jMenuBar1.add(jMenu6);
+
+        jMenu4.setText("Undo");
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Redo");
+        jMenuBar1.add(jMenu5);
+
+        jMenu2.setText("Modifier Panneau");
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Zone Interdite");
+
+        jMenuItem2.setText("Ajouter");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem3.setText("Modifier");
+        jMenu3.add(jMenuItem3);
+
+        jMenuItem4.setText("Supprimer");
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu7.setText("Outil");
+
+        jMenuItem5.setText("Ajouter");
+        jMenu7.add(jMenuItem5);
+
+        jMenuItem6.setText("Modifier");
+        jMenu7.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
 
@@ -195,7 +247,7 @@ public class Coupe extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
-                    .addComponent(jSeparator2)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                     .addGap(502, 502, 502)))
         );
         layout.setVerticalGroup(
@@ -206,7 +258,7 @@ public class Coupe extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 14, Short.MAX_VALUE))
+                        .addGap(0, 29, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(22, 22, 22)
@@ -238,25 +290,33 @@ public class Coupe extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(38, 38, 38)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(429, Short.MAX_VALUE)))
+                    .addContainerGap(444, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_ExitActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void NewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NewActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,8 +367,18 @@ public class Coupe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
