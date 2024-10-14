@@ -91,9 +91,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(41, 41, 41)
                 .addComponent(jButton1)
-                .addGap(51, 51, 51)
+                .addGap(40, 40, 40)
                 .addComponent(jButton3)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         pack();
