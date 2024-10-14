@@ -172,7 +172,7 @@ public class Coupe extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu6.setText("Sauvgarder");
+        jMenu6.setText("Sauvegarder");
         jMenuBar1.add(jMenu6);
 
         jMenu4.setText("Undo");

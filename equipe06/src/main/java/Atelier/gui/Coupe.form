@@ -37,7 +37,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sauvgarder"/>
+            <Property name="text" type="java.lang.String" value="Sauvegarder"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu4">
