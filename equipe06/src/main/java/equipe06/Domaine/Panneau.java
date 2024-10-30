@@ -4,7 +4,7 @@
  */
 package equipe06.Domaine;
 
-import equipe06.Utils.ZoneInterdite;
+import equipe06.Domaine.Utils.ZoneInterdite;
 /**
  *
  * @author ziedd

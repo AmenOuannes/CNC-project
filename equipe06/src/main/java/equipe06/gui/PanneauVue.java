@@ -26,13 +26,5 @@ public class PanneauVue extends JPanel {
         repaint();
     }
     
-    /*protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        // Dessiner le contour du panneau
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(10, 10, largeurPixels - 20, hauteurPixels - 20);
-        }*/
     
 }

@@ -6,11 +6,13 @@ package equipe06.gui;
 import javax.swing.*;
 import java.awt.*;
 import equipe06.gui.PanneauVue;
+import equipe06.Domaine.Controleur;
 /**
  *
  * @author ziedd
  */
 public class MainWindow extends javax.swing.JFrame {
+    private Controleur controleur;
     private PanneauVue panneauVue;
     private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
@@ -21,18 +23,26 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
         panneauVue = new PanneauVue();
-        int largeurPixels = (int) (4608 * SCALE_FACTOR);
-        int hauteurPixels = (int) (3454 * SCALE_FACTOR);
         
-        panneauVue.setDimensions(largeurPixels, hauteurPixels); // Dimensions en pixels correspondant à 1.2192 m x 0.9144 m
+        // Obtenir l'instance de Controleur et établir la communication
+        controleur = Controleur.getInstance();
+        controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
 
-        // Remplacer `PanneauVisualisation` par `panneauVue`
+        // Ajouter `panneauVue` dans `PanneauVisualisation`
         PanneauVisualisation.setLayout(new BorderLayout());
         PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
-        
-        // Appeler pack() pour ajuster la fenêtre à la taille totale des composants
+
+        // Ajuster la fenêtre à la taille totale des composants
         pack();
     }
+
+    /**
+     * Méthode pour mettre à jour les dimensions de `PanneauVue`
+     */
+    public void updatePanneauDimensions(int largeurPixels, int hauteurPixels) {
+        panneauVue.setDimensions(largeurPixels, hauteurPixels);
+    }
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
