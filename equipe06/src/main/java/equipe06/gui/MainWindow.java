@@ -3,18 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package equipe06.gui;
-
+import javax.swing.*;
+import java.awt.*;
+import equipe06.gui.PanneauVue;
 /**
  *
  * @author ziedd
  */
 public class MainWindow extends javax.swing.JFrame {
+    private PanneauVue panneauVue;
+    private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
+        // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
+        panneauVue = new PanneauVue();
+        int largeurPixels = (int) (4608 * SCALE_FACTOR);
+        int hauteurPixels = (int) (3454 * SCALE_FACTOR);
+        
+        panneauVue.setDimensions(largeurPixels, hauteurPixels); // Dimensions en pixels correspondant à 1.2192 m x 0.9144 m
+
+        // Remplacer `PanneauVisualisation` par `panneauVue`
+        PanneauVisualisation.setLayout(new BorderLayout());
+        PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
+        
+        // Appeler pack() pour ajuster la fenêtre à la taille totale des composants
+        pack();
     }
 
     /**
