@@ -24,16 +24,17 @@ public class CoupeAxe extends Coupe {
 
         // Implémentation de la méthode abstraite coupe
     //@Override
-    public CoupeAxe(float Axe, boolean Composante) {
-        this.axe = Axe;
-        this.composante = Composante;
+    public CoupeAxe(ElementCoupe e) {
+        super(e);
+        this.axe = e.getAxe();
+        this.composante = e.getComposante();
     }
-    public Coupe coupe(ElementCoupe e) {
+    /*public Coupe coupe(ElementCoupe e) {
         // Utilise les méthodes getMarge() et getProfondeur() de ElementCoupe
         setMargeProfondeur(e.getMarge());
         setProfondeur(e.getProfondeur());
         return this; // Retourne l'instance de CoupeAxial après la coupe
-    }
+    }*/
     // Getter et Setter pour Axe
     public float getAxe() {
         return axe;

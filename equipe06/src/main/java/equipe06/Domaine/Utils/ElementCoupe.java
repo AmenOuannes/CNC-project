@@ -1,6 +1,7 @@
-package equipe06.Utils;
-import equipe06.Domaine.Utils.Point;
-
+package equipe06.Domaine.Utils;
+//import equipe06.Domaine.Utils.Point;
+import java.awt.Point;
+import equipe06.Domaine.Outil;
 /**
  *
  * @author hedi, katia
@@ -19,6 +20,7 @@ public class ElementCoupe {
     private float bordureX;
     private float bordureY;
     private String typeCoupe;
+    private Outil outil;
 
     // Constructeur par défaut
     public ElementCoupe() {
@@ -26,7 +28,7 @@ public class ElementCoupe {
 
     // Constructeur avec paramètres pour initialiser tous les attributs
     public ElementCoupe(Point pointOrigine, Point pointDestination, float profondeur, float marge, float axe,
-                        boolean composante, float bordureX, float bordureY, String typeCoupe) {
+                        boolean composante, float bordureX, float bordureY, String typeCoupe, Outil outil) {
         this.pointOrigine = pointOrigine;
         this.pointDestination = pointDestination;
         this.profondeur = profondeur;
@@ -36,6 +38,7 @@ public class ElementCoupe {
         this.bordureX = bordureX;
         this.bordureY = bordureY;
         this.typeCoupe = typeCoupe;
+        this.outil = outil;
     }
 
     // Getters et setters pour chaque attribut
@@ -109,6 +112,12 @@ public class ElementCoupe {
 
     public void setTypeCoupe(String typeCoupe) {
         this.typeCoupe = typeCoupe;
+    }
+    public Outil getOutil() {
+        return outil;
+    }
+    public void setOutil(Outil outil) {
+        this.outil = outil;
     }
 
 }

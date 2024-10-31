@@ -1,4 +1,4 @@
-public class Point {
+/*public class Point {
 
     // Attributs pour les coordonnées X et Y
     private float x;
@@ -31,3 +31,4 @@ public class Point {
         this.y = y;
     }
 }
+*/

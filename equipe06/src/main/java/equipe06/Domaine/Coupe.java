@@ -4,7 +4,7 @@
  */
 package equipe06.Domaine;
 import equipe06.Domaine.Utils.ElementCoupe;
-//import equipe06.Domaine.Outils;
+
 /**
  *
  * @author katia
@@ -15,7 +15,13 @@ public abstract class Coupe {
     //private Outils outils;
     private float marge_profondeur = 0.5f;
     private float Profondeur;
-    public abstract Coupe coupe(ElementCoupe e);
+    private Outil outil;
+
+    public Coupe(ElementCoupe e){
+        this.Profondeur = e.getProfondeur();
+        this.marge_profondeur = e.getMarge();
+        this.outil = e.getOutil();
+    }
     
 
      public float getMargeProfondeur() {
