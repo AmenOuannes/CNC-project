@@ -40,7 +40,10 @@ public abstract class Coupe {
     public void setProfondeur(float profondeur) {
         this.Profondeur = Profondeur;
     }
-   
+    
+    public Outil getOutil() {
+        return outil;
+    }
 
 }
 

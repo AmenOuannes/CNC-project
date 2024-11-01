@@ -45,7 +45,7 @@ public class CoupeAxe extends Coupe {
     }
 
     // Getter et Setter pour Composante
-    public boolean isComposante() {
+    public boolean getComposante() {
         return composante;
     }
 

@@ -57,7 +57,7 @@ public class CNC {
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
         //to change when we have more coupes
         if(coupe instanceof CoupeAxe) {
-            if(((CoupeAxe) coupe).isComposante()){
+            if(((CoupeAxe) coupe).getComposante()){
                 return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();//check either largeur or longueur
             }
             else return ((CoupeAxe) coupe).getAxe() < panneau.getLongueur();
