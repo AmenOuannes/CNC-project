@@ -22,30 +22,33 @@ public class CNC {
     private Panneau panneau;
     private Repere repere;
     private Vector<Coupe> coupes;
-    //private Outil outil;
+    private Vector<Outil> outils;
+    private Outil outil_courant;
 
 
     public CNC() {
         panneau = new Panneau(0914.4f, 1219.2f, 0.5f); // Dimensions en mètres
         repere = new Repere(); // Repère pour gérer les conversions
+        coupes = new Vector<Coupe>();
+
         
     }
     
     public Panneau getPanneau() {
         return panneau;
     }
-
     public Repere getRepere() {
         return repere;
-    }
+    } //??
     public Vector<Coupe> getCoupes() {return coupes;}
+    public Vector<Outil> getOutils() {return outils;}
+    public Outil getOutil_courant() {return outil_courant;}
     public void creerCoupe(ElementCoupe e) {
-        CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will need to
-                                             //  build this using a switch case bloc
+        CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
         if (CoupeValide(ma_coupe, this.panneau))
            {AjouterCoupe(ma_coupe);}
         else {
-            //throw error
+            //throw CoupeInvalideError();
         }
     }
     public void ModifierCoupe(Coupe coupe) {
@@ -66,7 +69,7 @@ public class CNC {
     }
     public void AjouterCoupe(Coupe coupe) {
         coupes.add(coupe);
-        // if there's drawing to do, do it here
+
     }
 
 

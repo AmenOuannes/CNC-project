@@ -8,6 +8,7 @@ package equipe06.Domaine;
  *
  * @author ziedd
  */
+
 public class Repere {
     
     private static double PIXELS_PAR_MM = 3.78; // Conversion de mm en pixels

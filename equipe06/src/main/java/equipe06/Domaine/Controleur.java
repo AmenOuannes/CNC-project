@@ -12,6 +12,7 @@ import equipe06.gui.MainWindow;
 public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
+    private CNCItemDTO cnc_dto;
     private CNC cnc;
     private MainWindow mainWindow;
     private static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
@@ -19,6 +20,7 @@ public class Controleur {
     // Constructeur privé pour empêcher la création directe
     private Controleur() {
         this.cnc = new CNC();
+        this.cnc_dto = new CNCItemDTO(cnc);// a modifier je suis pas sur de ce que j'ai fait
     }
 
     // Méthode statique pour obtenir l'instance unique
