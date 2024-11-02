@@ -55,7 +55,7 @@ public class CNC {
     
     public void creerCoupe(ElementCoupe e) {
         
-        assert e != null : "l'element de la coupe ne peut pas etre nul" ; 
+        assert e != null : "l'element de la coupe ne peut pas etre invalide" ; 
         
         CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
         
@@ -63,7 +63,7 @@ public class CNC {
            {AjouterCoupe(ma_coupe);}
         else {
             
-            assert false : "La coupe est invalide et ne peut pas être ajoutée.";
+            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";
             
             //throw CoupeInvalideError();
         }
@@ -75,8 +75,8 @@ public class CNC {
     }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
         //to change when we have more coupes
-        assert coupe != null : "La coupe ne peut pas etre nulle.";
-        assert panneau != null : "Le panneau ne peut pas être nul.";
+        assert coupe != null : "La coupe ne peut pas etre invalide.";
+        assert panneau != null : "Le panneau ne peut pas être invalide.";
         
         
         if(coupe instanceof CoupeAxe) {
@@ -90,8 +90,8 @@ public class CNC {
     
     
     public boolean inPanneau(Point p, Panneau panneau){
-        assert p != null : "Le point ne peut pas etre nul.";
-        assert panneau != null : "Le panneau ne peut pas etre nul.";
+        assert p != null : "Le point ne peut pas etre invalide.";
+        assert panneau != null : "Le panneau ne peut pas etre invalide.";
          // TODO : Implementation 
         
         return true;
@@ -100,7 +100,7 @@ public class CNC {
     
     public void AjouterCoupe(Coupe coupe) {
         // S'assurer que l objet coupe est initialise et est valide
-        assert coupe != null : "La coupe à ajouter ne peut pas etre nulle.";
+        assert coupe != null : "La coupe à ajouter ne peut pas etre invalide.";
         coupes.add(coupe);
 
     }

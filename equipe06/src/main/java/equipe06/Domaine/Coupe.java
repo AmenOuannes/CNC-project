@@ -18,6 +18,12 @@ public abstract class Coupe {
     private Outil outil;
 
     public Coupe(ElementCoupe e){
+        
+        assert e != null : "l'element coupe ne pas etre invalide" ;
+        assert e.getProfondeur() > 0 : "La profondeur doit etre positive.";
+        assert e.getMarge() > 0 : "La marge de profondeur doit être positive.";
+        assert e.getOutil() != null : "L'outil ne peut pas être invalide.";
+        
         this.Profondeur = e.getProfondeur();
         this.marge_profondeur = e.getMarge();
         this.outil = e.getOutil();
@@ -29,6 +35,7 @@ public abstract class Coupe {
     }
 
     public void setMargeProfondeur(float margeProfondeur) {
+        assert margeProfondeur > 0 : "La marge de profondeur doit etre positive.";
         this.marge_profondeur = marge_profondeur;
     }
 
@@ -38,12 +45,20 @@ public abstract class Coupe {
 
 
     public void setProfondeur(float profondeur) {
+        assert profondeur > 0 : "La profondeur doit etre positive.";
         this.Profondeur = Profondeur;
     }
     
     public Outil getOutil() {
         return outil;
     }
+    public void setOutil(Outil outil) {
+
+    assert outil != null : "L'outil ne peut pas etre invalide.";
+    
+    this.outil = outil;
+}
+
 
 }
 
