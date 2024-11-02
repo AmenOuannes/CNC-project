@@ -17,6 +17,18 @@ public class ZoneInterdite {
 
     // Constructeur
     public ZoneInterdite(float longueur, float largeur, float distanceToX, float distanceToY) {
+        if (longueur <= 0) {
+            throw new IllegalArgumentException("La longueur doit etre superieure a zero.");
+        }
+        if (largeur <= 0) {
+            throw new IllegalArgumentException("La largeur doit etre superieure a zero.");
+        }
+        if (distanceToX < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe X doit etre non negative.");
+        }
+        if (distanceToY < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe Y doit etre non negative.");
+        }
         this.longueur = longueur;
         this.largeur = largeur;
         this.distanceToX = distanceToX;
@@ -29,6 +41,9 @@ public class ZoneInterdite {
     }
 
     public void setLongueur(float longueur) {
+        if (longueur <= 0) {
+            throw new IllegalArgumentException("La longueur doit etre superieure a zero.");
+        }
         this.longueur = longueur;
     }
 
@@ -37,6 +52,9 @@ public class ZoneInterdite {
     }
 
     public void setLargeur(float largeur) {
+        if (largeur <= 0) {
+            throw new IllegalArgumentException("La largeur doit etre superieure a zero.");
+        }
         this.largeur = largeur;
     }
 
@@ -45,6 +63,9 @@ public class ZoneInterdite {
     }
 
     public void setDistanceToX(float distanceToX) {
+        if (distanceToX < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe X doit etre non negative.");
+        }
         this.distanceToX = distanceToX;
     }
 
@@ -53,11 +74,26 @@ public class ZoneInterdite {
     }
 
     public void setDistanceToY(float distanceToY) {
+        if (distanceToY < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe Y doit etre non negative.");
+        }
         this.distanceToY = distanceToY;
     }
 
     // Méthode pour modifier la zone interdite
     public void modifierZone(float longueur, float largeur, float distanceToX, float distanceToY) {
+        if (longueur <= 0) {
+            throw new IllegalArgumentException("La longueur doit etre superieure a zero.");
+        }
+        if (largeur <= 0) {
+            throw new IllegalArgumentException("La largeur doit etre superieure a zero.");
+        }
+        if (distanceToX < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe X doit etre non negative.");
+        }
+        if (distanceToY < 0) {
+            throw new IllegalArgumentException("La distance par rapport à l'axe Y doit etre non negative.");
+        }
         this.longueur = longueur;
         this.largeur = largeur;
         this.distanceToX = distanceToX;
