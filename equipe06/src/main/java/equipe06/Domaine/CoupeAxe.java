@@ -26,6 +26,9 @@ public class CoupeAxe extends Coupe {
     //@Override
     public CoupeAxe(ElementCoupe e) {
         super(e);
+        assert e != null : "L'element de coupe est invalide.";
+        assert e.getAxe() >= 0 : "La valeur de l'axe doit être superieure ou egale a zero.";
+        
         this.axe = e.getAxe();
         this.composante = e.getComposante();
     }
@@ -41,6 +44,9 @@ public class CoupeAxe extends Coupe {
     }
 
     public void setAxe(float axe) {
+         if (axe < 0) {
+            throw new IllegalArgumentException("La valeur de l'axe doit etre superieure ou egale a zero.");
+        }
         this.axe = axe;
     }
 
@@ -54,3 +60,9 @@ public class CoupeAxe extends Coupe {
     }
 
 }
+/*if (e == null) {
+    throw new IllegalArgumentException("L'élément de coupe est invalide (null).");
+}
+if (e.getAxe() < 0) {
+    throw new IllegalArgumentException("La valeur de l'axe doit être supérieure ou égale à zéro.");
+}*/ //TODO : travailler avec Exception ou Assert ? 
