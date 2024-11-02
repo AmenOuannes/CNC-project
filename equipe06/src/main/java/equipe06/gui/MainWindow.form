@@ -96,6 +96,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="D&#xe9;finir une Coupe"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DefCoupeActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ModCoupe">
           <Properties>

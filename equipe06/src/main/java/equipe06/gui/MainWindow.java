@@ -73,6 +73,11 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         DefCoupe.setText("Définir une Coupe");
+        DefCoupe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DefCoupeActionPerformed(evt);
+            }
+        });
 
         ModCoupe.setText("Modifier une Coupe");
 
@@ -125,6 +130,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void DefCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefCoupeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DefCoupeActionPerformed
 
     /**
      * @param args the command line arguments
