@@ -5,6 +5,7 @@
 package equipe06.Domaine;
 import equipe06.Domaine.CNC;
 import equipe06.gui.MainWindow;
+import equipe06.Domaine.CNCItemDTO;
 /**
  *
  * @author ziedd
@@ -39,8 +40,8 @@ public class Controleur {
 
     // Méthode pour transmettre les dimensions de `Panneau` à `MainWindow`
     private void transmettreDimensionsPanneau() {
-        Panneau panneau = cnc.getPanneau();
-        Repere repere = cnc.getRepere();
+        Panneau panneau = cnc_dto.getPanneau();
+        Repere repere = cnc_dto.getRepere();
         int largeurPixels = repere.convertirEnPixels(panneau.getLargeur() * scaleFactor);
         int hauteurPixels = repere.convertirEnPixels(panneau.getLongueur() * scaleFactor);
         

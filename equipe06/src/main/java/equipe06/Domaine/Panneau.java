@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package equipe06.Domaine;
-
+import java.util.UUID;
 import equipe06.Domaine.Utils.ZoneInterdite;
 /**
  *
@@ -15,18 +15,21 @@ public class Panneau {
     private float largeur;
     private float profondeur;
     private ZoneInterdite zoneInterdite;
+    private UUID Uuid;
 
     // Constructeur
     public Panneau(float longueur, float largeur, float profondeur) {
         this.longueur = longueur;
         this.largeur = largeur;
         this.profondeur = profondeur;
+        this.Uuid = UUID.randomUUID();
     }
 
     // Getters pour les dimensions
     public float getLongueur() { return longueur; }
     public float getLargeur() { return largeur; }
-    public float getProfondeur() { return profondeur; }    
+    public float getProfondeur() { return profondeur; }  
+    public UUID getUUID() { return Uuid; }
 
     // setters pour les dimensions
     public void setLongueur(float longueur) {
