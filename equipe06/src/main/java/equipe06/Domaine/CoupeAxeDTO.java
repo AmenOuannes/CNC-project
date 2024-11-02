@@ -15,6 +15,11 @@ public class CoupeAxeDTO extends CoupeDTO {
 
     public CoupeAxeDTO(CoupeAxe coupeAxe) {
         super(coupeAxe);
+        
+        if (coupeAxe == null) {
+            throw new IllegalArgumentException("La coupe Axe fournie est invalide.");
+        }
+
         this.axeDTO = coupeAxe.getAxe();
         this.composanteDTO = coupeAxe.getComposante();
     }
@@ -24,11 +29,14 @@ public class CoupeAxeDTO extends CoupeDTO {
     }
 
     public void setAxe(float axeDTO) {
+        if (axeDTO < 0) {
+            throw new IllegalArgumentException("La valeur de l'axe doit être supérieure ou égale à zéro.");
+        }
         this.axeDTO = axeDTO;
     }
 
     // Getter et Setter pour Composante
-    public boolean setComposante() {
+    public boolean getComposante() {
         return composanteDTO;
     }
 

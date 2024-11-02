@@ -19,6 +19,24 @@ public abstract class CoupeDTO {
     private Outil outilDTO;
 
     public CoupeDTO(Coupe coupe){
+        if (coupe == null) {
+            throw new IllegalArgumentException("La coupe ne peut pas etre null.");
+        }
+
+        // Vérifier que la marge et la profondeur sont valides
+        if (coupe.getMargeProfondeur() <= 0) {
+            throw new IllegalArgumentException("La marge de profondeur doit etre positive.");
+        }
+
+        if (coupe.getProfondeur() <= 0) {
+            throw new IllegalArgumentException("La profondeur doit etre positive.");
+        }
+
+        // Vérifier que l'outil est non nul
+        if (coupe.getOutil() == null) {
+            throw new IllegalArgumentException("L'outil ne peut pas etre invalide.");
+        }
+
         this.ProfondeurDTO = coupe.getMargeProfondeur();
         this.marge_profondeurDTO = coupe.getProfondeur();
         this.outilDTO = coupe.getOutil();
@@ -30,6 +48,9 @@ public abstract class CoupeDTO {
     }
 
     public void setMargeProfondeur(float margeProfondeurDTO) {
+        if (margeProfondeurDTO <= 0) {
+            throw new IllegalArgumentException("La marge de profondeur doit etre positive.");
+        }
         this.marge_profondeurDTO = marge_profondeurDTO;
     }
 
@@ -39,7 +60,17 @@ public abstract class CoupeDTO {
 
 
     public void setProfondeur(float profondeurDTO) {
+        if (profondeurDTO <= 0) {
+            throw new IllegalArgumentException("La profondeur doit etre positive.");
+        }
         this.ProfondeurDTO = ProfondeurDTO;
+    }
+    
+    public void setOutilDTO(Outil outilDTO) {
+        if (outilDTO == null) {
+            throw new IllegalArgumentException("L'outil ne peut pas etre invalide.");
+        }
+        this.outilDTO = outilDTO;
     }
    
 
