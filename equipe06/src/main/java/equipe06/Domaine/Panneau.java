@@ -19,6 +19,16 @@ public class Panneau {
 
     // Constructeur
     public Panneau(float longueur, float largeur, float profondeur) {
+        if (longueur <= 0) {
+            throw new IllegalArgumentException("La longueur du panneau doit etre superieure a zero.");
+        }
+        if (largeur <= 0) {
+            throw new IllegalArgumentException("La largeur du panneau doit etre superieure a zero.");
+        }
+        if (profondeur <= 0) {
+            throw new IllegalArgumentException("La profondeur du panneau doit être superieure a zero.");
+        }
+
         this.longueur = longueur;
         this.largeur = largeur;
         this.profondeur = profondeur;
@@ -33,12 +43,21 @@ public class Panneau {
 
     // setters pour les dimensions
     public void setLongueur(float longueur) {
+        if (longueur <= 0) {
+             throw new IllegalArgumentException("La longueur du panneau doit etre superieure a zero.");
+        }
         this.longueur = longueur;
     }
     public void setLargeur(float largeur) {
+         if (largeur <= 0) {
+            throw new IllegalArgumentException("La largeur du panneau doit etre superieure a zero.");
+        }
         this.largeur = largeur;
     }
     public void setProfondeur(float profondeur) {
+         if (profondeur <= 0) {
+            throw new IllegalArgumentException("La profondeur du panneau doit être superieure a zero.");
+        }
         this.profondeur = profondeur;
     }
 
@@ -47,10 +66,16 @@ public class Panneau {
         return zoneInterdite;
     }
     public void setZoneInterdite(ZoneInterdite zoneInterdite) {
+        if (zoneInterdite == null) {
+            throw new IllegalArgumentException("La zone interdite ne peut pas etre invalide.");
+        }
         this.zoneInterdite = zoneInterdite;
     }
 
     public void ajouterZoneInterdite(ZoneInterdite zoneInterdite) {
+         if (zoneInterdite == null) {
+            throw new IllegalArgumentException("La zone interdite ne peut pas etre invalide.");
+        }
         this.zoneInterdite = zoneInterdite;
     }
 

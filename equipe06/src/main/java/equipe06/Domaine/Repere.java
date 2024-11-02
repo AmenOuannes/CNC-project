@@ -10,9 +10,9 @@ package equipe06.Domaine;
  */
 
 public class Repere {
-    
-    private static double PIXELS_PAR_MM = 3.78; // Conversion de mm en pixels
-    private static double MM_PAR_POUCE = 25.4;  // Conversion de pouces en mm
+    // Ajout final pour indiquer que cest des constantes
+    private static final double PIXELS_PAR_MM = 3.78; // Conversion de mm en pixels
+    private static final double MM_PAR_POUCE = 25.4;  // Conversion de pouces en mm
     
     // Méthode pour convertir une longueur de mm en pixels
     public int convertirEnPixels(double valeurEnMm) {
