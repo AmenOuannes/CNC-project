@@ -27,8 +27,7 @@ public class CNC {
 
 
     public CNC() {
-        panneau = new Panneau(0457.2f, 609.6f, 0.5f);
-        //panneau = new Panneau(0914.4f, 1219.2f, 0.5f); // Dimensions en mètres
+        panneau = new Panneau(0914.4f, 1219.2f, 0.5f); // Dimensions en mètres
         repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector<Coupe>();
 
