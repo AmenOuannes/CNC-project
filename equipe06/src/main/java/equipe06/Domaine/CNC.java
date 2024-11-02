@@ -27,9 +27,17 @@ public class CNC {
 
 
     public CNC() {
-        panneau = new Panneau(0914.4f, 1219.2f, 0.5f); // Dimensions en mètres
+        panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mètres
+      
+        
+        // Dimensions Panneau doivent etre positives
+        assert panneau.getLargeur()>0 : "La largeur doit etre positive" ;
+        assert panneau.getLongueur() > 0 : "La longueur doit etre positive" ;
+        assert panneau.getProfondeur() > 0 : "L'epaisseur doit etre positive" ;
+     
+                 
         repere = new Repere(); // Repère pour gérer les conversions
-        coupes = new Vector<Coupe>();
+        coupes = new Vector <Coupe>();
 
         
     }
@@ -43,19 +51,34 @@ public class CNC {
     public Vector<Coupe> getCoupes() {return coupes;}
     public Vector<Outil> getOutils() {return outils;}
     public Outil getOutil_courant() {return outil_courant;}
+    
+    
     public void creerCoupe(ElementCoupe e) {
+        
+        assert e != null : "l'element de la coupe ne peut pas etre nul" ; 
+        
         CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
+        
         if (CoupeValide(ma_coupe, this.panneau))
            {AjouterCoupe(ma_coupe);}
         else {
+            
+            assert false : "La coupe est invalide et ne peut pas être ajoutée.";
+            
             //throw CoupeInvalideError();
         }
     }
+    
     public void ModifierCoupe(Coupe coupe) {
+        // TODO : Implementation 
 
     }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
         //to change when we have more coupes
+        assert coupe != null : "La coupe ne peut pas etre nulle.";
+        assert panneau != null : "Le panneau ne peut pas être nul.";
+        
+        
         if(coupe instanceof CoupeAxe) {
             if(((CoupeAxe) coupe).getComposante()){
                 return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();//check either largeur or longueur
@@ -64,10 +87,20 @@ public class CNC {
         }
         else return false;//for now
     }
+    
+    
     public boolean inPanneau(Point p, Panneau panneau){
+        assert p != null : "Le point ne peut pas etre nul.";
+        assert panneau != null : "Le panneau ne peut pas etre nul.";
+         // TODO : Implementation 
+        
         return true;
     }
+    
+    
     public void AjouterCoupe(Coupe coupe) {
+        // S'assurer que l objet coupe est initialise et est valide
+        assert coupe != null : "La coupe à ajouter ne peut pas etre nulle.";
         coupes.add(coupe);
 
     }

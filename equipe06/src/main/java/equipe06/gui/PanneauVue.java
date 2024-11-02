@@ -8,6 +8,8 @@ import java.awt.*;
 /**
  *
  * @author ziedd
+ * ajouter coupe - axiale 
+ * 
  */
 public class PanneauVue extends JPanel {
     
