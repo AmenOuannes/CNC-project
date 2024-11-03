@@ -16,32 +16,36 @@ public class MainWindow extends javax.swing.JFrame {
     private PanneauVue panneauVue;
     private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
+
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
-        initComponents();
-        // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
-        panneauVue = new PanneauVue();
-        
-        // Obtenir l'instance de Controleur et établir la communication
-        controleur = Controleur.getInstance();
-        controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
+   public MainWindow() {
+    initComponents();
+      // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
+      panneauVue = new PanneauVue();
+      panneauVue.setPreferredSize(new Dimension(600, 300)); // Définir une taille préférée
 
-        // Ajouter `panneauVue` dans `PanneauVisualisation`
-        PanneauVisualisation.setLayout(new BorderLayout());
-        PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
+    
+    // Obtenir l'instance de Controleur et établir la communication
+    controleur = Controleur.getInstance();
+    controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
 
-        // Ajuster la fenêtre à la taille totale des composants
-        pack();
-    }
+    // Configurer `PanneauVisualisation`
+    PanneauVisualisation.setLayout(new BorderLayout());
+    PanneauVisualisation.setPreferredSize(new Dimension(600, 300)); // Ajuster la taille de PanneauVisualisation
 
-    /**
-     * Méthode pour mettre à jour les dimensions de `PanneauVue`
-     */
-    public void updatePanneauDimensions(int largeurPixels, int hauteurPixels) {
-        panneauVue.setDimensions(largeurPixels, hauteurPixels);
-    }
+    // Ajouter `panneauVue` dans `PanneauVisualisation`
+    PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
+
+    // Ajuster la fenêtre à la taille totale des composants
+    pack();
+}
+
+
+   
+     
+    
         
 
     /**
@@ -58,6 +62,7 @@ public class MainWindow extends javax.swing.JFrame {
         DefCoupe = new javax.swing.JButton();
         ModCoupe = new javax.swing.JButton();
         SuppCoupe = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,11 +70,11 @@ public class MainWindow extends javax.swing.JFrame {
         PanneauVisualisation.setLayout(PanneauVisualisationLayout);
         PanneauVisualisationLayout.setHorizontalGroup(
             PanneauVisualisationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 332, Short.MAX_VALUE)
         );
         PanneauVisualisationLayout.setVerticalGroup(
             PanneauVisualisationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 256, Short.MAX_VALUE)
+            .addGap(0, 304, Short.MAX_VALUE)
         );
 
         DefCoupe.setText("Définir une Coupe");
@@ -83,6 +88,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         SuppCoupe.setText("Supprimer une Coupe");
 
+        jButton1.setText("Quitter ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
@@ -92,7 +104,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(ModCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SuppCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
         PanneauContrôleLayout.setVerticalGroup(
@@ -104,7 +117,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(ModCoupe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SuppCoupe)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -114,18 +129,20 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,6 +151,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void DefCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefCoupeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DefCoupeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,5 +197,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JButton SuppCoupe;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

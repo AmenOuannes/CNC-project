@@ -43,11 +43,9 @@ public class Controleur {
 /*
 il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
 
-    // Méthode pour transmettre les dimensions de `Panneau` à `MainWindow`
+  
     private void transmettreDimensionsPanneau() {
         Afficheur afficheur = new Afficheur(this);
-        //dessinerpanneau de afficheur a faire ici
-        // Appel de la méthode de MainWindow pour transmettre les dimensions
         if (mainWindow != null) {
             mainWindow.updatePanneauDimensions(largeurPixels, hauteurPixels);
         }

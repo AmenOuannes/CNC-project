@@ -1,26 +1,39 @@
-//@author amen
 package equipe06.drawing;
 
 import equipe06.Domaine.*;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Vector;
 
 public class Afficheur {
-    private Controleur c;
-    public Afficheur(Controleur c) {}
-    public void DessinerPanneau(Graphics g, Controleur c) {
-        PanneauDTO panneau = c.getPanneau();
-        Repere repere = c.getRepere();
-        int largeurPixels = repere.convertirEnPixels(panneau.getLargeur() * c.scaleFactor);
-        int hauteurPixels = repere.convertirEnPixels(panneau.getLongueur() * c.scaleFactor);
-        //do the draw
+    private Controleur controleur;
 
+    public Afficheur(Controleur controleur) {
+        this.controleur = controleur;
     }
-    public void DessinerCoupes(Graphics g, Controleur c) {
-        Vector<CoupeDTO> coupes = c.getCoupes();
-        //do the draw
 
+    public void DessinerPanneau(Graphics g, Controleur controleur) {
+        Repere repere = controleur.getRepere();
+
+        // Panneau principal de la table CNC (3 m x 1,5 m)
+        int largeurTablePixels = repere.convertirEnPixels(3000); // 3000 mm (3 mètres)
+        int hauteurTablePixels = repere.convertirEnPixels(1500); // 1500 mm (1.5 mètres)
+
+        // Panneau prédéfini (0,9144 m x 1,2192 m)
+        PanneauDTO panneau = controleur.getPanneau();
+      
+        
+        int largeurPanneauPixels = repere.convertirEnPixels(panneau.getLargeur()*1000); // Convertir en mm
+        int hauteurPanneauPixels = repere.convertirEnPixels(panneau.getLongueur()*1000); // Convertir en mm
+
+        // Dessiner le panneau de la table CNC (3 m x 1.5 m)
+        g.setColor(new Color(139, 69, 19)); // Couleur marron clair
+        g.fillRect(50, 50, largeurTablePixels, hauteurTablePixels);
+
+        // Dessiner le panneau prédéfini par-dessus le panneau CNC
+        g.setColor(new Color(210, 180, 140)); // Couleur plus claire
+        int xOffset = 50 + (largeurTablePixels - largeurPanneauPixels) / 2; // Centrer sur la largeur
+        int yOffset = 50 + (hauteurTablePixels - hauteurPanneauPixels) / 2; // Centrer sur la hauteur
+        g.fillRect(xOffset, yOffset, largeurPanneauPixels, hauteurPanneauPixels);
     }
 }
-
