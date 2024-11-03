@@ -46,8 +46,15 @@ public class CNC {
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
     }
-    public Vector<Outil> getOutils() {return outils;} //vector<outilDTO>
-    public Outil getOutil_courant() {return outil_courant;} //outilDTO
+    public Vector<OutilDTO> getOutils() {
+        Vector<OutilDTO> v = null;
+        for(Outil outil : outils) v.add(new OutilDTO(outil));
+        return v;
+    } //vector<outilDTO>
+    public OutilDTO getOutil_courant() {
+        OutilDTO o = new OutilDTO(outil_courant);
+        return o;
+    } //outilDTO
     
     
     public void creerCoupe(ElementCoupe e) {
