@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package equipe06.gui;
+import equipe06.drawing.Afficheur;
+
 import javax.swing.*;
 import java.awt.*;
 /**
@@ -27,6 +29,7 @@ public class PanneauVue extends JPanel {
         revalidate(); // Recalculer la taille du panneau dans l'interface
         repaint();
     }
+
     
     
 }

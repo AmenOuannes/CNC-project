@@ -28,29 +28,26 @@ public class CNC {
 
     public CNC() {
         panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mètres
-      
-        
-        // Dimensions Panneau doivent etre positives
-        assert panneau.getLargeur()>0 : "La largeur doit etre positive" ;
-        assert panneau.getLongueur() > 0 : "La longueur doit etre positive" ;
-        assert panneau.getProfondeur() > 0 : "L'epaisseur doit etre positive" ;
-     
-                 
         repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
 
         
     }
     
-    public Panneau getPanneau() {
-        return panneau;
+    public PanneauDTO getPanneau() {
+
+        return new PanneauDTO(panneau);
     }
     public Repere getRepere() {
         return repere;
-    } //??
-    public Vector<Coupe> getCoupes() {return coupes;}
-    public Vector<Outil> getOutils() {return outils;}
-    public Outil getOutil_courant() {return outil_courant;}
+    }
+    public Vector<CoupeDTO> getCoupes() {
+        Vector<CoupeDTO> cDTO = null;
+        for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
+        return cDTO;
+    }
+    public Vector<Outil> getOutils() {return outils;} //vector<outilDTO>
+    public Outil getOutil_courant() {return outil_courant;} //outilDTO
     
     
     public void creerCoupe(ElementCoupe e) {
@@ -60,28 +57,29 @@ public class CNC {
         CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
         
         if (CoupeValide(ma_coupe, this.panneau))
-           {AjouterCoupe(ma_coupe);}
+           AjouterCoupe(ma_coupe);
         else {
             
-            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";
+            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
             
             //throw CoupeInvalideError();
         }
     }
-    
+    /// à discuter attribut de la fonction coupe ou bien element
     public void ModifierCoupe(Coupe coupe) {
-        // TODO : Implementation 
-
+        Coupe remove = this.coupes.removeFirst();
+        remove = null;
+        this.coupes.addFirst(coupe);
     }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
-        //to change when we have more coupes
+
         assert coupe != null : "La coupe ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas être invalide.";
-        
-        
+
+        //to change when we have more coupes
         if(coupe instanceof CoupeAxe) {
             if(((CoupeAxe) coupe).getComposante()){
-                return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();//check either largeur or longueur
+                return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur(); //check either largeur or longueur
             }
             else return ((CoupeAxe) coupe).getAxe() < panneau.getLongueur();
         }
@@ -92,9 +90,7 @@ public class CNC {
     public boolean inPanneau(Point p, Panneau panneau){
         assert p != null : "Le point ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas etre invalide.";
-         // TODO : Implementation 
-        
-        return true;
+        return p.x<panneau.getLargeur() && p.y<panneau.getLongueur(); //check between longueur et largeur
     }
     
     
@@ -104,7 +100,9 @@ public class CNC {
         coupes.add(coupe);
 
     }
-
+    public void supprimerCoupe(Coupe coupe) {
+        coupes.remove(coupe);
+    }
     
     
     

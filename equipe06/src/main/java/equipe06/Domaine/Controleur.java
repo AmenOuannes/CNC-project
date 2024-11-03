@@ -4,9 +4,11 @@
  */
 package equipe06.Domaine;
 import equipe06.Domaine.CNC;
+import equipe06.drawing.Afficheur;
 import equipe06.gui.MainWindow;
-import equipe06.Domaine.CNCItemDTO;
 import java.awt.Point;
+import java.util.Vector;
+
 import equipe06.Domaine.Utils.ElementCoupe;
 
 /**
@@ -16,17 +18,13 @@ import equipe06.Domaine.Utils.ElementCoupe;
 public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
-    private CNCItemDTO cnc_dto;
     private CNC cnc;
     private MainWindow mainWindow;
-    private static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
+    public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
     
     // Constructeur privé pour empêcher la création directe
     private Controleur() {
         this.cnc = new CNC();
-        assert cnc != null : "Erreur : L'objet CNC n'a pas pu être créé.";
-        this.cnc_dto = new CNCItemDTO(cnc);// a modifier je suis pas sur de ce que j'ai fait
-        assert cnc_dto != null : "Erreur : L'objet CNCItemDTO n'a pas pu être créé.";
     }
 
     // Méthode statique pour obtenir l'instance unique
@@ -40,23 +38,32 @@ public class Controleur {
     // Méthode pour initialiser la référence à MainWindow
     public void setMainWindow(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        transmettreDimensionsPanneau();
+        //transmettreDimensionsPanneau();
     }
+/*
+il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
 
     // Méthode pour transmettre les dimensions de `Panneau` à `MainWindow`
     private void transmettreDimensionsPanneau() {
-        Panneau panneau = cnc_dto.getPanneau();
-        Repere repere = cnc_dto.getRepere();
-        int largeurPixels = repere.convertirEnPixels(panneau.getLargeur() * scaleFactor);
-        int hauteurPixels = repere.convertirEnPixels(panneau.getLongueur() * scaleFactor);
-        
+        Afficheur afficheur = new Afficheur(this);
+        //dessinerpanneau de afficheur a faire ici
         // Appel de la méthode de MainWindow pour transmettre les dimensions
         if (mainWindow != null) {
             mainWindow.updatePanneauDimensions(largeurPixels, hauteurPixels);
         }
-    }
+    }*/
+//
+
+
+
+
+    //getters
+    public Repere getRepere() {return cnc.getRepere();}
+    public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
+    public PanneauDTO getPanneau() {return cnc.getPanneau();}
+
      // Implémentation de la méthode pour créer une coupe axiale - Proposition
-    public void creerCoupeAxiale(float axe, boolean composante) {
+    /*public void creerCoupeAxiale(float axe, boolean composante) {
         Point pointOrigine = new Point(0, 0); 
         Point pointDestination = new Point((int)axe, 0); 
 
@@ -65,7 +72,7 @@ public class Controleur {
         );
 
         cnc.creerCoupe(elementCoupe);
-    }
+    }*/
 
    
     public void modifierCoupe() {
@@ -73,8 +80,8 @@ public class Controleur {
     }
 
  
-    public void supprimerCoupe() {
-        // TODO : Implémentation pour supprimer une coupe
+    public void supprimerCoupe(Coupe coupe) {
+        this.cnc.supprimerCoupe(coupe);
     }
 }
     

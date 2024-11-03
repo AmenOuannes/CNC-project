@@ -5,6 +5,8 @@
 package equipe06.Domaine;
 import equipe06.Domaine.Utils.ElementCoupe;
 
+import java.util.UUID;
+
 /**
  *
  * @author katia
@@ -16,6 +18,7 @@ public abstract class Coupe {
     private float marge_profondeur = 0.5f;
     private float Profondeur;
     private Outil outil;
+    //public UUID Uuid; add its methods
 
     public Coupe(ElementCoupe e){
         
@@ -36,7 +39,7 @@ public abstract class Coupe {
 
     public void setMargeProfondeur(float margeProfondeur) {
         assert margeProfondeur > 0 : "La marge de profondeur doit etre positive.";
-        this.marge_profondeur = marge_profondeur;
+        this.marge_profondeur = margeProfondeur;
     }
 
     public float getProfondeur() {
@@ -46,7 +49,7 @@ public abstract class Coupe {
 
     public void setProfondeur(float profondeur) {
         assert profondeur > 0 : "La profondeur doit etre positive.";
-        this.Profondeur = Profondeur;
+        this.Profondeur = profondeur;
     }
     
     public Outil getOutil() {

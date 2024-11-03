@@ -1,5 +1,5 @@
 // @author amen
-package equipe06.Domaine;
+/*package equipe06.Domaine;
 
 import java.util.Vector;
 
@@ -24,6 +24,6 @@ public class CNCItemDTO {
     
     
 }
-
+*/
 
 

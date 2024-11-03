@@ -15,12 +15,6 @@ public class CoupeAxe extends Coupe {
     private float axe;
     private boolean composante;
 
-    // Constructeur de CoupeAxe
-    //public CoupeAxe(Outil outil, float margeProfondeur, float profondeur, float axe, boolean composante) {
-        //super(outil, margeProfondeur, profondeur);  // Appelle le constructeur de la classe mère Coupe
-        //this.axe = axe;
-        //this.composante = composante;
-    //}
 
         // Implémentation de la méthode abstraite coupe
     //@Override
@@ -32,12 +26,7 @@ public class CoupeAxe extends Coupe {
         this.axe = e.getAxe();
         this.composante = e.getComposante();
     }
-    /*public Coupe coupe(ElementCoupe e) {
-        // Utilise les méthodes getMarge() et getProfondeur() de ElementCoupe
-        setMargeProfondeur(e.getMarge());
-        setProfondeur(e.getProfondeur());
-        return this; // Retourne l'instance de CoupeAxial après la coupe
-    }*/
+
     // Getter et Setter pour Axe
     public float getAxe() {
         return axe;
@@ -60,9 +49,4 @@ public class CoupeAxe extends Coupe {
     }
 
 }
-/*if (e == null) {
-    throw new IllegalArgumentException("L'élément de coupe est invalide (null).");
-}
-if (e.getAxe() < 0) {
-    throw new IllegalArgumentException("La valeur de l'axe doit être supérieure ou égale à zéro.");
-}*/ //TODO : travailler avec Exception ou Assert ? 
+

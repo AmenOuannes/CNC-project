@@ -7,6 +7,7 @@ package equipe06.Domaine;
  *
  * @author hedib
  */
+/*
 public class CoupeAxeDTO extends CoupeDTO {
 
     // Attributs spécifiques à CoupeAxe
@@ -45,4 +46,4 @@ public class CoupeAxeDTO extends CoupeDTO {
     }
 
 }
-
+*/
