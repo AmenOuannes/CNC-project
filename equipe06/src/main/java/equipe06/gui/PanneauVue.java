@@ -47,9 +47,9 @@ public class PanneauVue extends JPanel {
 protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    // Dessiner la table CNC en gris clair avec une bordure noire
-    g.setColor(Color.LIGHT_GRAY); // Couleur gris clair pour la table CNC
-    g.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la table CNC
+        // Dessiner la table CNC en gris clair avec une bordure noire
+        g.setColor(Color.LIGHT_GRAY); // Couleur gris clair pour la table CNC
+        g.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la table CNC
 
     g.setColor(Color.BLACK); // Bordure noire
     g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la bordure noire autour de la table CNC
@@ -60,4 +60,4 @@ protected void paintComponent(Graphics g) {
     afficheur.dessinerCoupe(g, lastClickX, 0.1f, hauteurPixelsTable);
 }
 
-}
+    }
