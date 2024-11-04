@@ -48,24 +48,21 @@ public class Afficheur {
         g.setColor(Color.BLACK); // Couleur pour la bordure
         g.drawRect(50, 50 + hauteurTable-panneauY, panneauX, panneauY);
     }
-    public void dessinerCoupe(Graphics g, int x, float scale, int hauteurTable){
+    public void dessinerCoupe(Graphics g, int x, int y, float scale, int hauteurTable){
            if (x != -1) {
         Repere repere = controleur.getRepere();
         float x_mm = x/scale;
         x_mm = repere.convertirEnMm(x_mm);  
-        
-        System.out.println("Distance calculée (x_mm) : " + x_mm); // verification console on peut l'enlever
-        // Transmettre la distance au contrôleur pour affichage dans MainWindow
-        controleur.mettreAJourDistanceX(x_mm);
-        
-        
-        controleur.creerCoupeAxiale(x_mm,false);
+        float y_mm = y/scale;
+        y_mm = repere.convertirEnMm(y_mm);
+                // Transmettre la distance au contrôleur pour affichage dans MainWindow
+        controleur.creerCoupeAxiale((float) x_mm, (float) y_mm, false);
         if(!controleur.getCoupes().isEmpty())
         {g.setColor(Color.RED); // Set color for the line
+            controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = 50 + hauteurTable; // Starting point of the line
-            
-            
             g.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixels(controleur.getPanneau().getLongueur()*scale)); // Draw the vertical line
+            
         }
     }
     }

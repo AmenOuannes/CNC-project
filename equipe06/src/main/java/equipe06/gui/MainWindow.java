@@ -15,6 +15,7 @@ import equipe06.Domaine.CoupeDTO;
 public class MainWindow extends javax.swing.JFrame {
     public Controleur controleur;
     private PanneauVue panneauVue;
+    private boolean messageAffiche = false;
     private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
     /**
@@ -37,12 +38,17 @@ public class MainWindow extends javax.swing.JFrame {
         // Ajout d'un `MouseListener` à `MainWindow` pour détecter les clics en dehors du panneau
         // si L'utilisateur clic sur le bouton cree coupe apres ca il ne clic pas sur le panneau un settext s'affiche
         // principe : détecter les clics en dehors du panneau quand la bool panneauvue.peutCreerCoupe = true
+        
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (panneauVue.isAttenteClicPourCoupe() && !evt.getSource().equals(panneauVue)) {
+                if (panneauVue.isAttenteClicPourCoupe() && !evt.getSource().equals(panneauVue)) {//probleme condition
                     message.setText("Veuillez cliquer sur le panneau pour créer la coupe.");
                 }
-            }
+                else {
+        
+            // Si la condition n'est pas remplie, effacer le message précédent
+            message.setText("");
+        }}
         });
         
         
@@ -69,8 +75,10 @@ public class MainWindow extends javax.swing.JFrame {
     
     // permet de pour mettre à jour le champ distancex avec la valeur de x 
     public void afficherValeurDistanceX(float x) {
-        System.out.println("Appel de afficherValeurDistanceX avec x : " + x); // Vérification console
-        DistanceX.setText(String.format("%.2f", x)); // Afficher la valeur avec deux décimales
+        if(!controleur.getCoupes().isEmpty())
+        {System.out.println("Appel de afficherValeurDistanceX avec x : " + x); // Vérification console
+        DistanceX.setText(String.format("%.2f", x - 130)); // Afficher la valeur avec deux décimales
+        }
 }
     
         

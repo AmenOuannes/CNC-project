@@ -71,8 +71,8 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
 
      // Implémentation de la méthode pour créer une coupe axiale - Proposition  
-    public void creerCoupeAxiale(float axe, boolean composante) {
-        Point pointOrigine = new Point(0, 0); 
+    public void creerCoupeAxiale(float axe, float y, boolean composante) {
+        Point pointOrigine = new Point((int)axe, (int)y); 
         Point pointDestination = new Point((int)axe, 0); 
         ElementCoupe elementCoupe = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
             pointOrigine, pointDestination, 5.0f, 0.3f, axe, composante, 0.0f, 0.0f, "CoupeAxiale", null

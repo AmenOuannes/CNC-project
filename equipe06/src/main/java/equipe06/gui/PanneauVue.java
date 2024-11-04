@@ -21,6 +21,7 @@ public class PanneauVue extends JPanel {
     private Repere repere;
     private Controleur controleur;
     private int lastClickX = -1;
+    private int lastClickY = -1;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
     private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non 
@@ -54,6 +55,7 @@ public class PanneauVue extends JPanel {
     private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
         if (peutCreerCoupe){
             lastClickX = evt.getX(); // Store the X coordinate of the click
+            lastClickY = evt.getY();
             repaint(); // Trigger a repaint to update the drawing
             peutCreerCoupe = false; // Reinitialise la bool de la creation de la coupe
         }
@@ -72,7 +74,7 @@ protected void paintComponent(Graphics g) {
  // Dessiner la bordure noire autour du panneau
     Afficheur afficheur = new Afficheur(mainWindow.controleur);
     afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
-    afficheur.dessinerCoupe(g, lastClickX, 0.1f, hauteurPixelsTable);
+    afficheur.dessinerCoupe(g, lastClickX, lastClickY, 0.1f, hauteurPixelsTable);
 }
 
     // Activer la creation de la coupe
