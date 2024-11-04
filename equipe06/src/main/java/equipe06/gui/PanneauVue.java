@@ -14,11 +14,14 @@ public class PanneauVue extends JPanel {
     private int hauteurPixelsTable;
     private int largeurPixelsPanneau; // Dimensions en pixels du panneau au-dessus de la table CNC
     private int hauteurPixelsPanneau;
-
+    
     private Repere repere;
- private int lastClickX = -1;
+    private int lastClickX = -1;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
+    private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non 
+    
+    
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.repere = new Repere();
@@ -28,7 +31,7 @@ public class PanneauVue extends JPanel {
         this.hauteurPixelsTable = (int) (repere.convertirEnPixels(1500) * SCALE_FACTOR); // 1.5 mètres en mm
 
         // Conversion des dimensions du panneau au-dessus (0.9144m x 1.2192m) avec facteur d'échelle
-        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(1219) * SCALE_FACTOR); // 1.2192 mètre en mm
+        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(1219) * SCALE_FACTOR); // 1.2192 mètre en mm panneau
         this.hauteurPixelsPanneau = (int) (repere.convertirEnPixels(914.4) * SCALE_FACTOR);  // 0.9144 mètre en mm
 
         // Définir la taille préférée du panneau basé sur la table CNC pour s'assurer qu'elle s'ajuste correctement
@@ -40,8 +43,11 @@ public class PanneauVue extends JPanel {
         });
     }
     private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
-        lastClickX = evt.getX(); // Store the X coordinate of the click
-        repaint(); // Trigger a repaint to update the drawing
+        if (peutCreerCoupe){
+            lastClickX = evt.getX(); // Store the X coordinate of the click
+            repaint(); // Trigger a repaint to update the drawing
+            peutCreerCoupe = false; // Reinitialise la bool de la creation de la coupe
+        }
     }
   @Override
 protected void paintComponent(Graphics g) {
@@ -59,5 +65,17 @@ protected void paintComponent(Graphics g) {
     afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
     afficheur.dessinerCoupe(g, lastClickX, 0.1f, hauteurPixelsTable);
 }
+
+    // Activer la creation de la coupe
+    public void activerCreationCoupe() {
+        this.peutCreerCoupe = true;    
+    }
+
+    public boolean isAttenteClicPourCoupe() {
+        return peutCreerCoupe;
+    }
+
+
+
 
     }

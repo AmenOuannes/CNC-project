@@ -52,7 +52,13 @@ public class Afficheur {
            if (x != -1) {
         Repere repere = controleur.getRepere();
         float x_mm = x/scale;
-        x_mm = repere.convertirEnMm(x_mm);
+        x_mm = repere.convertirEnMm(x_mm);  
+        
+        System.out.println("Distance calculée (x_mm) : " + x_mm); // verification console on peut l'enlever
+        // Transmettre la distance au contrôleur pour affichage dans MainWindow
+        controleur.mettreAJourDistanceX(x_mm);
+        
+        
         controleur.creerCoupeAxiale(x_mm,false);
         if(!controleur.getCoupes().isEmpty())
         {g.setColor(Color.RED); // Set color for the line

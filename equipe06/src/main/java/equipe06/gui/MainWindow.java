@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import equipe06.gui.PanneauVue;
 import equipe06.Domaine.Controleur;
+import equipe06.Domaine.CoupeDTO;
 /**
  *
  * @author ziedd
@@ -16,7 +17,6 @@ public class MainWindow extends javax.swing.JFrame {
     private PanneauVue panneauVue;
     private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
-
     /**
      * Creates new form MainWindow
      */
@@ -25,20 +25,34 @@ public class MainWindow extends javax.swing.JFrame {
 
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
         panneauVue = new PanneauVue(this);
-        
+  
         // Obtenir l'instance de Controleur et établir la communication
         controleur = Controleur.getInstance();
-        //controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
-
+        controleur.setMainWindow(this); // lien etablie ici pour la mise a jour distance x
         // Configurer `PanneauVisualisation`
         PanneauVisualisation.setLayout(new BorderLayout());
 
         // Ajouter `panneauVue` dans `PanneauVisualisation`
         PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
-
-        // Ajuster la fenêtre à la taille totale des composants
+        // Ajout d'un `MouseListener` à `MainWindow` pour détecter les clics en dehors du panneau
+        // si L'utilisateur clic sur le bouton cree coupe apres ca il ne clic pas sur le panneau un settext s'affiche
+        // principe : détecter les clics en dehors du panneau quand la bool panneauvue.peutCreerCoupe = true
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (panneauVue.isAttenteClicPourCoupe() && !evt.getSource().equals(panneauVue)) {
+                    message.setText("Veuillez cliquer sur le panneau pour créer la coupe.");
+                }
+            }
+        });
         
-
+        
+        
+        
+        
+        
+        
+        
+        // Ajuster la fenêtre à la taille totale des composants
         pack();
     }
  /*   private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt){
@@ -49,7 +63,15 @@ public class MainWindow extends javax.swing.JFrame {
         }*/
 
    
-     
+    public JTextField getDistanceX() {
+        return DistanceX;
+    }
+    
+    // permet de pour mettre à jour le champ distancex avec la valeur de x 
+    public void afficherValeurDistanceX(float x) {
+        System.out.println("Appel de afficherValeurDistanceX avec x : " + x); // Vérification console
+        DistanceX.setText(String.format("%.2f", x)); // Afficher la valeur avec deux décimales
+}
     
         
 
@@ -68,6 +90,8 @@ public class MainWindow extends javax.swing.JFrame {
         ModCoupe = new javax.swing.JButton();
         SuppCoupe = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        DistanceX = new javax.swing.JTextField();
+        message = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +116,11 @@ public class MainWindow extends javax.swing.JFrame {
         ModCoupe.setText("Modifier une Coupe");
 
         SuppCoupe.setText("Supprimer une Coupe");
+        SuppCoupe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SuppCoupeActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Quitter ");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -100,18 +129,30 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        DistanceX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DistanceXActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ModCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SuppCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(19, 19, 19))
+            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DefCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SuppCoupe)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 6, Short.MAX_VALUE))))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,12 +160,14 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(DefCoupe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ModCoupe)
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ModCoupe)
+                    .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SuppCoupe)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,21 +176,28 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(57, Short.MAX_VALUE)
+                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)))
+                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
 
         pack();
@@ -155,11 +205,20 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void DefCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefCoupeActionPerformed
         // TODO add your handling code here:
+        panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
     }//GEN-LAST:event_DefCoupeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void DistanceXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DistanceXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DistanceXActionPerformed
+
+    private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SuppCoupeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,10 +257,12 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DefCoupe;
+    private javax.swing.JTextField DistanceX;
     private javax.swing.JButton ModCoupe;
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JButton SuppCoupe;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel message;
     // End of variables declaration//GEN-END:variables
 }
