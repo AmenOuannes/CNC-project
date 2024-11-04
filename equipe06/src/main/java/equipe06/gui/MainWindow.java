@@ -12,7 +12,7 @@ import equipe06.Domaine.Controleur;
  * @author ziedd
  */
 public class MainWindow extends javax.swing.JFrame {
-    private Controleur controleur;
+    public Controleur controleur;
     private PanneauVue panneauVue;
     private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
 
@@ -24,11 +24,11 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
 
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
-        panneauVue = new PanneauVue();
+        panneauVue = new PanneauVue(this);
         
         // Obtenir l'instance de Controleur et établir la communication
         controleur = Controleur.getInstance();
-        controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
+        //controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
 
         // Configurer `PanneauVisualisation`
         PanneauVisualisation.setLayout(new BorderLayout());
@@ -37,9 +37,16 @@ public class MainWindow extends javax.swing.JFrame {
         PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
 
         // Ajuster la fenêtre à la taille totale des composants
+        
+
         pack();
     }
-
+ /*   private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt){
+            java.awt.Point mousePoint = evt.getPoint();
+            int Axe = mousePoint.x;
+            //panneauVue.DessinerCoupe(Axe, g);
+            
+        }*/
 
    
      
@@ -75,7 +82,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGap(0, 304, Short.MAX_VALUE)
         );
 
-        DefCoupe.setText("Définir une Coupe");
+        DefCoupe.setText("Créer une Coupe");
         DefCoupe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DefCoupeActionPerformed(evt);

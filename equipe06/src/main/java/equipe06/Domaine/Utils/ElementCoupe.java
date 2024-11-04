@@ -47,9 +47,9 @@ public class ElementCoupe {
         if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
             throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
         }
-        if (outil == null) {
+        /*if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas etre null.");
-        }
+        }*/
         this.pointOrigine = pointOrigine;
         this.pointDestination = pointDestination;
         this.profondeur = profondeur;

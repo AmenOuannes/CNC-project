@@ -99,7 +99,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="DefCoupe">
           <Properties>
-            <Property name="text" type="java.lang.String" value="D&#xe9;finir une Coupe"/>
+            <Property name="text" type="java.lang.String" value="Cr&#xe9;er une Coupe"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DefCoupeActionPerformed"/>

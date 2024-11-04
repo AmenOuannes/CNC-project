@@ -11,7 +11,7 @@ public class Outil {
     
     
     public Outil(String nom, UUID id, float largeur_coupe) {
-         if (nom == null || nom.trim().isEmpty()) {
+         /*if (nom == null || nom.trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom de l'outil ne peut pas etre invalide.");
         }
         if (id == null) {
@@ -19,7 +19,7 @@ public class Outil {
         }
         if (largeur_coupe <= 0) {
             throw new IllegalArgumentException("La largeur de coupe doit être superieure a zero.");
-        }
+        }*/
         this.Nom = nom;
         this.id = id;
         this.largeur_coupe = largeur_coupe;

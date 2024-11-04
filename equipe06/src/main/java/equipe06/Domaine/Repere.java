@@ -11,8 +11,8 @@ package equipe06.Domaine;
 
 public class Repere {
     // Ajout final pour indiquer que cest des constantes
-    private static final double PIXELS_PAR_MM = 3.78; // Conversion de mm en pixels
-    private static final double MM_PAR_POUCE = 25.4;  // Conversion de pouces en mm
+    private static final float PIXELS_PAR_MM = 3.78f; // Conversion de mm en pixels
+    private static final float MM_PAR_POUCE = 25.4f;  // Conversion de pouces en mm
     
     // Méthode pour convertir une longueur de mm en pixels
     public int convertirEnPixels(double valeurEnMm) {
@@ -20,7 +20,7 @@ public class Repere {
     }
 
     // Méthode pour convertir des pixels en mm
-    public double convertirEnMm(int valeurEnPixels) {
+    public float convertirEnMm(float valeurEnPixels) {
         return valeurEnPixels / PIXELS_PAR_MM;
     }
 

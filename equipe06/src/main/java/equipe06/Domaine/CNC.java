@@ -42,7 +42,7 @@ public class CNC {
         return repere;
     }
     public Vector<CoupeDTO> getCoupes() {
-        Vector<CoupeDTO> cDTO = null;
+        Vector<CoupeDTO> cDTO = new Vector<CoupeDTO>();
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
     }
@@ -86,9 +86,9 @@ public class CNC {
         //to change when we have more coupes
         if(coupe instanceof CoupeAxe) {
             if(((CoupeAxe) coupe).getComposante()){
-                return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur(); //check either largeur or longueur
+                return ((CoupeAxe) coupe).getAxe() < panneau.getLongueur(); //check either largeur or longueur
             }
-            else return ((CoupeAxe) coupe).getAxe() < panneau.getLongueur();
+            else return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();
         }
         else return false;//for now
     }

@@ -3,23 +3,24 @@ package equipe06.gui;
 import equipe06.Domaine.Repere;
 import javax.swing.*;
 import java.awt.*;
+import equipe06.drawing.Afficheur;
 
 /**
  * Classe PanneauVue modifiée pour dessiner la table CNC et le panneau avec un facteur d'échelle.
  */
 public class PanneauVue extends JPanel {
-
+    private MainWindow mainWindow;
     private int largeurPixelsTable; // Dimensions en pixels de la table CNC
     private int hauteurPixelsTable;
     private int largeurPixelsPanneau; // Dimensions en pixels du panneau au-dessus de la table CNC
     private int hauteurPixelsPanneau;
 
     private Repere repere;
-
+ private int lastClickX = -1;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
-    public PanneauVue() {
-        
+    public PanneauVue(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         this.repere = new Repere();
 
         // Conversion des dimensions de la table CNC (3m x 1.5m) en appliquant un facteur d'échelle
@@ -32,8 +33,16 @@ public class PanneauVue extends JPanel {
 
         // Définir la taille préférée du panneau basé sur la table CNC pour s'assurer qu'elle s'ajuste correctement
         this.setPreferredSize(new Dimension(largeurPixelsTable + 100, hauteurPixelsTable + 100));
+         this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                drawingPanelMouseClicked(evt);
+            }
+        });
     }
-
+    private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
+        lastClickX = evt.getX(); // Store the X coordinate of the click
+        repaint(); // Trigger a repaint to update the drawing
+    }
   @Override
 protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -44,16 +53,11 @@ protected void paintComponent(Graphics g) {
 
     g.setColor(Color.BLACK); // Bordure noire
     g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la bordure noire autour de la table CNC
-
-    // Dessiner le panneau au-dessus de la table CNC en marron clair, positionné en bas à gauche
-    g.setColor(new Color(205, 133, 63)); // Couleur marron clair pour le panneau
-    int panneauX = 50; // Positionner le panneau à gauche (même x que la table CNC)
-    int panneauY = 50 + hauteurPixelsTable - hauteurPixelsPanneau; // Positionner en bas (table hauteur - panneau hauteur)
-    g.fillRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau); // Dessiner le panneau
-
-    // Dessiner une bordure noire autour du panneau
-    g.setColor(Color.BLACK); // Couleur pour la bordure
-    g.drawRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau); // Dessiner la bordure noire autour du panneau
+/// deplacer vers afficheur et l'appeler 
+ // Dessiner la bordure noire autour du panneau
+    Afficheur afficheur = new Afficheur(mainWindow.controleur);
+    afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
+    afficheur.dessinerCoupe(g, lastClickX, 0.1f, hauteurPixelsTable);
 }
 
 }
