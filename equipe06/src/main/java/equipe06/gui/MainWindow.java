@@ -226,6 +226,14 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
         // TODO add your handling code here:
+        CoupeDTO derniereCoupe = controleur.getDerniereCoupe();
+        if (derniereCoupe != null) {
+            controleur.supprimerCoupeDTO(derniereCoupe);
+            panneauVue.repaint(); // Actualiser l'affichage elle ne fonctionne pas panneauVue.repaint();
+            message.setText("Dernière coupe supprimée avec succès.");
+        } else {
+            message.setText("Aucune coupe à supprimer.");
+    }
     }//GEN-LAST:event_SuppCoupeActionPerformed
 
     /**

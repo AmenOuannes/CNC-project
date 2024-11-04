@@ -115,6 +115,29 @@ public class CNC {
         coupes.remove(coupe);
     }
     
+    // utilise pour supp coupe
+    public CoupeDTO getDerniereCoupeDTO() {
+    if (!coupes.isEmpty()) {
+        return new CoupeDTO(coupes.lastElement());
+        }
+        return null;
+    } 
+    // utilise pour supp coupe
+    public Coupe getDerniereCoupe() {
+    if (!coupes.isEmpty()) {
+        return coupes.lastElement(); // Retourne la dernière coupe de la liste
+        }
+        return null; // Retourne null si la liste est vide
+    }
+    // utilise pour supp coupe
+    public Coupe trouverCoupeParDTO(CoupeDTO coupeDTO) {
+    for (Coupe coupe : coupes) {
+        if (new CoupeDTO(coupe).equals(coupeDTO)) {
+            return coupe;
+        }
+    }
+    return null;
+}
     
     
 }
