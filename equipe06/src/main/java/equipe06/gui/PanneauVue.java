@@ -1,9 +1,12 @@
 package equipe06.gui;
 
+
 import equipe06.Domaine.Repere;
 import javax.swing.*;
 import java.awt.*;
 import equipe06.drawing.Afficheur;
+import equipe06.Domaine.Controleur;
+import equipe06.Domaine.PanneauDTO;
 
 /**
  * Classe PanneauVue modifiée pour dessiner la table CNC et le panneau avec un facteur d'échelle.
@@ -16,6 +19,7 @@ public class PanneauVue extends JPanel {
     private int hauteurPixelsPanneau;
     
     private Repere repere;
+    private Controleur controleur;
     private int lastClickX = -1;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
@@ -25,14 +29,19 @@ public class PanneauVue extends JPanel {
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.repere = new Repere();
+        this.controleur = Controleur.getInstance();
+        PanneauDTO panneauDTO = controleur.getPanneau();
 
         // Conversion des dimensions de la table CNC (3m x 1.5m) en appliquant un facteur d'échelle
         this.largeurPixelsTable = (int) (repere.convertirEnPixels(3000) * SCALE_FACTOR); // 3 mètres en mm
         this.hauteurPixelsTable = (int) (repere.convertirEnPixels(1500) * SCALE_FACTOR); // 1.5 mètres en mm
 
         // Conversion des dimensions du panneau au-dessus (0.9144m x 1.2192m) avec facteur d'échelle
-        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(1219) * SCALE_FACTOR); // 1.2192 mètre en mm panneau
-        this.hauteurPixelsPanneau = (int) (repere.convertirEnPixels(914.4) * SCALE_FACTOR);  // 0.9144 mètre en mm
+
+      
+        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(panneauDTO.getLargeur() )* SCALE_FACTOR);
+        this.hauteurPixelsPanneau = (int) (repere.convertirEnPixels(panneauDTO.getLongueur() )* SCALE_FACTOR);
+
 
         // Définir la taille préférée du panneau basé sur la table CNC pour s'assurer qu'elle s'ajuste correctement
         this.setPreferredSize(new Dimension(largeurPixelsTable + 100, hauteurPixelsTable + 100));
