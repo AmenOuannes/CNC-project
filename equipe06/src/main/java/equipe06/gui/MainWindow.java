@@ -21,26 +21,24 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
    public MainWindow() {
-    initComponents();
-      // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
-      panneauVue = new PanneauVue();
-      panneauVue.setPreferredSize(new Dimension(600, 300)); // Définir une taille préférée
+        initComponents();
 
-    
-    // Obtenir l'instance de Controleur et établir la communication
-    controleur = Controleur.getInstance();
-    controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
+        // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
+        panneauVue = new PanneauVue();
+        
+        // Obtenir l'instance de Controleur et établir la communication
+        controleur = Controleur.getInstance();
+        controleur.setMainWindow(this); // Etablit la communication entre le contrôleur et MainWindow
 
-    // Configurer `PanneauVisualisation`
-    PanneauVisualisation.setLayout(new BorderLayout());
-    PanneauVisualisation.setPreferredSize(new Dimension(600, 300)); // Ajuster la taille de PanneauVisualisation
+        // Configurer `PanneauVisualisation`
+        PanneauVisualisation.setLayout(new BorderLayout());
 
-    // Ajouter `panneauVue` dans `PanneauVisualisation`
-    PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
+        // Ajouter `panneauVue` dans `PanneauVisualisation`
+        PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
 
-    // Ajuster la fenêtre à la taille totale des composants
-    pack();
-}
+        // Ajuster la fenêtre à la taille totale des composants
+        pack();
+    }
 
 
    

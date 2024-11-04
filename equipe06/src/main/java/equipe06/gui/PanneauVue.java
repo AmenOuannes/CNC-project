@@ -1,61 +1,59 @@
 package equipe06.gui;
 
 import equipe06.Domaine.Repere;
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
- *
- * @author ziedd
- * Classe PanneauVue modifiée pour dessiner la table CNC et le panneau.
+ * Classe PanneauVue modifiée pour dessiner la table CNC et le panneau avec un facteur d'échelle.
  */
 public class PanneauVue extends JPanel {
-    
+
     private int largeurPixelsTable; // Dimensions en pixels de la table CNC
     private int hauteurPixelsTable;
     private int largeurPixelsPanneau; // Dimensions en pixels du panneau au-dessus de la table CNC
     private int hauteurPixelsPanneau;
-    
+
     private Repere repere;
 
-    public PanneauVue() {
-        // Supprimer le titre du panneau de visualisation
-        // this.setBorder(BorderFactory.createTitledBorder("Panneau de Visualisation"));
-        
-        // Optionnel : ajouter une bordure simple si besoin
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
+    public PanneauVue() {
+        
         this.repere = new Repere();
 
-        // Conversion des dimensions de la table CNC (3m x 1.5m)
-        this.largeurPixelsTable = repere.convertirEnPixels(3000); // 3 mètres en mm
-        this.hauteurPixelsTable = repere.convertirEnPixels(1500); // 1.5 mètres en mm
+        // Conversion des dimensions de la table CNC (3m x 1.5m) en appliquant un facteur d'échelle
+        this.largeurPixelsTable = (int) (repere.convertirEnPixels(3000) * SCALE_FACTOR); // 3 mètres en mm
+        this.hauteurPixelsTable = (int) (repere.convertirEnPixels(1500) * SCALE_FACTOR); // 1.5 mètres en mm
 
-        // Conversion des dimensions du panneau au-dessus (0.9144m x 1.2192m)
-        this.largeurPixelsPanneau = repere.convertirEnPixels(1219.2); // 1.2192 mètre en mm
-        this.hauteurPixelsPanneau = repere.convertirEnPixels(914.4);  // 0.9144 mètre en mm
+        // Conversion des dimensions du panneau au-dessus (0.9144m x 1.2192m) avec facteur d'échelle
+        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(1219) * SCALE_FACTOR); // 1.2192 mètre en mm
+        this.hauteurPixelsPanneau = (int) (repere.convertirEnPixels(914.4) * SCALE_FACTOR);  // 0.9144 mètre en mm
+
+        // Définir la taille préférée du panneau basé sur la table CNC pour s'assurer qu'elle s'ajuste correctement
+        this.setPreferredSize(new Dimension(largeurPixelsTable + 100, hauteurPixelsTable + 100));
     }
 
-    @Override
-  
-  protected void paintComponent(Graphics g) {
+  @Override
+protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    // Dessiner la table CNC en marron clair
-    g.setColor(new Color(205, 133, 63)); // Couleur marron clair
-    g.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Position (50, 50) pour voir les marges
+    // Dessiner la table CNC en gris clair avec une bordure noire
+    g.setColor(Color.LIGHT_GRAY); // Couleur gris clair pour la table CNC
+    g.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la table CNC
 
-    // Dessiner le panneau au-dessus de la table CNC en gris clair
-    g.setColor(Color.LIGHT_GRAY);
-    int panneauX = (largeurPixelsTable - largeurPixelsPanneau) / 2; // Centrer horizontalement
-    int panneauY = (hauteurPixelsTable - hauteurPixelsPanneau) / 2; // Centrer verticalement
-    g.fillRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau);
+    g.setColor(Color.BLACK); // Bordure noire
+    g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la bordure noire autour de la table CNC
 
-    // Dessiner des lignes de cadre autour pour visualiser les dimensions exactes
-    g.setColor(Color.BLACK);
-    g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Cadre de la table CNC
-    g.drawRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau); // Cadre du panneau
+    // Dessiner le panneau au-dessus de la table CNC en marron clair, positionné en bas à gauche
+    g.setColor(new Color(205, 133, 63)); // Couleur marron clair pour le panneau
+    int panneauX = 50; // Positionner le panneau à gauche (même x que la table CNC)
+    int panneauY = 50 + hauteurPixelsTable - hauteurPixelsPanneau; // Positionner en bas (table hauteur - panneau hauteur)
+    g.fillRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau); // Dessiner le panneau
+
+    // Dessiner une bordure noire autour du panneau
+    g.setColor(Color.BLACK); // Couleur pour la bordure
+    g.drawRect(panneauX, panneauY, largeurPixelsPanneau, hauteurPixelsPanneau); // Dessiner la bordure noire autour du panneau
 }
 
 }
