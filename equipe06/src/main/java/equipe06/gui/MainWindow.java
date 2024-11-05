@@ -76,8 +76,9 @@ public class MainWindow extends javax.swing.JFrame {
     // permet de pour mettre à jour le champ distancex avec la valeur de x 
     public void afficherValeurDistanceX(float x) {
         if(!controleur.getCoupes().isEmpty())
-        {System.out.println("Appel de afficherValeurDistanceX avec x : " + x); // Vérification console
-        DistanceX.setText(String.format("%.2f", x - 130)); // Afficher la valeur avec deux décimales
+        {
+        DistanceX.setText(String.format("%.2f", controleur.getRepere().convertirEnMm((x - 130)/0.1f))); // Afficher la valeur avec deux décimales
+            // TODO: convert
         }
 }
     
@@ -241,18 +242,32 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
         // TODO add your handling code here:
-        CoupeDTO derniereCoupe = controleur.getDerniereCoupe();
-        if (derniereCoupe != null) {
-            controleur.supprimerCoupeDTO(derniereCoupe);
-            panneauVue.repaint(); // Actualiser l'affichage elle ne fonctionne pas panneauVue.repaint();
+
+        if (!controleur.getCoupes().isEmpty()) {
+            panneauVue.deleteTriggered = true;
+            System.out.printf("mainwindow \n");
+            controleur.supprimerCoupe();
+            panneauVue.repaint();
             message.setText("Dernière coupe supprimée avec succès.");
+            panneauVue.deleteTriggered = false;
         } else {
             message.setText("Aucune coupe à supprimer.");
-    }
+        }
     }//GEN-LAST:event_SuppCoupeActionPerformed
 
     private void ModCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModCoupeActionPerformed
-        // TODO add your handling code here:
+        //try {
+            Float Axe = Float.parseFloat(DistanceX.getText());
+            controleur.modifierCoupe(Axe);
+
+            panneauVue.modifyTriggered=true;
+            System.out.printf("main"+ panneauVue.modifyTriggered + "\n");
+            panneauVue.repaint();
+
+        //}
+        //catch (NumberFormatException ex){
+          //  message.setText("Dimension invalide.");
+        //}
     }//GEN-LAST:event_ModCoupeActionPerformed
 
     /**

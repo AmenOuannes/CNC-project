@@ -73,10 +73,10 @@ public class CNC {
         }
     }
     /// à discuter attribut de la fonction coupe ou bien element
-    public void ModifierCoupe(Coupe coupe) {
-        Coupe remove = this.coupes.removeFirst();
-        remove = null;
-        this.coupes.addFirst(coupe);
+    public void ModifierCoupe(float axe) {
+            CoupeAxe coupe = (CoupeAxe) coupes.get(0);
+            coupe.setAxe(axe);
+
     }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 
@@ -97,7 +97,7 @@ public class CNC {
     public boolean inPanneau(Point p, Panneau panneau){
         assert p != null : "Le point ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas etre invalide.";
-        int minX = 0;
+        int minX = 130;
         int maxX = (int) panneau.getLargeur() + 130;
         int minY = 0;
         int maxY = (int) panneau.getLongueur() - 130;
@@ -111,8 +111,9 @@ public class CNC {
         coupes.add(coupe);
 
     }
-    public void supprimerCoupe(Coupe coupe) {
-        coupes.remove(coupe);
+    public void supprimerCoupe() {
+        if(!coupes.isEmpty()) coupes.removeLast();
+
     }
     
     // utilise pour supp coupe

@@ -22,6 +22,8 @@ public class PanneauVue extends JPanel {
     private Controleur controleur;
     private int lastClickX = -1;
     private int lastClickY = -1;
+    public boolean deleteTriggered = false;
+    public boolean modifyTriggered = false;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
     private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non 
@@ -62,20 +64,24 @@ public class PanneauVue extends JPanel {
     }
   @Override
 protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
+        super.paintComponent(g);
 
         // Dessiner la table CNC en gris clair avec une bordure noire
         g.setColor(Color.LIGHT_GRAY); // Couleur gris clair pour la table CNC
         g.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la table CNC
+        g.setColor(Color.BLACK); // Bordure noire
+        g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la bordure noire autour de la table CNC
 
-    g.setColor(Color.BLACK); // Bordure noire
-    g.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable); // Dessiner la bordure noire autour de la table CNC
-/// deplacer vers afficheur et l'appeler 
- // Dessiner la bordure noire autour du panneau
-    Afficheur afficheur = new Afficheur(mainWindow.controleur);
-    afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
-    afficheur.dessinerCoupe(g, lastClickX, lastClickY, 0.1f, hauteurPixelsTable);
-}
+
+        Afficheur afficheur = new Afficheur(mainWindow.controleur);
+        afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
+        System.out.printf("panneauVue" + modifyTriggered + "\n");
+        if(modifyTriggered)  {afficheur.dessinerCoupeModifie(g, 0.1f, hauteurPixelsTable);}
+        else afficheur.dessinerCoupe(g, lastClickX, lastClickY, 0.1f, hauteurPixelsTable);
+        lastClickX = -1;
+        lastClickY = -1;
+        modifyTriggered=false;
+    }
 
     // Activer la creation de la coupe
     public void activerCreationCoupe() {

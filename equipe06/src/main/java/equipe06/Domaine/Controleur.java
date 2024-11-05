@@ -20,6 +20,7 @@ public class Controleur {
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
     private MainWindow mainWindow;
+    public boolean suprim = false;
     public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
     // Constructeur privé pour empêcher la création directe
     private Controleur() {
@@ -44,7 +45,7 @@ public class Controleur {
     // cette methode permet au controleur de transmettre la valeur de x a mainwindow et de mettre a jours distancex (jtextframe ou s'affiche la valeur a cote bout modif coupe)
     public void mettreAJourDistanceX(float x) {
     if (mainWindow != null) {
-        System.out.println("MainWindow est bien référencée"); // verification console ne peut l'enlever 
+        //System.out.println("MainWindow est bien référencée"); // verification console ne peut l'enlever
         mainWindow.afficherValeurDistanceX(x); // Appeler la méthode de MainWindow pour afficher la distance 
     }else {
         System.out.println("MainWindow est null"); // verification console ne peut l'enlever 
@@ -82,13 +83,17 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
     }
 
    
-    public void modifierCoupe() {
-        // TODO : Implémentation pour modifier une coupe
+    public void modifierCoupe(float axe) {
+        cnc.ModifierCoupe(axe);
+        //TODO: check if inPanneau
     }
 
  
-    public void supprimerCoupe(Coupe coupe) {
-        this.cnc.supprimerCoupe(coupe);
+    public void supprimerCoupe() {
+
+            cnc.supprimerCoupe();
+            if(cnc.getCoupes().isEmpty())System.out.printf("vector is empty\n");
+
     }
 
 
@@ -97,13 +102,7 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
         Coupe derniereCoupe = cnc.getDerniereCoupe();
         return derniereCoupe != null ? new CoupeDTO(derniereCoupe) : null; 
     }
-    // utilise pour supp coupe
-public void supprimerCoupeDTO(CoupeDTO coupeDTO) {
-    Coupe coupe = cnc.trouverCoupeParDTO(coupeDTO);
-    if (coupe != null) {
-        cnc.supprimerCoupe(coupe);
-    }
-}
+
 
 }
     
