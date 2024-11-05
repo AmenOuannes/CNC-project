@@ -51,17 +51,8 @@ public class Controleur {
         System.out.println("MainWindow est null"); // verification console ne peut l'enlever 
     }
 }
-/*
-il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
 
-  
-    private void transmettreDimensionsPanneau() {
-        Afficheur afficheur = new Afficheur(this);
-        if (mainWindow != null) {
-            mainWindow.updatePanneauDimensions(largeurPixels, hauteurPixels);
-        }
-    }*/
-//
+
 
 
 
@@ -72,14 +63,10 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
 
      // Implémentation de la méthode pour créer une coupe axiale - Proposition  
-    public void creerCoupeAxiale(float axe, float y, boolean composante) {
-        Point pointOrigine = new Point((int)axe, (int)y); 
-        Point pointDestination = new Point((int)axe, 0); 
-        ElementCoupe elementCoupe = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-            pointOrigine, pointDestination, 5.0f, 0.3f, axe, composante, 0.0f, 0.0f, "CoupeAxiale", null
-        );
+     public void creerCoupeAxiale(float axe, float y, boolean composante) {
 
-        cnc.creerCoupe(elementCoupe);
+
+        cnc.creerCoupe(axe, y, composante);
     }
 
    
@@ -90,9 +77,7 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
 
  
     public void supprimerCoupe() {
-
             cnc.supprimerCoupe();
-            if(cnc.getCoupes().isEmpty())System.out.printf("vector is empty\n");
 
     }
 

@@ -60,8 +60,12 @@ public class CNC {
     }
     
     
-    public void creerCoupe(ElementCoupe e) {
-        
+    public void creerCoupe(float axe,  float y, boolean composante) {
+        Point pointOrigine = new Point((int)axe, (int)y);
+        Point pointDestination = new Point((int)axe, 0);
+        ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+                pointOrigine, pointDestination, 5.0f, 0.3f, axe, composante, 0.0f, 0.0f, "CoupeAxiale", null
+        );
         assert e != null : "l'element de la coupe ne peut pas etre invalide" ; 
         
         CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
