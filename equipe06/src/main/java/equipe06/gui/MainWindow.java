@@ -77,8 +77,8 @@ public class MainWindow extends javax.swing.JFrame {
     public void afficherValeurDistanceX(float x) {
         if(!controleur.getCoupes().isEmpty())
         {
-        DistanceX.setText(String.format("%.2f", controleur.getRepere().convertirEnMm((x - 130)/0.1f))); // Afficher la valeur avec deux décimales
-            // TODO: convert
+        DistanceX.setText(String.format("%.2f", x-130)); // Afficher la valeur avec deux décimales
+
         }
 }
     
@@ -261,7 +261,7 @@ public class MainWindow extends javax.swing.JFrame {
             controleur.modifierCoupe(Axe);
 
             panneauVue.modifyTriggered=true;
-            System.out.printf("main"+ panneauVue.modifyTriggered + "\n");
+            //System.out.printf("main"+ panneauVue.modifyTriggered + "\n");
             panneauVue.repaint();
 
         //}

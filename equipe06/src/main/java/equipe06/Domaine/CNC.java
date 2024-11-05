@@ -77,6 +77,7 @@ public class CNC {
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
 
+
     }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 

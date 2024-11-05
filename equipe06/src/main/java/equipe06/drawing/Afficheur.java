@@ -2,8 +2,7 @@ package equipe06.drawing;
 
 import equipe06.Domaine.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Afficheur {
     private Controleur controleur;
@@ -41,24 +40,28 @@ public class Afficheur {
 
         if(!controleur.getCoupes().isEmpty())
         {
-            g.setColor(Color.RED); // Set color for the line
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(2f)); //for now
+            g2d.setColor(Color.BLACK); // Set color for the line
             controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = 50 + hauteurTable; // Starting point of the line
-            g.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixels(controleur.getPanneau().getLongueur()*scale)); // Draw the vertical line
+            g2d.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixels(controleur.getPanneau().getLongueur()*scale)); // Draw the vertical line
             
         }
     }
     }
     public void dessinerCoupeModifie(Graphics g, float scale, int hauteurTable){
         CoupeDTO coupe = controleur.getCoupes().get(0);
-        System.out.printf("here");
-        float axe = coupe.getAxeDTO();
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(2f));
+        float axe = coupe.getAxeDTO()+130;
         Repere repere = controleur.getRepere();
-        int x = repere.convertirEnPixels(axe);
-        g.setColor(Color.RED); // Set color for the line
+        int x = (int) ( repere.convertirEnPixels(axe)*0.1);
+        System.out.printf(String.valueOf(x));
+        g2d.setColor(Color.BLACK); // Set color for the line
 
         int ligneY1 = 50 + hauteurTable; // Starting point of the line
-        g.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixels(controleur.getPanneau().getLongueur()*scale));
+        g2d.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixels(controleur.getPanneau().getLongueur()*scale));
 
     }
 } 
