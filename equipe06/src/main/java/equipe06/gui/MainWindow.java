@@ -52,22 +52,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
         
         
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            message.setText(""); // Efface le message lors d'un clic
-            }
-        });
+
         // Ajuster la fenêtre à la taille totale des composants
         pack();
     }
- /*   private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt){
-            java.awt.Point mousePoint = evt.getPoint();
-            int Axe = mousePoint.x;
-            //panneauVue.DessinerCoupe(Axe, g);
-            
-        }*/
 
-   
     public JTextField getDistanceX() {
         return DistanceX;
     }
@@ -229,6 +218,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void DefCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefCoupeActionPerformed
         // TODO add your handling code here:
         panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
+
     }//GEN-LAST:event_DefCoupeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -260,13 +250,9 @@ public class MainWindow extends javax.swing.JFrame {
             controleur.modifierCoupe(Axe);
 
             panneauVue.modifyTriggered=true;
-            //System.out.printf("main"+ panneauVue.modifyTriggered + "\n");
             panneauVue.repaint();
 
-        //}
-        //catch (NumberFormatException ex){
-          //  message.setText("Dimension invalide.");
-        //}
+
     }//GEN-LAST:event_ModCoupeActionPerformed
 
     /**

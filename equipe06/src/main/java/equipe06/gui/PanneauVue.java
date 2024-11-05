@@ -26,7 +26,7 @@ public class PanneauVue extends JPanel {
     public boolean modifyTriggered ;
     private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
 
-    private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non 
+    private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non
     
     
     public PanneauVue(MainWindow mainWindow) {
@@ -75,12 +75,13 @@ protected void paintComponent(Graphics g) {
 
         Afficheur afficheur = new Afficheur(mainWindow.controleur);
         afficheur.DessinerPanneau(g, SCALE_FACTOR, hauteurPixelsTable);
-        //System.out.printf("panneauVue" + modifyTriggered + "\n");
+
         if(modifyTriggered)  {afficheur.dessinerCoupeModifie(g, 0.1f, hauteurPixelsTable);}
         else afficheur.dessinerCoupe(g, lastClickX, lastClickY, 0.1f, hauteurPixelsTable);
         lastClickX = -1;
         lastClickY = -1;
         modifyTriggered=false;
+
     }
 
     // Activer la creation de la coupe

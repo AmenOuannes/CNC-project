@@ -38,23 +38,26 @@ public class CNC {
 
         return new PanneauDTO(panneau);
     }
+
     public Repere getRepere() {
         return repere;
     }
+
     public Vector<CoupeDTO> getCoupes() {
         Vector<CoupeDTO> cDTO = new Vector<CoupeDTO>();
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
     }
+
     public Vector<OutilDTO> getOutils() {
         Vector<OutilDTO> v = null;
         for(Outil outil : outils) v.add(new OutilDTO(outil));
         return v;
-    } //vector<outilDTO>
+    }
+
     public OutilDTO getOutil_courant() {
-        OutilDTO o = new OutilDTO(outil_courant);
-        return o;
-    } //outilDTO
+        return new OutilDTO(outil_courant);
+    }
     
     
     public void creerCoupe(ElementCoupe e) {
@@ -69,16 +72,16 @@ public class CNC {
             
             assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
             
-            //throw CoupeInvalideError();
+
         }
-    }
+    } // to change in the next livrable
     /// à discuter attribut de la fonction coupe ou bien element
     public void ModifierCoupe(float axe) {
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
 
 
-    }
+    } // to change in the next livrable
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 
         assert coupe != null : "La coupe ne peut pas etre invalide.";
@@ -92,7 +95,7 @@ public class CNC {
             else return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();
         }
         else return false;//for now
-    }
+    } // to change in the next livrable
     
     
     public boolean inPanneau(Point p, Panneau panneau){
@@ -102,13 +105,13 @@ public class CNC {
         int maxX = (int) panneau.getLargeur() + 130;
         int minY = 0;
         int maxY = (int) panneau.getLongueur() - 130;
-        return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY); //check between longueur et largeur
+        return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
     }
     
     
     public void AjouterCoupe(Coupe coupe) {
         // S'assurer que l objet coupe est initialise et est valide
-        assert coupe != null : "La coupe à ajouter ne peut pas etre invalide.";
+
         coupes.add(coupe);
 
     }
@@ -117,29 +120,7 @@ public class CNC {
 
     }
     
-    // utilise pour supp coupe
-    public CoupeDTO getDerniereCoupeDTO() {
-    if (!coupes.isEmpty()) {
-        return new CoupeDTO(coupes.lastElement());
-        }
-        return null;
-    } 
-    // utilise pour supp coupe
-    public Coupe getDerniereCoupe() {
-    if (!coupes.isEmpty()) {
-        return coupes.lastElement(); // Retourne la dernière coupe de la liste
-        }
-        return null; // Retourne null si la liste est vide
-    }
-    // utilise pour supp coupe
-    public Coupe trouverCoupeParDTO(CoupeDTO coupeDTO) {
-    for (Coupe coupe : coupes) {
-        if (new CoupeDTO(coupe).equals(coupeDTO)) {
-            return coupe;
-        }
-    }
-    return null;
-}
+
     
     
 }

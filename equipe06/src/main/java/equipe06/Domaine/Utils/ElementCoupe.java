@@ -47,9 +47,11 @@ public class ElementCoupe {
         if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
             throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
         }
-        /*if (outil == null) {
+        /*
+        if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas etre null.");
-        }*/
+        }
+        */ // to activate when outil is fully created
         this.pointOrigine = pointOrigine;
         this.pointDestination = pointDestination;
         this.profondeur = profondeur;
@@ -66,7 +68,6 @@ public class ElementCoupe {
     public Point getPointOrigine() {
         return pointOrigine;
     }
-
     public void setPointOrigine(Point pointOrigine) {
         if (pointOrigine == null) {
             throw new IllegalArgumentException("Le point d'origine ne peut pas etre invalide.");
@@ -77,7 +78,6 @@ public class ElementCoupe {
     public Point getPointDestination() {
         return pointDestination;
     }
-
     public void setPointDestination(Point pointDestination) {
         if (pointDestination == null) {
             throw new IllegalArgumentException("Le point de destination ne peut pas etre null.");
@@ -88,7 +88,6 @@ public class ElementCoupe {
     public float getProfondeur() {
         return profondeur;
     }
-
     public void setProfondeur(float profondeur) {
         if (profondeur <= 0) {
             throw new IllegalArgumentException("La profondeur doit etre superieure a zero.");
@@ -100,7 +99,6 @@ public class ElementCoupe {
        
         return marge;
     }
-
     public void setMarge(float marge) {
         if (marge < 0) {
             throw new IllegalArgumentException("La marge doit etre non negative.");
@@ -111,7 +109,6 @@ public class ElementCoupe {
     public float getAxe() {
         return axe;
     }
-
     public void setAxe(float axe) {
         if (axe < 0) {
             throw new IllegalArgumentException("L'axe doit etre superieur ou egal a zero.");
@@ -122,7 +119,6 @@ public class ElementCoupe {
     public boolean getComposante() {
         return composante;
     }
-
     public void setComposante(boolean composante) {
         this.composante = composante;
     }
@@ -130,7 +126,6 @@ public class ElementCoupe {
     public float getBordureX() {
         return bordureX;
     }
-
     public void setBordureX(float bordureX) {
         if (bordureX < 0) {
             throw new IllegalArgumentException("La bordure X doit être non negative.");
@@ -141,7 +136,6 @@ public class ElementCoupe {
     public float getBordureY() {
         return bordureY;
     }
-
     public void setBordureY(float bordureY) {
         if (bordureY < 0) {
             throw new IllegalArgumentException("La bordure Y doit être non négative.");
@@ -152,20 +146,20 @@ public class ElementCoupe {
     public String getTypeCoupe() {
         return typeCoupe;
     }
-
     public void setTypeCoupe(String typeCoupe) {
         if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
             throw new IllegalArgumentException("Le type de coupe ne peut pas être null ou vide.");
         }
         this.typeCoupe = typeCoupe;
     }
+
     public Outil getOutil() {
         return outil;
     }
     public void setOutil(Outil outil) {
-        if (outil == null) {
+        /*if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas être null.");
-        }
+        }*/ // to activate when outil is complete
         
         this.outil = outil;
     }

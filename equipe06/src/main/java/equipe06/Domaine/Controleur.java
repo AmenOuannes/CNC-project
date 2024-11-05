@@ -97,11 +97,6 @@ il faut transmettre  tout ça dans le MainWindow, c'est lui qui s'occupe de ça
     }
 
 
-    // utilise pour supp coupe
-    public CoupeDTO getDerniereCoupe() {
-        Coupe derniereCoupe = cnc.getDerniereCoupe();
-        return derniereCoupe != null ? new CoupeDTO(derniereCoupe) : null; 
-    }
 
 
 }
