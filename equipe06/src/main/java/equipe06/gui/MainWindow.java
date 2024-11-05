@@ -52,12 +52,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
         
         
-        
-        
-        
-        
-        
-        
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            message.setText(""); // Efface le message lors d'un clic
+            }
+        });
         // Ajuster la fenêtre à la taille totale des composants
         pack();
     }
