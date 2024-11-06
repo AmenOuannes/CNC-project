@@ -30,7 +30,7 @@ public class CNC {
         panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm
         repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
-
+        outils = new Vector<Outil>(12);
         
     }
     
@@ -49,6 +49,13 @@ public class CNC {
         return cDTO;
     }
 
+    public void ajouterOutil(Outil outil){
+        if (outils.size() < 12){
+            outils.add(outil);
+        } else {
+            System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil.");
+        }
+    }
     public Vector<OutilDTO> getOutils() {
         Vector<OutilDTO> v = null;
         for(Outil outil : outils) v.add(new OutilDTO(outil));
