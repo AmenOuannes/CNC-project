@@ -1,11 +1,11 @@
 package equipe06.gui;
 
 
-import equipe06.Domaine.Repere;
+import equipe06.Domaine.Repere; // mainwimdow.controleur.repere ou bien ajout classe convertir(fait les fonctions du repere) dans gui 
 import javax.swing.*;
 import java.awt.*;
 import equipe06.drawing.Afficheur;
-import equipe06.Domaine.Controleur;
+import equipe06.Domaine.Controleur; 
 import equipe06.Domaine.PanneauDTO;
 
 /**
