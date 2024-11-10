@@ -77,7 +77,7 @@ public class CNC {
         
         CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
         
-        if (inPanneau(e.getPointOrigine(), panneau))
+        if (panneau.inPanneau(e.getPointOrigine(), panneau))
            AjouterCoupe(ma_coupe);
         else {
             
@@ -107,8 +107,8 @@ public class CNC {
         }
         else return false;//for now
     } // to change in the next livrable
-    
-    
+    //juste penser a enlever cette fonction d'ici 
+/*    
     public boolean inPanneau(Point p, Panneau panneau){
         assert p != null : "Le point ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas etre invalide.";
@@ -119,7 +119,7 @@ public class CNC {
         return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
     }
     
-    
+  */  
     public void AjouterCoupe(Coupe coupe) {
         // S'assurer que l objet coupe est initialise et est valide
 

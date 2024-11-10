@@ -4,6 +4,7 @@
  */
 package equipe06.Domaine;
 import java.util.UUID;
+import java.awt.Point;
 import equipe06.Domaine.Utils.ZoneInterdite;
 /**
  *
@@ -82,4 +83,16 @@ public class Panneau {
     public void supprimerZoneInterdite() {
         this.zoneInterdite = null;
     }
+    //la fonction qui verifie si on est a l'interieur de panneau ou pas
+     public boolean inPanneau(Point p, Panneau panneau)
+{
+        assert p != null : "Le point ne peut pas etre invalide.";
+        assert panneau != null : "Le panneau ne peut pas etre invalide.";
+        int minX = 130;
+        int maxX = (int) panneau.getLargeur() + 130;
+        int minY = 0;
+        int maxY = (int) panneau.getLongueur() - 130;
+        return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
+    }
 }
+ 

@@ -1,6 +1,6 @@
 package equipe06.gui;
 
-
+import equipe06.gui.MainWindow;
 import equipe06.Domaine.Repere; // mainwimdow.controleur.repere ou bien ajout classe convertir(fait les fonctions du repere) dans gui 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class PanneauVue extends JPanel {
     
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        this.repere = new Repere();
+        this.repere = new Repere();//on doit passe par mainWindow puis controleur 
         this.controleur = Controleur.getInstance();
         PanneauDTO panneauDTO = controleur.getPanneau();
 
