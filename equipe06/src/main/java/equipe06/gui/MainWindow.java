@@ -96,7 +96,7 @@ public class MainWindow extends javax.swing.JFrame {
         PANlongueurX = new javax.swing.JTextField();
         PANlargeurY = new javax.swing.JTextField();
         PANprofondeurZ = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxUnite = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -164,15 +164,15 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm ", "cm ", "metre", "pouce" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        comboBoxUnite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm", "cm", "metre", "pouce" }));
+        comboBoxUnite.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
+                comboBoxUniteItemStateChanged(evt);
             }
         });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxUnite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                comboBoxUniteActionPerformed(evt);
             }
         });
 
@@ -205,7 +205,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(PANlongueurX)
                     .addComponent(PANlargeurY)
                     .addComponent(PANprofondeurZ)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxUnite, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
                     .addComponent(DessinerPanneau, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
@@ -223,7 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addGap(11, 11, 11)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboBoxUnite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -291,12 +291,6 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
                     .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -304,7 +298,13 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -320,9 +320,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,7 +336,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
         );
@@ -408,7 +408,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14)))
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 82, Short.MAX_VALUE))
+                .addGap(0, 90, Short.MAX_VALUE))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,7 +438,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SuppCoupe)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         jLabel8.setText("1.Créer une coupe");
@@ -450,10 +450,10 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 66, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -463,7 +463,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("3.Coupe", jPanel3);
@@ -496,7 +496,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(129, Short.MAX_VALUE))
+                        .addContainerGap(259, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -523,13 +523,13 @@ public class MainWindow extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void comboBoxUniteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxUniteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_comboBoxUniteActionPerformed
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+    private void comboBoxUniteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxUniteItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
+    }//GEN-LAST:event_comboBoxUniteItemStateChanged
 
     private void PANlongueurXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANlongueurXActionPerformed
         // TODO add your handling code here:
@@ -537,14 +537,25 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void DessinerPanneauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DessinerPanneauActionPerformed
         // TODO add your handling code here:
-       // DessinerPanneau.addActionListener(new ActionListener() {
-    //public void actionPerformed(ActionEvent e) {
         try {
             // Récupération des valeurs des champs de texte
-            float longueurX = Integer.parseInt(PANlongueurX.getText());
-            float largeurY = Integer.parseInt(PANlargeurY.getText());
-            float profondeurZ = Integer.parseInt(PANprofondeurZ.getText());
+            float longueurX = Float.parseFloat(PANlongueurX.getText());
+            float largeurY = Float.parseFloat(PANlargeurY.getText());
+            float profondeurZ = Float.parseFloat(PANprofondeurZ.getText());
             
+            String unite = (String) comboBoxUnite.getSelectedItem();
+            switch (unite) {
+                case "cm":
+                    longueurX *= 10; // Convertir en mm
+                    largeurY *= 10;
+                    profondeurZ *= 10;
+                    break;
+                case "metre":
+                    longueurX *= 1000; // Convertir en mm
+                    largeurY *= 1000;
+                    profondeurZ *= 1000;
+                    break;
+            }  
             controleur.SetPanneau(longueurX, largeurY, profondeurZ);
             panneauVue.repaint();
         } catch (NumberFormatException ex) {
@@ -655,10 +666,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JButton SuppCoupe;
+    private javax.swing.JComboBox<String> comboBoxUnite;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -16,9 +16,9 @@ public class Afficheur {
         // Dessiner le panneau au-dessus de la table CNC en marron clair, positionné en bas à gauche
         g.setColor(new Color(205, 133, 63)); // Couleur marron clair pour le panneau
 
-        PanneauDTO panneau = controleur.getPanneau();
-        int panneauX = repere.convertirEnPixels(panneau.getLargeur()*scale); // Positionner le panneau à gauche (même x que la table CNC)
-        int panneauY = repere.convertirEnPixels(panneau.getLongueur()*scale); // Positionner en bas (table hauteur - panneau hauteur)
+        PanneauDTO panneau = controleur.getPanneau();        
+        int panneauX = repere.convertirEnPixels(panneau.getLongueur()*scale); // Positionner le panneau à gauche (même x que la table CNC)
+        int panneauY = repere.convertirEnPixels(panneau.getLargeur()*scale); // Positionner en bas (table hauteur - panneau hauteur)
 
         g.fillRect(50, 50 + hauteurTable-panneauY, panneauX, panneauY); // Dessiner le panneau
 
