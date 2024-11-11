@@ -20,20 +20,20 @@ public class Panneau {
 
     // Constructeur
     public Panneau(float longueur, float largeur, float profondeur) {
-        if (longueur <= 0) {
+        if (longueur < 0) {
             throw new IllegalArgumentException("La longueur du panneau doit etre superieure a zero.");
         }
-        if (largeur <= 0) {
+        if (largeur < 0) {
             throw new IllegalArgumentException("La largeur du panneau doit etre superieure a zero.");
         }
-        if (profondeur <= 0) {
+        if (profondeur < 0) {
             throw new IllegalArgumentException("La profondeur du panneau doit être superieure a zero.");
         }
 
         this.longueur = longueur;
         this.largeur = largeur;
         this.profondeur = profondeur;
-        this.Uuid = UUID.randomUUID();
+        //this.Uuid = UUID.randomUUID();
     }
 
     // Getters pour les dimensions

@@ -537,20 +537,21 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void DessinerPanneauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DessinerPanneauActionPerformed
         // TODO add your handling code here:
-        DessinerPanneau.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
+       // DessinerPanneau.addActionListener(new ActionListener() {
+    //public void actionPerformed(ActionEvent e) {
         try {
             // Récupération des valeurs des champs de texte
             float longueurX = Integer.parseInt(PANlongueurX.getText());
             float largeurY = Integer.parseInt(PANlargeurY.getText());
             float profondeurZ = Integer.parseInt(PANprofondeurZ.getText());
             
-            controleur.setpanneau(longueurX, largeurY, profondeurZ);
+            controleur.SetPanneau(longueurX, largeurY, profondeurZ);
+            panneauVue.repaint();
         } catch (NumberFormatException ex) {
             message.setText("format non valide.");
         }
-    }
-});
+
+
         
     }//GEN-LAST:event_DessinerPanneauActionPerformed
 
