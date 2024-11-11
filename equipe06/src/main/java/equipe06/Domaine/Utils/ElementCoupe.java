@@ -1,6 +1,8 @@
 package equipe06.Domaine.Utils;
 //import equipe06.Domaine.Utils.Point;
 import java.awt.Point;
+import java.util.UUID;
+
 import equipe06.Domaine.Outil;
 /**
  *
@@ -21,6 +23,7 @@ public class ElementCoupe {
     private float bordureY;
     private String typeCoupe;
     private Outil outil;
+    private UUID uuid;
 
     // Constructeur par défaut
     public ElementCoupe() {
@@ -29,29 +32,51 @@ public class ElementCoupe {
     // Constructeur avec paramètres pour initialiser tous les attributs
     public ElementCoupe(Point pointOrigine, Point pointDestination, float profondeur, float marge, float axe,
                         boolean composante, float bordureX, float bordureY, String typeCoupe, Outil outil) {
-         if (profondeur <= 0) {
+
+        if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
+        }
+        if (profondeur <= 0) {
             throw new IllegalArgumentException("La profondeur doit etre superieure a zero.");
         }
         if (marge < 0) {
             throw new IllegalArgumentException("La marge doit etre non negative.");
         }
-        if (axe < 0) {
-            throw new IllegalArgumentException("L'axe doit etre superieur ou egal a zero.");
+        switch (typeCoupe) {
+            case "Rect":
+                if (bordureX < 0) {
+                    throw new IllegalArgumentException("La bordure X doit etre non negative.");
+                }
+                if (bordureY < 0) {
+                    throw new IllegalArgumentException("La bordure Y doit etre non negative.");
+                }
+                if(pointOrigine == null){
+                    throw new IllegalArgumentException("le pointOrigine ne peut pas etre null.");
+                }
+                if(pointDestination == null){
+                    throw new IllegalArgumentException("le pointDestination ne peut pas etre null.");
+                }
+                break;
+            case "axe":
+                if (axe < 0) {
+                    throw new IllegalArgumentException("L'axe doit etre superieur ou egal a zero.");
+                }
+                break;
+            case "L":
+                if (pointOrigine == null) {
+                    throw new IllegalArgumentException("le pointOrigine ne peut pas etre null.");
+                }
+                if (pointDestination == null) {
+                    throw new IllegalArgumentException("le pointDestination ne peut pas etre null.");
+                }
+
         }
-        if (bordureX < 0) {
-            throw new IllegalArgumentException("La bordure X doit etre non negative.");
-        }
-        if (bordureY < 0) {
-            throw new IllegalArgumentException("La bordure Y doit etre non negative.");
-        }
-        if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
-            throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
-        }
-        /*
+
         if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas etre null.");
         }
-        */ // to activate when outil is fully created
+
+
         this.pointOrigine = pointOrigine;
         this.pointDestination = pointDestination;
         this.profondeur = profondeur;
@@ -62,6 +87,8 @@ public class ElementCoupe {
         this.bordureY = bordureY;
         this.typeCoupe = typeCoupe;
         this.outil = outil;
+        UUID u = UUID.randomUUID(); //check the randomness
+
     }
 
     // Getters et setters pour chaque attribut
@@ -157,11 +184,14 @@ public class ElementCoupe {
         return outil;
     }
     public void setOutil(Outil outil) {
-        /*if (outil == null) {
+        if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas être null.");
-        }*/ // to activate when outil is complete
+        } // to activate when outil is complete
         
         this.outil = outil;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
 }

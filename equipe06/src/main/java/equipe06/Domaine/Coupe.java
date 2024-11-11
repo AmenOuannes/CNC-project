@@ -18,7 +18,8 @@ public abstract class Coupe {
     private float marge_profondeur = 0.5f;
     private float Profondeur;
     private Outil outil;
-    //public UUID Uuid; add its methods
+    public UUID uuid;
+    private String typeCoupe;
 
     public Coupe(ElementCoupe e){
         
@@ -26,10 +27,13 @@ public abstract class Coupe {
         assert e.getProfondeur() > 0 : "La profondeur doit etre positive.";
         assert e.getMarge() > 0 : "La marge de profondeur doit être positive.";
         assert e.getOutil() != null : "L'outil ne peut pas être invalide.";
-        
+        assert e.getTypeCoupe() != null : "La typeCoupe doit etre positive.";
+
         this.Profondeur = e.getProfondeur();
         this.marge_profondeur = e.getMarge();
         this.outil = e.getOutil();
+        this.uuid = e.getUuid();
+        this.typeCoupe = e.getTypeCoupe();
     }
     
 
@@ -61,7 +65,12 @@ public abstract class Coupe {
     
     this.outil = outil;
 }
+public UUID getUUID() {
+        return uuid;
+}
 
-
+public String getTypeCoupe() {
+        return typeCoupe;
+    }
 }
 

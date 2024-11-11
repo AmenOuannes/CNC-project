@@ -16,8 +16,7 @@ public class CoupeAxe extends Coupe {
     private boolean composante;
 
 
-        // Implémentation de la méthode abstraite coupe
-    //@Override
+    // Implémentation de la méthode abstraite coupe
     public CoupeAxe(ElementCoupe e) {
         super(e);
         assert e != null : "L'element de coupe est invalide.";
@@ -41,10 +40,12 @@ public class CoupeAxe extends Coupe {
 
     // Getter et Setter pour Composante
     public boolean getComposante() {
+
         return composante;
     }
 
     public void setComposante(boolean composante) {
+
         this.composante = composante;
     }
 

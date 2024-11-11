@@ -5,6 +5,9 @@
 package equipe06.Domaine;
 import equipe06.Domaine.Utils.ElementCoupe;
 
+import java.awt.*;
+import java.util.UUID;
+
 /**
  *
  * @author hedib
@@ -18,16 +21,36 @@ public  class CoupeDTO {
     private float ProfondeurDTO;
     private  float axeDTO;
     private boolean composanteDTO;
-    //private OutilDTO outil; //outilDTO
+    private Point pointOrigineDTO;
+    private Point pointDestinoDTO;
+    private String TypeCoupeDTO;
+    private float BordureXDTO;
+    private float BordureYDTO;
+    private UUID uuidDTO;
+    private Outil outilDTO; //outilDTO
 
     public CoupeDTO(Coupe coupe){
+        assert coupe != null;
         this.ProfondeurDTO = coupe.getMargeProfondeur();
         this.marge_profondeurDTO= coupe.getProfondeur();
-        //this.outil = coupe.getOutil(); outilDTO
+        this.outilDTO = coupe.getOutil();
         if(coupe instanceof CoupeAxe){
             this.axeDTO = ((CoupeAxe) coupe).getAxe();
             this.composanteDTO = ((CoupeAxe) coupe).getComposante();
         }
+        if(coupe instanceof CoupeRec){
+            this.BordureXDTO = ((CoupeRec) coupe).getBordureX();
+            this.BordureYDTO = ((CoupeRec) coupe).getBordureY();
+            this.pointOrigineDTO = ((CoupeRec) coupe).getPointOrigine();
+            this.pointDestinoDTO = ((CoupeRec) coupe).getPointDestination();
+        }
+        /*if(coupe instanceof CoupeL){
+            this.pointOrigineDTO = ((CoupeL) coupe).getPointOrigine();
+            this.pointDestinoDTO = ((CoupeL) coupe).getPointDestination();
+        }
+        */ //uncomment by amen
+
+
 
     }
     
@@ -44,9 +67,31 @@ public  class CoupeDTO {
         return this.axeDTO;
     }
     public boolean isComposanteDTO() {
-        assert axeDTO > 0;
+        //assert axeDTO > 0;
         return composanteDTO;
     }
+    public Point getPointOrigineDTO() {
+        return pointOrigineDTO;
+    }
+    public Point getPointDestinoDTO() {
+        return pointDestinoDTO;
+    }
+    public String getTypeCoupeDTO() {
+        return TypeCoupeDTO;
+    }
+    public float getBordureXDTO() {
+        return BordureXDTO;
+    }
+    public float getBordureYDTO() {
+        return BordureYDTO;
+    }
+    public UUID getUuidDTO() {
+        return uuidDTO;
+    }
+    public Outil getOutilDTO() {
+        return outilDTO;
+    }
+
 
 
 }
