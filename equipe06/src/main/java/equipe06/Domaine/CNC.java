@@ -27,15 +27,23 @@ public class CNC {
 
 
     public CNC() {
-        panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm
+        panneau = null;
+        //panneau = new Panneau(1219.2f,914.4f , 0.5f); // Dimensions en mm
+        //panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm
         repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
         
     }
+    public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
+        // Création de l'objet Panneau avec les attributs donnés
+        this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
+    }
     
     public PanneauDTO getPanneau() {
-
+        if (panneau == null) {
+            throw new NullPointerException("Le panneau n'a pas encore été créé.");
+        }
         return new PanneauDTO(panneau);
     }
 

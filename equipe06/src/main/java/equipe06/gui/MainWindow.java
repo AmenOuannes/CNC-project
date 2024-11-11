@@ -8,6 +8,8 @@ import java.awt.*;
 import equipe06.gui.PanneauVue;
 import equipe06.Domaine.Controleur;
 import equipe06.Domaine.CoupeDTO;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 /**
  *
  * @author ziedd
@@ -91,15 +93,15 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        PANlongueurX = new javax.swing.JTextField();
+        PANlargeurY = new javax.swing.JTextField();
+        PANprofondeurZ = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        DessinerPanneau = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
@@ -150,9 +152,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel3.setText("Commençons par la création de votre panneau");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        PANlongueurX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                PANlongueurXActionPerformed(evt);
+            }
+        });
+
+        PANlargeurY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PANlargeurYActionPerformed(evt);
             }
         });
 
@@ -170,16 +178,16 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel4.setText("1.Choisissez l'unité");
 
-        jLabel5.setText("2.Entrez la longueur");
+        jLabel5.setText("2.Entrez la longueur : X");
 
-        jLabel6.setText("3.Entrez la largeur");
+        jLabel6.setText("3.Entrez la largeur : Y");
 
-        jLabel7.setText("4.Entrez la profondeur");
+        jLabel7.setText("4.Entrez la profondeur : Z");
 
-        jButton1.setText("Dessiner Panneau");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        DessinerPanneau.setText("Dessiner Panneau");
+        DessinerPanneau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                DessinerPanneauActionPerformed(evt);
             }
         });
 
@@ -194,15 +202,15 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
+                    .addComponent(PANlongueurX)
+                    .addComponent(PANlargeurY)
+                    .addComponent(PANprofondeurZ)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                    .addComponent(DessinerPanneau, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -219,18 +227,18 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PANlongueurX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addGap(11, 11, 11)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PANlargeurY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(13, 13, 13)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PANprofondeurZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addComponent(DessinerPanneau)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -523,13 +531,28 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void PANlongueurXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANlongueurXActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_PANlongueurXActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void DessinerPanneauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DessinerPanneauActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        DessinerPanneau.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        try {
+            // Récupération des valeurs des champs de texte
+            float longueurX = Integer.parseInt(PANlongueurX.getText());
+            float largeurY = Integer.parseInt(PANlargeurY.getText());
+            float profondeurZ = Integer.parseInt(PANprofondeurZ.getText());
+            
+            controleur.setpanneau(longueurX, largeurY, profondeurZ);
+        } catch (NumberFormatException ex) {
+            message.setText("format non valide.");
+        }
+    }
+});
+        
+    }//GEN-LAST:event_DessinerPanneauActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
       
@@ -581,6 +604,10 @@ public class MainWindow extends javax.swing.JFrame {
         panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
     }//GEN-LAST:event_DefCoupeActionPerformed
 
+    private void PANlargeurYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANlargeurYActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PANlargeurYActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -618,12 +645,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DefCoupe;
+    private javax.swing.JButton DessinerPanneau;
     private javax.swing.JTextField DistanceX;
     private javax.swing.JButton ModCoupe;
+    private javax.swing.JTextField PANlargeurY;
+    private javax.swing.JTextField PANlongueurX;
+    private javax.swing.JTextField PANprofondeurZ;
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JButton SuppCoupe;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -661,9 +691,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel message;

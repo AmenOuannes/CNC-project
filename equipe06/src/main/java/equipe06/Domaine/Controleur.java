@@ -82,6 +82,11 @@ public class Controleur {
     }
 
 
+    
+    public void setpanneau(float longueurX, float largeurY, float profondeurZ) {
+        // Appel de CNC pour créer le panneau avec les valeurs
+        cnc.creerPanneau(longueurX, largeurY, profondeurZ);
+    }
 
 
 }
