@@ -44,11 +44,11 @@ public  class CoupeDTO {
             this.pointOrigineDTO = ((CoupeRec) coupe).getPointOrigine();
             this.pointDestinoDTO = ((CoupeRec) coupe).getPointDestination();
         }
-        /*if(coupe instanceof CoupeL){
+        if(coupe instanceof CoupeL){
             this.pointOrigineDTO = ((CoupeL) coupe).getPointOrigine();
             this.pointDestinoDTO = ((CoupeL) coupe).getPointDestination();
         }
-        */ //uncomment by amen
+
 
 
 
