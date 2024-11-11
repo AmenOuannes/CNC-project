@@ -24,7 +24,7 @@ public class PanneauVue extends JPanel {
     private int lastClickY = -1;
     public boolean deleteTriggered = false;
     public boolean modifyTriggered ;
-    private static final double SCALE_FACTOR = 0.1; // Facteur d'échelle de 10%
+    private static final double SCALE_FACTOR = 0.09; // Facteur d'échelle de 10%
 
     private boolean peutCreerCoupe = false;  // bool pour savoir si si l'utilisateur veut cree une coupe ou non
     
