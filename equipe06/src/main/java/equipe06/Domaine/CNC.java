@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package equipe06.Domaine;
 
 import equipe06.Domaine.Panneau;
@@ -14,10 +10,6 @@ import java.awt.Point;
 import java.util.Vector;
 
 
-/**
- *
- * @author ziedd
- */
 public class CNC {
     private Panneau panneau;
     private Repere repere;

@@ -18,7 +18,8 @@ public class MainWindow extends javax.swing.JFrame {
     public Controleur controleur;
     private PanneauVue panneauVue;
     private boolean messageAffiche = false;
-    private static double SCALE_FACTOR = 0.25; // Réduit la taille à 25%
+    private static double SCALE_FACTOR = 0.25;
+    private DefaultListModel<String> outilsListModel;
 
     /**
      * Creates new form MainWindow
@@ -28,6 +29,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
         panneauVue = new PanneauVue(this);
+         // Initialiser le modèle pour la liste d'outils
+        outilsListModel = new DefaultListModel<>();
+        Liste_Outil.setModel(outilsListModel);
   
         // Obtenir l'instance de Controleur et établir la communication
         controleur = Controleur.getInstance();
@@ -105,16 +109,16 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
+        Creer_Outil = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        Nom_Outil = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        Epaisseur_Outil = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
-        jButton3 = new javax.swing.JButton();
+        Supprimer_Outil = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        Liste_Outil = new javax.swing.JList<>();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         PanneauContrôle = new javax.swing.JPanel();
@@ -127,7 +131,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        Outil_Coupe = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -209,9 +213,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
                     .addComponent(DessinerPanneau, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,25 +242,25 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(PANprofondeurZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DessinerPanneau)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
 
         jLabel9.setText("1. Créer un Outil");
 
-        jButton2.setText("Créer Outil");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Creer_Outil.setText("Créer Outil");
+        Creer_Outil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                Creer_OutilActionPerformed(evt);
             }
         });
 
         jLabel10.setText("1.Entrez le nom de l'outil");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        Nom_Outil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                Nom_OutilActionPerformed(evt);
             }
         });
 
@@ -264,19 +268,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel13.setText("2.Supprimer un Outil");
 
-        jButton3.setText("Supprimer Outil");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Supprimer_Outil.setText("Supprimer Outil");
+        Supprimer_Outil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                Supprimer_OutilActionPerformed(evt);
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        Liste_Outil.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Outil 1", "Outil 2", "Outil 3", "Outil 4", "Outil 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(Liste_Outil);
 
         jButton4.setText("Modifier Outil");
 
@@ -297,14 +301,14 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addComponent(Supprimer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)))
+                        .addComponent(Epaisseur_Outil, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Nom_Outil, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Creer_Outil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -317,13 +321,13 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Nom_Outil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel12)
                 .addGap(25, 25, 25)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Epaisseur_Outil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(Creer_Outil)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -331,7 +335,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jButton3)
+                        .addComponent(Supprimer_Outil)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -372,10 +376,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1.setText("Dimension sur Axe des X");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Outil 1", "Outil 2", "Outil 3", "Outil 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        Outil_Coupe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Defaut" }));
+        Outil_Coupe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                Outil_CoupeActionPerformed(evt);
             }
         });
 
@@ -405,7 +409,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(DistanceX)
                                 .addComponent(ModCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel11)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Outil_Coupe, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14)))
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 90, Short.MAX_VALUE))
@@ -419,7 +423,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Outil_Coupe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(DefCoupe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -571,30 +575,72 @@ public class MainWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_DessinerPanneauActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void Creer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Creer_OutilActionPerformed
+       // Création d'un nouvel outil
+        try {
+            String nomOutil = Nom_Outil.getText();
+            String epaisseurStr = Epaisseur_Outil.getText();
+            
+            if (nomOutil.isEmpty() || epaisseurStr.isEmpty()) {
+                message.setText("Veuillez entrer un nom et une épaisseur pour l'outil.");
+                return;
+            }
+            
+            float epaisseur = Float.parseFloat(epaisseurStr);
+            
+            // Ajouter le nouvel outil au modèle de liste
+            outilsListModel.addElement(nomOutil);
+            
+            // Ajouter le nouvel outil au ComboBox des outils
+            Outil_Coupe.addItem(nomOutil);
+            
+            // Nettoyer les champs de texte
+            Nom_Outil.setText("");
+            Epaisseur_Outil.setText("");
+            message.setText("Outil ajouté avec succès.");
+        } catch (NumberFormatException ex) {
+            message.setText("Format d'épaisseur non valide. Veuillez entrer un nombre.");
+        }
+    }//GEN-LAST:event_Creer_OutilActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void Nom_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Nom_OutilActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_Nom_OutilActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void Supprimer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_OutilActionPerformed
+        // Suppression d'un outil sélectionné dans la liste
+        
+        int selectedIndex = Liste_Outil.getSelectedIndex();
+        if (selectedIndex != -1) {
+        String outilASupprimer = outilsListModel.getElementAt(selectedIndex);
+        
+        // Supprimer de la liste d'outils (JList)
+        outilsListModel.remove(selectedIndex);
+        
+        // Supprimer du ComboBox des outils (Outil_Coupe)
+        for (int i = 0; i < Outil_Coupe.getItemCount(); i++) {
+            if (Outil_Coupe.getItemAt(i).equals(outilASupprimer)) {
+                Outil_Coupe.removeItemAt(i);
+                break; // Quitter la boucle après avoir trouvé et supprimé l'élément
+            }
+        }
+        
+        message.setText("Outil supprimé avec succès.");
+        } else {
+        message.setText("Veuillez sélectionner un outil à supprimer.");
+        }
+    }//GEN-LAST:event_Supprimer_OutilActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void Outil_CoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Outil_CoupeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_Outil_CoupeActionPerformed
 
     private void DistanceXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DistanceXActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DistanceXActionPerformed
 
     private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
-        // TODO add your handling code here:
-
-        if (!controleur.getCoupes().isEmpty()) {
+       if (!controleur.getCoupes().isEmpty()) {
             panneauVue.deleteTriggered = true;
             System.out.printf("mainwindow \n");
             controleur.supprimerCoupe();
@@ -661,21 +707,24 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Creer_Outil;
     private javax.swing.JButton DefCoupe;
     private javax.swing.JButton DessinerPanneau;
     private javax.swing.JTextField DistanceX;
+    private javax.swing.JTextField Epaisseur_Outil;
+    private javax.swing.JList<String> Liste_Outil;
     private javax.swing.JButton ModCoupe;
+    private javax.swing.JTextField Nom_Outil;
+    private javax.swing.JComboBox<String> Outil_Coupe;
     private javax.swing.JTextField PANlargeurY;
     private javax.swing.JTextField PANlongueurX;
     private javax.swing.JTextField PANprofondeurZ;
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JButton SuppCoupe;
+    private javax.swing.JButton Supprimer_Outil;
     private javax.swing.JComboBox<String> comboBoxUnite;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -691,7 +740,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -708,8 +756,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel message;
     // End of variables declaration//GEN-END:variables
 }
