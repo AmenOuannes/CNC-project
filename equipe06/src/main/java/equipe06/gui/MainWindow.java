@@ -329,12 +329,12 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Supprimer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(19, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -372,7 +372,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2.Outil", jPanel2);
@@ -616,13 +616,12 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         float epaisseur = Float.parseFloat(epaisseurStr);
+        //ICI c juste pour relier la création d'outil avec la tab du panneau
+         Outil_Coupe.addItem(nomOutil); 
 
         // Ajouter le nouvel outil via le contrôleur
         controleur.SetOutil(nomOutil, epaisseur);
         controleur.mettreAJourTableauOutils(); // Mettre à jour le `JTable`
-
-        // Ajouter le nouvel outil au ComboBox des outils
-        Outil_Coupe.addItem(nomOutil);
 
         // Nettoyer les champs de texte
         Nom_Outil.setText("");
@@ -638,8 +637,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Nom_OutilActionPerformed
 
     private void Supprimer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_OutilActionPerformed
-           int index = tableauOutils.getSelectedRow();
-    if (index != -1) {
+        int index = tableauOutils.getSelectedRow();
+        if (index != -1) {
         String outilASupprimer = (String) tableauOutils.getValueAt(index, 0); // Récupérer le nom de l'outil depuis le `JTable`
         
         // Supprimer l'outil du contrôleur

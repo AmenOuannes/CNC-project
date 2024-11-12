@@ -13,7 +13,7 @@ import equipe06.Domaine.PanneauDTO;
  */
 public class PanneauVue extends JPanel {
     private MainWindow mainWindow;
-    public int largeurPixelsTable; // Dimensions en pixels de la table CNC
+    public int largeurPixelsTable;  
     public int hauteurPixelsTable;
     private int largeurPixelsPanneau; // Dimensions en pixels du panneau au-dessus de la table CNC
     private int hauteurPixelsPanneau;
