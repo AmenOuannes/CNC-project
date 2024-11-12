@@ -68,6 +68,15 @@ public class CNC {
         return new OutilDTO(outil_courant);
     }
     
+    public void supprimerOutilParIndex(int index) {
+        if (index >= 0 && index < outils.size()) {
+            outils.remove(index);
+            System.out.println("Outil supprimé avec succès.");
+        } else {
+            System.out.println("Index invalide. Impossible de supprimer l'outil.");
+        }
+    }
+    
     
     public void creerCoupe(float axe,  float y, boolean composante) {
         Point pointOrigine = new Point((int)axe, (int)y);

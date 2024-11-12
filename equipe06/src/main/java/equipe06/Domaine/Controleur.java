@@ -99,6 +99,10 @@ public class Controleur {
         mainWindow.afficherOutilsDansTable(outils); // Mettre à jour la table dans MainWindow
     }
     
+    public void supprimerOutil(int index) {
+        cnc.supprimerOutilParIndex(index); // Supprime l'outil en fonction de l'index
+    }
+    
 
 }
     

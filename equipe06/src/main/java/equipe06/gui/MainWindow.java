@@ -654,6 +654,19 @@ public class MainWindow extends javax.swing.JFrame {
     private void Supprimer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_OutilActionPerformed
         // Suppression d'un outil sélectionné dans la liste
         
+        int index = tableauOutils.getSelectedRow();
+        if (index != -1) {
+            controleur.supprimerOutil(index); // Supprime l'outil dans CNC via le contrôleur
+            controleur.mettreAJourTableauOutils(); // Met à jour la table pour refléter la suppression
+        } else {
+            message.setText("Veuillez sélectionner un outil à supprimer.");
+        }
+        
+        
+        
+        
+        // code de fares avec le jlist cree on va utiliser un jtable donc ce n'est pas la meme chose 
+        // jlist pour un seul champ et on pourra pas faire des mise a jour dynamique avec le jlist 
         int selectedIndex = Liste_Outil.getSelectedIndex();
         if (selectedIndex != -1) {
         String outilASupprimer = outilsListModel.getElementAt(selectedIndex);
