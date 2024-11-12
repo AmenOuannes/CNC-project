@@ -13,10 +13,7 @@ import equipe06.Domaine.CoupeDTO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import equipe06.Domaine.OutilDTO;
-/**
- *
- * @author ziedd
- */
+
 public class MainWindow extends javax.swing.JFrame {
     public Controleur controleur;
     private PanneauVue panneauVue;
@@ -32,9 +29,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
         panneauVue = new PanneauVue(this);
-         // Initialiser le modèle pour la liste d'outils
-        outilsListModel = new DefaultListModel<>();
-        Liste_Outil.setModel(outilsListModel);
+     
   
         // Obtenir l'instance de Controleur et établir la communication
         controleur = Controleur.getInstance();
@@ -123,13 +118,12 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Epaisseur_Outil = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jSeparator7 = new javax.swing.JSeparator();
         Supprimer_Outil = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Liste_Outil = new javax.swing.JList<>();
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableauOutils = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         PanneauContrôle = new javax.swing.JPanel();
         DefCoupe = new javax.swing.JButton();
@@ -282,7 +276,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setText("2.Supprimer un Outil");
+        jLabel13.setText("2.Gestion des Outil");
 
         Supprimer_Outil.setText("Supprimer Outil");
         Supprimer_Outil.addActionListener(new java.awt.event.ActionListener() {
@@ -290,13 +284,6 @@ public class MainWindow extends javax.swing.JFrame {
                 Supprimer_OutilActionPerformed(evt);
             }
         });
-
-        Liste_Outil.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Outil 1", "Outil 2", "Outil 3", "Outil 4", "Outil 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(Liste_Outil);
 
         jButton4.setText("Modifier Outil");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -307,16 +294,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         tableauOutils.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Nom", "Largeur Lame"
             }
         ));
         jScrollPane2.setViewportView(tableauOutils);
+
+        jLabel16.setText("Sélectionnez un outil pour le configurer ou supprimer");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -343,18 +329,18 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(11, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Supprimer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(19, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(Supprimer_Outil)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel16)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jSeparator6)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,17 +359,20 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(Creer_Outil)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Supprimer_Outil)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(Supprimer_Outil)
+                        .addGap(35, 35, 35)
+                        .addComponent(jButton4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2.Outil", jPanel2);
@@ -617,34 +606,31 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_DessinerPanneauActionPerformed
 
     private void Creer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Creer_OutilActionPerformed
-       // Création d'un nouvel outil
-        try {
-            String nomOutil = Nom_Outil.getText();
-            String epaisseurStr = Epaisseur_Outil.getText();
-            
-            if (nomOutil.isEmpty() || epaisseurStr.isEmpty()) {
-                message.setText("Veuillez entrer un nom et une épaisseur pour l'outil.");
-                return;
-            }
-            
-            float epaisseur = Float.parseFloat(epaisseurStr);
-            
-            // Ajouter le nouvel outil au modèle de liste
-            outilsListModel.addElement(nomOutil);
-            
-            // Ajouter le nouvel outil au ComboBox des outils
-            Outil_Coupe.addItem(nomOutil);
-            
-            
-            controleur.SetOutil(nomOutil, epaisseur);
-            controleur.mettreAJourTableauOutils();
-            // Nettoyer les champs de texte
-            Nom_Outil.setText("");
-            Epaisseur_Outil.setText("");
-            message.setText("Outil ajouté avec succès.");
-        } catch (NumberFormatException ex) {
-            message.setText("Format d'épaisseur non valide. Veuillez entrer un nombre.");
+      try {
+        String nomOutil = Nom_Outil.getText();
+        String epaisseurStr = Epaisseur_Outil.getText();
+
+        if (nomOutil.isEmpty() || epaisseurStr.isEmpty()) {
+            message.setText("Veuillez entrer un nom et une épaisseur pour l'outil.");
+            return;
         }
+
+        float epaisseur = Float.parseFloat(epaisseurStr);
+
+        // Ajouter le nouvel outil via le contrôleur
+        controleur.SetOutil(nomOutil, epaisseur);
+        controleur.mettreAJourTableauOutils(); // Mettre à jour le `JTable`
+
+        // Ajouter le nouvel outil au ComboBox des outils
+        Outil_Coupe.addItem(nomOutil);
+
+        // Nettoyer les champs de texte
+        Nom_Outil.setText("");
+        Epaisseur_Outil.setText("");
+        message.setText("Outil ajouté avec succès.");
+    } catch (NumberFormatException ex) {
+        message.setText("Format d'épaisseur non valide. Veuillez entrer un nombre.");
+    }
     }//GEN-LAST:event_Creer_OutilActionPerformed
 
     private void Nom_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Nom_OutilActionPerformed
@@ -652,40 +638,26 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Nom_OutilActionPerformed
 
     private void Supprimer_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_OutilActionPerformed
-        // Suppression d'un outil sélectionné dans le jtable
-        int index = tableauOutils.getSelectedRow();
-        if (index != -1) {
-            controleur.supprimerOutil(index); // Supprime l'outil dans CNC via le contrôleur
-            controleur.mettreAJourTableauOutils(); // Met à jour la table pour refléter la suppression
-        } else {
-            message.setText("Veuillez sélectionner un outil à supprimer.");
-        }
+           int index = tableauOutils.getSelectedRow();
+    if (index != -1) {
+        String outilASupprimer = (String) tableauOutils.getValueAt(index, 0); // Récupérer le nom de l'outil depuis le `JTable`
         
-        
-        
-        
-        // code de fares avec le jlist cree on va utiliser un jtable donc ce n'est pas la meme chose 
-        // jlist pour un seul champ et on pourra pas faire des mise a jour dynamique avec le jlist
-        // le jlist de fares existe encore et dans l'interface et fonctionne aussi 
-        int selectedIndex = Liste_Outil.getSelectedIndex();
-        if (selectedIndex != -1) {
-        String outilASupprimer = outilsListModel.getElementAt(selectedIndex);
-        
-        // Supprimer de la liste d'outils (JList)
-        outilsListModel.remove(selectedIndex);
-        
-        // Supprimer du ComboBox des outils (Outil_Coupe)
+        // Supprimer l'outil du contrôleur
+        controleur.supprimerOutil(index);
+        controleur.mettreAJourTableauOutils(); // Mettre à jour le tableau pour refléter la suppression
+
+        // Supprimer du ComboBox des outils
         for (int i = 0; i < Outil_Coupe.getItemCount(); i++) {
             if (Outil_Coupe.getItemAt(i).equals(outilASupprimer)) {
                 Outil_Coupe.removeItemAt(i);
-                break; // Quitter la boucle après avoir trouvé et supprimé l'élément
+                break;
             }
         }
-        
+
         message.setText("Outil supprimé avec succès.");
-        } else {
+    } else {
         message.setText("Veuillez sélectionner un outil à supprimer.");
-        }
+    }
     }//GEN-LAST:event_Supprimer_OutilActionPerformed
 
     private void Outil_CoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Outil_CoupeActionPerformed
@@ -777,7 +749,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton DessinerPanneau;
     private javax.swing.JTextField DistanceX;
     private javax.swing.JTextField Epaisseur_Outil;
-    private javax.swing.JList<String> Liste_Outil;
     private javax.swing.JButton ModCoupe;
     private javax.swing.JTextField Nom_Outil;
     private javax.swing.JComboBox<String> Outil_Coupe;
@@ -797,6 +768,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -812,14 +784,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel message;
     private javax.swing.JTable tableauOutils;
