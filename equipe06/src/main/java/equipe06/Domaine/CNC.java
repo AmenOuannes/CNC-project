@@ -49,15 +49,17 @@ public class CNC {
         return cDTO;
     }
 
-    public void ajouterOutil(Outil outil){
+    public void ajouterOutil(String nom, float largeurCoupe){
         if (outils.size() < 12){
+            Outil outil = new Outil(nom, largeurCoupe);
             outils.add(outil);
+            System.out.println("Outil ajouté avec succès : " + outil);
         } else {
             System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil.");
         }
     }
     public Vector<OutilDTO> getOutils() {
-        Vector<OutilDTO> v = null;
+        Vector<OutilDTO> v = new Vector<>();
         for(Outil outil : outils) v.add(new OutilDTO(outil));
         return v;
     }

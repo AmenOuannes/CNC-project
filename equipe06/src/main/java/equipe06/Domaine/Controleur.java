@@ -87,7 +87,18 @@ public class Controleur {
         // Appel de CNC pour créer le panneau avec les valeurs
         cnc.creerPanneau(longueurX, largeurY, profondeurZ);
     }
+    
+    public void SetOutil(String nomOutil, float epaisseur) {
+        cnc.ajouterOutil(nomOutil, epaisseur);    
+    }
 
+    
+    // on appelle cette methode lors d'ajouter ou modifier un outil pour que la table des outils fait une mise a jour
+    public void mettreAJourTableauOutils() {
+        Vector<OutilDTO> outils = cnc.getOutils(); // Récupérer le vecteur d'OutilDTO depuis CNC
+        mainWindow.afficherOutilsDansTable(outils); // Mettre à jour la table dans MainWindow
+    }
+    
 
 }
     
