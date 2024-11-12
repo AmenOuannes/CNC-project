@@ -555,6 +555,11 @@ public class MainWindow extends javax.swing.JFrame {
                     largeurY *= 1000;
                     profondeurZ *= 1000;
                     break;
+                case "pouce":
+                    longueurX *= 25.4; // Convertir en mm
+                    largeurY *= 25.4;
+                    profondeurZ *= 25.4;
+                    
             }  
             controleur.SetPanneau(longueurX, largeurY, profondeurZ);
             panneauVue.repaint();
