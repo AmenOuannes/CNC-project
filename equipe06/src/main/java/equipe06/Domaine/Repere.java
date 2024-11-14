@@ -10,39 +10,29 @@ package equipe06.Domaine;
  */
 
 public class Repere {
-    // Ajout final pour indiquer que c'est des constantes
-    private static final float PIXELS_PAR_MM = 3.78f; // Conversion de mm en pixels
-    private static final float MM_PAR_POUCE = 25.4f;  // Conversion de pouces en mm
+    private static final float PPI = 10; // Pixels par pouce, à ajuster selon l'écran
+    private static final float PPM = PPI / 25.4f; // Pixels par millimètre
     
-    // Méthode pour convertir une longueur de mm en pixels
-    public int convertirEnPixels(double valeurEnMm) {
+    
+    public int convertirEnPixelsDepuisMm(double valeurEnMm) {
         if (valeurEnMm < 0) {
             throw new IllegalArgumentException("La valeur en millimètres doit être positive.");
         }
-        return (int) (valeurEnMm * PIXELS_PAR_MM);
+        return (int) (valeurEnMm * PPM);
     }
-
-    // Méthode pour convertir des pixels en mm
-    public float convertirEnMm(float valeurEnPixels) {
-        if (valeurEnPixels < 0) {
-            throw new IllegalArgumentException("La valeur en pixels doit être positive.");
-        }
-        return valeurEnPixels / PIXELS_PAR_MM;
-    }
-
-    // Méthode pour convertir des mm en pouces
-    public double convertirEnPouces(double valeurEnMm) {
-        if (valeurEnMm < 0) {
-            throw new IllegalArgumentException("La valeur en millimètres doit être positive.");
-        }
-        return valeurEnMm / MM_PAR_POUCE;
-    }
-
-    // Méthode pour convertir des pouces en mm
-    public double convertirEnMmDepuisPouces(double valeurEnPouces) {
+    public float convertirEnPixelsDepuisPouces (float valeurEnPouces){
         if (valeurEnPouces < 0) {
             throw new IllegalArgumentException("La valeur en pouces doit être positive.");
         }
-        return valeurEnPouces * MM_PAR_POUCE;
+        return valeurEnPouces * PPI;
+    }
+    public float convertirEnMmDepuisPixels(float valeurEnPixels) {
+        if (valeurEnPixels < 0) {
+            throw new IllegalArgumentException("La valeur en pixels doit être positive.");
+        }
+        return valeurEnPixels / PPM;
+    }
+    public float convertirEnUnitesDepuisPixels(float valeurEnPixels) {
+        return valeurEnPixels / PPM;
     }
 }

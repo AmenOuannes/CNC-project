@@ -72,7 +72,7 @@ public class MainWindow extends javax.swing.JFrame {
     public void afficherValeurDistanceX(float x) {
         if(!controleur.getCoupes().isEmpty())
         {
-        DistanceX.setText(String.format("%.2f", x-130)); // Afficher la valeur avec deux décimales
+        DistanceX.setText(String.format("%.2f", x)); // Afficher la valeur avec deux décimales
 
         }
 }
@@ -151,11 +151,11 @@ public class MainWindow extends javax.swing.JFrame {
         PanneauVisualisation.setLayout(PanneauVisualisationLayout);
         PanneauVisualisationLayout.setHorizontalGroup(
             PanneauVisualisationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 367, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         PanneauVisualisationLayout.setVerticalGroup(
             PanneauVisualisationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 329, Short.MAX_VALUE)
+            .addGap(0, 308, Short.MAX_VALUE)
         );
 
         jLabel3.setText("Commençons par la création de votre panneau");
@@ -203,7 +203,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jSeparator2)
                 .addContainerGap())
@@ -219,7 +219,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(DessinerPanneau, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,7 +487,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -525,29 +525,29 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(427, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(111, 111, 111))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

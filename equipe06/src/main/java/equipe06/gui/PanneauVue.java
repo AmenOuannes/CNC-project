@@ -23,7 +23,7 @@ public class PanneauVue extends JPanel {
     private int lastClickY = -1;
     public boolean deleteTriggered = false;
     public boolean modifyTriggered;
-    private static final double SCALE_FACTOR = 0.09;
+    //private static final double SCALE_FACTOR = 0.09;
 
     private double zoomFactor = 1.0;
     private boolean peutCreerCoupe = false;
@@ -39,15 +39,15 @@ public class PanneauVue extends JPanel {
         PanneauDTO panneauDTO = controleur.getPanneau();
 
         // Conversion des dimensions de la table CNC en appliquant un facteur d'échelle
-        this.largeurPixelsTable = (int) (repere.convertirEnPixels(3000) * SCALE_FACTOR);
-        this.hauteurPixelsTable = (int) (repere.convertirEnPixels(1500) * SCALE_FACTOR);
+        this.largeurPixelsTable = (int) (repere.convertirEnPixelsDepuisPouces(120));
+        this.hauteurPixelsTable = (int) (repere.convertirEnPixelsDepuisPouces(60));
 
         // Conversion des dimensions du panneau avec facteur d'échelle
-        this.largeurPixelsPanneau = (int) (repere.convertirEnPixels(panneauDTO.getLargeur()) * SCALE_FACTOR);
-        this.hauteurPixelsPanneau = (int) (repere.convertirEnPixels(panneauDTO.getLongueur()) * SCALE_FACTOR);
+        this.largeurPixelsPanneau = (int) (repere.convertirEnPixelsDepuisMm(panneauDTO.getLargeur()) );
+        this.hauteurPixelsPanneau = (int) (repere.convertirEnPixelsDepuisMm(panneauDTO.getLongueur()));
 
         // Définir la taille préférée du panneau basé sur la table CNC
-        this.setPreferredSize(new Dimension(largeurPixelsTable + 100, hauteurPixelsTable + 100));
+        this.setPreferredSize(new Dimension(largeurPixelsTable , hauteurPixelsTable ));
 
         // Ajouter un MouseListener pour la création de coupe
         this.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -111,7 +111,7 @@ public class PanneauVue extends JPanel {
             repaint();
             peutCreerCoupe = false;
         } else {
-            // Zoom centré sur le clic
+            /*// Zoom centré sur le clic
             double oldZoomFactor = zoomFactor;
             zoomFactor += 0.2;
             if (zoomFactor > 3.0) {
@@ -126,7 +126,7 @@ public class PanneauVue extends JPanel {
             offsetX = clickX - (clickX - offsetX) * scaleChange;
             offsetY = clickY - (clickY - offsetY) * scaleChange;
 
-            repaint();
+            repaint();*/
         }
     }
 
@@ -142,21 +142,21 @@ public class PanneauVue extends JPanel {
 
         // Dessiner la table CNC en gris clair avec une bordure noire
         g2d.setColor(Color.LIGHT_GRAY);
-        g2d.fillRect(50, 50, largeurPixelsTable, hauteurPixelsTable);
+        g2d.fillRect(0, 0, largeurPixelsTable, hauteurPixelsTable);
         g2d.setColor(Color.BLACK);
-        g2d.drawRect(50, 50, largeurPixelsTable, hauteurPixelsTable);
+        g2d.drawRect(0, 0, largeurPixelsTable-1, hauteurPixelsTable-1);
 
         // Dessiner les axes X et Y
-        dessinerAxes(g2d);
+        //dessinerAxes(g2d);
 
         // Utiliser l'Afficheur pour dessiner les autres éléments (panneau, coupes, etc.)
         Afficheur afficheur = new Afficheur(mainWindow.controleur);
-        afficheur.DessinerPanneau(g2d, SCALE_FACTOR * zoomFactor, hauteurPixelsTable);
+        afficheur.DessinerPanneau(g, hauteurPixelsTable);
 
         if (modifyTriggered) {
-            afficheur.dessinerCoupeModifie(g2d, (float) (SCALE_FACTOR * zoomFactor), hauteurPixelsTable);
+            afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
         } else {
-            afficheur.dessinerCoupe(g2d, lastClickX, lastClickY, (float) (SCALE_FACTOR * zoomFactor), hauteurPixelsTable);
+            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
         }
 
         // Réinitialiser après dessin
@@ -175,7 +175,7 @@ public class PanneauVue extends JPanel {
 
         // Ajouter des graduations sur l'axe X tous les 200 mm
         for (int i = 0; i <= 3000; i += 200) {
-            int xPos = xStart + (int) (i * 3.78 * SCALE_FACTOR * zoomFactor);
+            int xPos = xStart + (int) (i * 3.78  * zoomFactor);
             g.drawLine(xPos, yPosition - 5, xPos, yPosition + 5);
             g.drawString(String.valueOf(i), xPos - 10, yPosition + 20);
         }
@@ -187,7 +187,7 @@ public class PanneauVue extends JPanel {
 
         // Ajouter des graduations sur l'axe Y tous les 100 mm
         for (int i = 0; i <= 1500; i += 100) {
-            int yPos = yStart + hauteurPixelsTable - (int) (i * 3.78 * SCALE_FACTOR * zoomFactor);
+            int yPos = yStart + hauteurPixelsTable - (int) (i * 3.78  * zoomFactor);
             g.drawLine(xPosition - 5, yPos, xPosition + 5, yPos);
             g.drawString(String.valueOf(i), xPosition - 45, yPos + 5);
         }
