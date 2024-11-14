@@ -27,7 +27,8 @@ public class Afficheur {
         g.drawRect(50, 50 + hauteurTable-panneauY, panneauX, panneauY);
     }
 
-
+    //rendre cette fonction capable à dessiner toutes les coupes possible
+    //accepte l'outil courant comme critere s'epaisseur de ligne
     public void dessinerCoupe(Graphics g, int x, int y, float scale, int hauteurTable ){
            if (x != -1) {
         Repere repere = controleur.getRepere();
@@ -50,6 +51,7 @@ public class Afficheur {
         }
     }
     }
+    //rendre la fonction de modification declenche le Dessiner coupe au lieu de celle là
     public void dessinerCoupeModifie(Graphics g, float scale, int hauteurTable){
         CoupeDTO coupe = controleur.getCoupes().get(0);
         Graphics2D g2d = (Graphics2D) g;

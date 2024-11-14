@@ -40,7 +40,7 @@ public class Panneau {
     public float getLongueur() { return longueur; }
     public float getLargeur() { return largeur; }
     public float getProfondeur() { return profondeur; }  
-    public UUID getUUID() { return Uuid; }
+    public UUID getUUID() { return Uuid; } //enlever le UUID pour le panneau
 
     // setters pour les dimensions
     public void setLongueur(float longueur) {

@@ -7,6 +7,7 @@ import equipe06.Domaine.CNC;
 import equipe06.drawing.Afficheur;
 import equipe06.gui.MainWindow;
 import java.awt.Point;
+import java.util.UUID;
 import java.util.Vector;
 
 import equipe06.Domaine.Utils.ElementCoupe;
@@ -62,20 +63,22 @@ public class Controleur {
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
 
-     // Implémentation de la méthode pour créer une coupe axiale - Proposition  
+     // TODO: change content
      public void creerCoupeAxiale(float axe, float y, boolean composante) {
 
 
         cnc.creerCoupe(axe, y, composante);
     }
-
-   
+    //TODO: get the uuid from the click on panneau to use in modifying or deleting coupe
+    public UUID getUUID(){
+        return UUID.randomUUID();//to change remove by @amen
+    }
+    // TODO: appel correct
     public void modifierCoupe(float axe) {
-        cnc.ModifierCoupe(axe);
-        //TODO: check if inPanneau
+        //cnc.ModifierCoupe(axe);
     }
 
- 
+    // TODO: corriger appel , faut le UUID
     public void supprimerCoupe() {
             cnc.supprimerCoupe();
 

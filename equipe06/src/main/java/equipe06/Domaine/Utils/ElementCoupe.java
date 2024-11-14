@@ -71,10 +71,10 @@ public class ElementCoupe {
                 }
 
         }
-
-        if (outil == null) {
+        //remove comment quand outil est valide
+        /*if (outil == null) {
             throw new IllegalArgumentException("L'outil ne peut pas etre null.");
-        }
+        }*/
 
 
         this.pointOrigine = pointOrigine;

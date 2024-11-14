@@ -14,14 +14,15 @@ public class CNC {
     private Panneau panneau;
     private Repere repere;
     private Vector<Coupe> coupes;
+    private Vector<Point> points_de_reference;
     private Vector<Outil> outils;
     private Outil outil_courant;
 
 
     public CNC() {
         panneau = new Panneau(0,0,0);
-        //panneau = new Panneau(1219.2f,914.4f , 0.5f); // Dimensions en mm
-        //panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm
+        //panneau = new Panneau(1219.2f,914.4f , 0.5f); // Dimensions en mm //remove @zied
+        //panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm //remove @zied
         repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
@@ -48,14 +49,14 @@ public class CNC {
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
     }
-
+    // TODO fix redundancy
     public void ajouterOutil(String nom, float largeurCoupe){
-        if (outils.size() < 12){
+        if (outils.size() < 12 /* || outil.exist*/){
             Outil outil = new Outil(nom, largeurCoupe);
             outils.add(outil);
-            System.out.println("Outil ajouté avec succès : " + outil);
+            System.out.println("Outil ajouté avec succès : " + outil); //remove @zied
         } else {
-            System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil.");
+            System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil."); //remove @zied
         }
     }
     public Vector<OutilDTO> getOutils() {
@@ -65,21 +66,36 @@ public class CNC {
     }
 
     public OutilDTO getOutil_courant() {
+
         return new OutilDTO(outil_courant);
     }
-    
+    //TODO: mettre a jour depuis la selection du outil courant depuis l'interface
+    public void setOutil_courant(OutilDTO outil_courant) {}
+    //TODO : rendre cette boucle en try catch
+    // TODO check if outil est outilCourant
     public void supprimerOutilParIndex(int index) {
         if (index >= 0 && index < outils.size()) {
             outils.remove(index);
-            System.out.println("Outil supprimé avec succès.");
+            System.out.println("Outil supprimé avec succès."); //control local remove @ zied
         } else {
-            System.out.println("Index invalide. Impossible de supprimer l'outil.");
+            System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
     }
-    
-    
-    public void creerCoupe(float axe,  float y, boolean composante) {
-        Point pointOrigine = new Point((int)axe, (int)y);
+    public void creerCoupeL(){
+        //TODO coupe en L, attribut extraits du controleur
+    }
+    public void creerCoupeRect(){
+        //TODO coupe rect, attribut extraits du controleur
+    }
+    public void ModifierCoupesOutilCourant(){
+        //TODO modifier toutes les coupes par l'outil courant
+    }
+    public void CreerCoupeBordure(){
+        //TODO creer une coupe bordure
+    }
+    // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
+    public void creerCoupe/*Axe*/(float axe,  float y, boolean composante) {
+        Point pointOrigine = new Point((int)axe, (int)y); //change point
         Point pointDestination = new Point((int)axe, 0);
         ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
                 pointOrigine, pointDestination, 5.0f, 0.3f, axe, composante, 0.0f, 0.0f, "CoupeAxiale", null
@@ -96,14 +112,20 @@ public class CNC {
             
 
         }
-    } // to change in the next livrable
-    /// à discuter attribut de la fonction coupe ou bien element
+    }
+    // TODO: Rendre modifier apte a modifier toute coupe possible
+    // cette fonction fait appel au divers coupes
     public void ModifierCoupe(float axe) {
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
 
 
-    } // to change in the next livrable
+    }
+    
+    public void ModifierCoupeRectL() {
+        //verifier si ma coupe est modifiée lors de la modification d'un axe
+    }
+    // TODO: fnct invalide pour le reste du travail
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 
         assert coupe != null : "La coupe ne peut pas etre invalide.";
@@ -130,13 +152,15 @@ public class CNC {
         return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
     }
     
-  */  
+  */
+    // TODO: changer en ajoutant les uuid
     public void AjouterCoupe(Coupe coupe) {
-        // S'assurer que l objet coupe est initialise et est valide
+        // verifier les uuid, random et check in vector
 
         coupes.add(coupe);
 
     }
+    // TODO: changer ça , delete en se basant sur l 'UUID
     public void supprimerCoupe() {
         if(!coupes.isEmpty()) coupes.removeLast();
 
