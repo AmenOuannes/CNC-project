@@ -75,7 +75,7 @@ public class Controleur {
     }
     // TODO: appel correct
     public void modifierCoupe(float axe) {
-        //cnc.ModifierCoupe(axe);
+        cnc.ModifierCoupe(axe);
     }
 
     // TODO: corriger appel , faut le UUID
