@@ -124,8 +124,15 @@ public class CNC {
         }
     }
     //Katia
-    public void CreerCoupeL(){
+    public void CreerCoupeL(Point pointOrigine , Point pointDestination){
         //TODO coupe en L, attribut extraits du controleur
+        assert pointOrigine != null;
+        assert pointDestination != null;
+        ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"CoupeenL",null);
+         CoupeL coupe = new CoupeL(e);
+         if(panneau.inPanneau(pointOrigine)&& panneau.inPanneau(pointDestination)){
+             coupes.add(coupe);
+         }
     }
     //Amen
     public void CreerCoupeRect(Point Origine, Point Destination){
