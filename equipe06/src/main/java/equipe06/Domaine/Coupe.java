@@ -32,7 +32,7 @@ public abstract class Coupe {
         this.Profondeur = e.getProfondeur();
         this.marge_profondeur = e.getMarge();
         this.outil = e.getOutil();
-        this.uuid = e.getUuid();
+        this.uuid = UUID.randomUUID();
         this.typeCoupe = e.getTypeCoupe();
     }
     
@@ -68,7 +68,9 @@ public abstract class Coupe {
 public UUID getUUID() {
         return uuid;
 }
-
+public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+}
 public String getTypeCoupe() {
         return typeCoupe;
     }

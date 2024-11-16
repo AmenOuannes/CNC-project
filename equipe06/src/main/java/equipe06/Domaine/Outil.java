@@ -21,6 +21,7 @@ public class Outil {
             throw new IllegalArgumentException("La largeur de coupe doit être superieure a zero.");
         }*/
         this.Nom = nom;
+        //id to change
         this.id = UUID.randomUUID();
         this.largeur_coupe = largeur_coupe;
     }
@@ -52,4 +53,5 @@ public class Outil {
         }
         this.id = id;
     }
+
 }

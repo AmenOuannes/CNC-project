@@ -36,7 +36,7 @@ public class Afficheur {
         x_mm = repere.convertirEnMm(x_mm);  
         float y_mm = y/scale;
         y_mm = repere.convertirEnMm(y_mm);
-        controleur.creerCoupeAxiale((float) x_mm, (float) y_mm, false);
+        controleur.CreerCoupe((float) x_mm, (float) y_mm, false);
         // Transmettre la distance au contrôleur pour affichage dans MainWindow
 
         if(!controleur.getCoupes().isEmpty())

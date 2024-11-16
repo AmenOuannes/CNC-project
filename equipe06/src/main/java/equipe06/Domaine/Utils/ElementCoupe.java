@@ -23,7 +23,7 @@ public class ElementCoupe {
     private float bordureY;
     private String typeCoupe;
     private Outil outil;
-    private UUID uuid;
+    //private UUID uuid;
 
     // Constructeur par défaut
     public ElementCoupe() {
@@ -191,7 +191,7 @@ public class ElementCoupe {
         this.outil = outil;
     }
 
-    public UUID getUuid() {
+    /*public UUID getUuid() {
         return uuid;
-    }
+    }*/
 }

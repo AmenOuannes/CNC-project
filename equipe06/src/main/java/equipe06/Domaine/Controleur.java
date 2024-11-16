@@ -62,12 +62,12 @@ public class Controleur {
     public Repere getRepere() {return cnc.getRepere();}
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
-
+    //fares
      // TODO: change content
-     public void creerCoupeAxiale(float axe, float y, boolean composante) {
+     public void CreerCoupe(float axe, float y, boolean composante) {
 
 
-        cnc.creerCoupe(axe, y, composante);
+        cnc.CreerCoupeAxe(axe, y, composante);
     }
     //TODO: get the uuid from the click on panneau to use in modifying or deleting coupe
     public UUID getUUID(){

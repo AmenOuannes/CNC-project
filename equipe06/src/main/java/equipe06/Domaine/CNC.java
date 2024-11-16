@@ -7,6 +7,8 @@ import equipe06.Domaine.*;
 import equipe06.Domaine.Utils.ElementCoupe;
 
 import java.awt.Point;
+import java.util.List;
+import java.util.UUID;
 import java.util.Vector;
 
 
@@ -49,6 +51,7 @@ public class CNC {
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
     }
+    //-------------------------------------------------OUTILS--------------------------------------------
     // TODO fix redundancy
     public void ajouterOutil(String nom, float largeurCoupe){
         if (outils.size() < 12 /* || outil.exist*/){
@@ -81,38 +84,86 @@ public class CNC {
             System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
     }
-    public void creerCoupeL(){
-        //TODO coupe en L, attribut extraits du controleur
-    }
-    public void creerCoupeRect(){
-        //TODO coupe rect, attribut extraits du controleur
+    //amen
+    public void ModifierOutil(UUID uuid, String NewName, float NewLargeur){
+
+        for(Outil outil : outils){
+            if(outil.getId() == uuid){
+                if(outil.getNom()!= NewName)
+                    outil.setNom(NewName);
+                if(outil.getLargeur_coupe() != NewLargeur)
+                    outil.setLargeur_coupe(NewLargeur);
+            }
+        }
     }
     public void ModifierCoupesOutilCourant(){
         //TODO modifier toutes les coupes par l'outil courant
+        for(Coupe coupe: coupes){
+            coupe.setOutil(outil_courant);
+        }
     }
-    public void CreerCoupeBordure(){
-        //TODO creer une coupe bordure
-    }
-    // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
-    public void creerCoupe/*Axe*/(float axe,  float y, boolean composante) {
-        Point pointOrigine = new Point((int)axe, (int)y); //change point
-        Point pointDestination = new Point((int)axe, 0);
-        ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-                pointOrigine, pointDestination, 5.0f, 0.3f, axe, composante, 0.0f, 0.0f, "CoupeAxiale", null
-        );
-        assert e != null : "l'element de la coupe ne peut pas etre invalide" ; 
-        
-        CoupeAxe ma_coupe = new CoupeAxe(e); // this is only for now, further we will build this using a switch case bloc
-        
-        if (panneau.inPanneau(e.getPointOrigine(), panneau))
-           AjouterCoupe(ma_coupe);
-        else {
-            
-            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
-            
+
+
+    //-------------------------------------------------COUPES--------------------------------------------------------
+    //amen
+    public void CreerCoupe(String TypeCoupe, float axe, float y, boolean composante) {
+        switch(TypeCoupe){
+            case "axe":
+                this.CreerCoupeAxe(axe, y, composante);
+                break;
+            case "Rect":
+                //this.CreerCoupeRect(e);
+                break;
+            case "L":
+                //this.CreerCoupeL(e);
+                break;
+            case "Bordure":
+                //this.CreerCoupeBordure(e);
+                break;
 
         }
     }
+    //Katia
+    public void CreerCoupeL(){
+        //TODO coupe en L, attribut extraits du controleur
+    }
+    //Amen
+    public void CreerCoupeRect(Point Origine, Point Destination){
+        //TODO coupe rect, attribut extraits du controleur
+        assert (Origine != null);
+        assert (Destination != null);
+        ElementCoupe e = new ElementCoupe(
+                Origine, Destination, 5.0f,
+                0.3f,0,false,0.0f, 0.0f,"Rect", null);
+        CoupeRec coupe = new CoupeRec(e);
+        if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
+            coupes.add(coupe);
+        }
+
+    }
+
+    //zied
+    public void CreerCoupeBordure(){
+        //TODO creer une coupe bordure
+    }
+
+    //hedi+amen
+    // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
+    public void CreerCoupeAxe(float x,  float y, boolean composante) {
+        Point pointOrigine = new Point((int)x, (int)y); //change point
+        Point pointDestination = new Point((int)x, 0);
+        ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+                pointOrigine, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "axe", null
+        );
+        assert e != null : "l'element de la coupe ne peut pas etre invalide" ;
+        CoupeAxe ma_coupe = new CoupeAxe(e);
+        if (panneau.inPanneau(e.getPointOrigine()/*, panneau*/)) //remove katia
+           AjouterCoupe(ma_coupe);
+        else {
+            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
+        }
+    }
+    //non pour le moment
     // TODO: Rendre modifier apte a modifier toute coupe possible
     // cette fonction fait appel au divers coupes
     public void ModifierCoupe(float axe) {
@@ -125,6 +176,7 @@ public class CNC {
     public void ModifierCoupeRectL() {
         //verifier si ma coupe est modifiée lors de la modification d'un axe
     }
+    //hedi
     // TODO: fnct invalide pour le reste du travail
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 
@@ -153,20 +205,27 @@ public class CNC {
     }
     
   */
+    //amen
     // TODO: changer en ajoutant les uuid
     public void AjouterCoupe(Coupe coupe) {
-        // verifier les uuid, random et check in vector
+        // vector of uuids
+        Vector<UUID> uuids = new Vector<UUID>();
+        for(Coupe c: coupes){
+            uuids.add(coupe.getUUID());
+        }
+        do{
+            coupe.setUUID(UUID.randomUUID());
+        }while(uuids.contains(coupe.getUUID()));
 
         coupes.add(coupe);
 
     }
+    //zied
     // TODO: changer ça , delete en se basant sur l 'UUID
     public void supprimerCoupe() {
         if(!coupes.isEmpty()) coupes.removeLast();
 
     }
-    
 
-    
-    
+
 }

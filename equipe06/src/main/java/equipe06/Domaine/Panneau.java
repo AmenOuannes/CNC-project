@@ -84,14 +84,14 @@ public class Panneau {
         this.zoneInterdite = null;
     }
     //la fonction qui verifie si on est a l'interieur de panneau ou pas
-     public boolean inPanneau(Point p, Panneau panneau)
+     public boolean inPanneau(Point p /*Panneau panneau*/) //katia
 {
         assert p != null : "Le point ne peut pas etre invalide.";
-        assert panneau != null : "Le panneau ne peut pas etre invalide.";
+        assert this != null : "Le panneau ne peut pas etre invalide.";
         int minX = 130;
-        int maxX = (int) panneau.getLargeur() + 130;
+        int maxX = (int) this.getLargeur() + 130;
         int minY = 0;
-        int maxY = (int) panneau.getLongueur() - 130;
+        int maxY = (int) this.getLongueur() - 130;
         return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
     }
 }
