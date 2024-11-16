@@ -229,10 +229,20 @@ public class CNC {
     }
     //zied
     // TODO: changer ça , delete en se basant sur l 'UUID
-    public void supprimerCoupe() {
+   /* public void supprimerCoupe() {
         if(!coupes.isEmpty()) coupes.removeLast();
 
+    }*/
+    public void supprimerCoupe(UUID uuid) {
+        try{
+            for (int i=0; i<coupes.size(); i++){
+                if (coupes.get(i).getUUID().equals(uuid)){
+                    coupes.remove(i);
+                    break;
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("Erreur : y'a pas de coupe a suprimmer ");
+        }
     }
-
-
 }

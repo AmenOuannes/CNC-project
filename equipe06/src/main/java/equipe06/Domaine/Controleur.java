@@ -80,7 +80,9 @@ public class Controleur {
 
     // TODO: corriger appel , faut le UUID
     public void supprimerCoupe() {
-            cnc.supprimerCoupe();
+       if ( getUUID() != null )
+        { cnc.supprimerCoupe(getUUID());
+        }
 
     }
 
