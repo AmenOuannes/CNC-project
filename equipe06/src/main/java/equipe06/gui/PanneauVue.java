@@ -171,7 +171,8 @@ public class PanneauVue extends JPanel {
         if (modifyTriggered) {
             afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
         } else {
-            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
+            //afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
+            afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
         }
 
         // Réinitialiser après dessin
