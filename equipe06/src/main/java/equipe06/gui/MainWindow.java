@@ -729,6 +729,7 @@ public class MainWindow extends javax.swing.JFrame {
                 break;
             case "Bordure":
                 System.out.println("Création d'une coupe Bordure");
+                panneauVue.activerCreationCoupeBordure();
                 break;
             default:
                 System.out.println("Type de coupe inconnu");

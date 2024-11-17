@@ -27,6 +27,7 @@ public class PanneauVue extends JPanel {
 
     private double zoomFactor = 1.0;
     private boolean peutCreerCoupe = false;
+    private boolean peutCreerCoupeBordure = false ;
 
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
@@ -171,14 +172,21 @@ public class PanneauVue extends JPanel {
         if (modifyTriggered) {
             afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
         } else {
-            //afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
+            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
+        }
+        if (peutCreerCoupeBordure) {
             afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
         }
 
         // Réinitialiser après dessin
         lastClickX = -1;
         lastClickY = -1;
+        rectX1 = -1;
+        rectY1 = -1;
+        rectY1 = -1;
+        rectY2 = -1;
         modifyTriggered = false;
+        peutCreerCoupeBordure = false;
     }
 
     private void dessinerAxes(Graphics g) {
@@ -213,13 +221,16 @@ public class PanneauVue extends JPanel {
     public void activerCreationCoupe() {
         this.peutCreerCoupe = true;
     }
-
+    public void activerCreationCoupeBordure() {
+        this.peutCreerCoupeBordure = true;
+    }
+    
     public boolean isAttenteClicPourCoupe() {
         return peutCreerCoupe;
     }
     
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1) {
+        if (rectX1 == -1 && rectY1 == -1 && peutCreerCoupeBordure) {
             rectX1 = evt.getX();
             rectY1 = evt.getY();
         } else {

@@ -69,6 +69,7 @@ public class Afficheur {
     
     
     public void dessinerRectangleAVdeuxpoints (Graphics g, int x1px, int y1px, int x2px, int y2px) {
+        if (x1px != -1) {
         Repere repere = controleur.getRepere();
         float x1 = repere.convertirEnMmDepuisPixels(x1px);
         float y1 = repere.convertirEnMmDepuisPixels(y1px);
@@ -98,7 +99,7 @@ public class Afficheur {
     
     
     
-    }
+    }}
     
     
     
