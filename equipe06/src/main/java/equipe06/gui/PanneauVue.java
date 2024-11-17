@@ -31,6 +31,12 @@ public class PanneauVue extends JPanel {
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
     private double offsetY = 0.0;
+    
+    // Variable pour la coupe rect (clic)
+    private int rectX1 = -1;
+    private int rectY1 = -1;
+    private int rectX2 = -1;
+    private int rectY2 = -1;
 
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -55,6 +61,15 @@ public class PanneauVue extends JPanel {
                 drawingPanelMouseClicked(evt);
             }
         });
+        
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                captureRectanglePoints(evt);
+            }
+        });
+        
+        
+        
 
         // Ajouter un écouteur pour la roulette de la souris
         this.addMouseWheelListener(new MouseWheelListener() {
@@ -201,4 +216,16 @@ public class PanneauVue extends JPanel {
     public boolean isAttenteClicPourCoupe() {
         return peutCreerCoupe;
     }
+    
+    private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
+        if (rectX1 == -1 && rectY1 == -1) {
+            rectX1 = evt.getX();
+            rectY1 = evt.getY();
+        } else {
+            rectX2 = evt.getX();
+            rectY2 = evt.getY();
+            repaint();
+        }
+    }
+    
 }

@@ -36,7 +36,7 @@ public class Afficheur {
         x_mm = repere.convertirEnMmDepuisPixels(x_mm);  
         float y_mm = y;
         y_mm = repere.convertirEnMmDepuisPixels(y_mm);
-        controleur.creerCoupeAxiale((float) x_mm, (float) y_mm, false);
+        controleur.CreerCoupe((float) x_mm, (float) y_mm, false);
         // Transmettre la distance au contrôleur pour affichage dans MainWindow
 
         if(!controleur.getCoupes().isEmpty())
@@ -66,4 +66,40 @@ public class Afficheur {
         g2d.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur()));
 
     }
+    
+    
+    public void dessinerRectangleAVdeuxpoints (Graphics g, int x1px, int y1px, int x2px, int y2px) {
+        Repere repere = controleur.getRepere();
+        float x1 = repere.convertirEnMmDepuisPixels(x1px);
+        float y1 = repere.convertirEnMmDepuisPixels(y1px);
+        float x2 = repere.convertirEnMmDepuisPixels(x2px);
+        float y2 = repere.convertirEnMmDepuisPixels(y2px);
+        
+        //controleur.CreerCoupe();
+        
+        
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(2f));
+        g2d.setColor(Color.BLACK);
+        
+        // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
+        int x = Math.min(x1px, x2px);
+        int y = Math.min(y1px, y2px);
+        int largeur = Math.abs(x2px - x1px);
+        int hauteur = Math.abs(y2px - y1px);
+           
+        g2d.drawRect(x, y, largeur, hauteur);
+
+        
+        
+        
+        
+    
+    
+    
+    
+    }
+    
+    
+    
 } 
