@@ -207,7 +207,7 @@ public class PanneauVue extends JPanel {
         // Dessiner l'axe Y (vertical)
         int yStart = 50;
         int xPosition = 50;
-        g.drawLine(xPosition, yStart, xPosition, yStart + hauteurPixelsTable);
+        g.drawLine(xPosition, yStart - 130, xPosition, yStart + hauteurPixelsTable - 130);
 
         // Ajouter des graduations sur l'axe Y tous les 100 mm
         for (int i = 0; i <= 1500; i += 100) {

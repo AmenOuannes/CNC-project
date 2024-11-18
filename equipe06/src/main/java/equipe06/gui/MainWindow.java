@@ -37,8 +37,9 @@ public class MainWindow extends javax.swing.JFrame {
         // Configurer `PanneauVisualisation`
         PanneauVisualisation.setLayout(new BorderLayout());
          
-    
-
+        System.out.println("Width: " + PanneauVisualisation.getWidth());
+        System.out.println("Height: " + PanneauVisualisation.getHeight());
+        
         // Ajouter `panneauVue` dans `PanneauVisualisation`
         PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
         // Ajout d'un `MouseListener` à `MainWindow` pour détecter les clics en dehors du panneau

@@ -36,9 +36,8 @@ public class Afficheur {
         x_mm = repere.convertirEnMmDepuisPixels(x_mm);  
         float y_mm = y;
         y_mm = repere.convertirEnMmDepuisPixels(y_mm);
-        controleur.CreerCoupe((float) x_mm, (float) y_mm, false);
+        controleur.CreerCoupe((float) x_mm, (float) y_mm, true);
         // Transmettre la distance au contrôleur pour affichage dans MainWindow
-
         if(!controleur.getCoupes().isEmpty())
         {
             Graphics2D g2d = (Graphics2D) g;
@@ -46,8 +45,7 @@ public class Afficheur {
             g2d.setColor(Color.BLACK); // Set color for the line
             controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = hauteurTable; // Starting point of the line
-            g2d.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur())); // Draw the vertical line
-            
+            g2d.drawLine(x, ligneY1, x, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur())); // Draw the vertical line
         }
     }
     }

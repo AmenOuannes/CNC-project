@@ -164,18 +164,34 @@ public class CNC {
     //hedi+amen
     // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
     public void CreerCoupeAxe(float x,  float y, boolean composante) {
-        Point pointOrigine = new Point((int)x, (int)y); //change point
-        Point pointDestination = new Point((int)x, 0);
-        ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+        ElementCoupe e = null;
+        CoupeAxe ma_coupe = null;
+        Point pointOrigine;
+        Point pointDestination;
+        if (composante == true)
+        {
+        pointOrigine = new Point((int)x, (int) y); //change point
+        pointDestination = new Point((int)x, 0);
+        e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
                 pointOrigine, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "axe", null
         );
+        }
+        else{
+            pointOrigine = new Point(0, (int)y); //change point
+            pointDestination = new Point((int) panneau.getLargeur() + 130, (int)y);
+            e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+            pointOrigine, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "axe", null
+            );
+        }
         assert e != null : "l'element de la coupe ne peut pas etre invalide" ;
-        CoupeAxe ma_coupe = new CoupeAxe(e);
-        if (panneau.inPanneau(e.getPointOrigine()/*, panneau*/)) //remove katia
-           AjouterCoupe(ma_coupe);
+        ma_coupe = new CoupeAxe(e);
+        AjouterCoupe(ma_coupe);
+        if (panneau.inPanneau(pointOrigine)) //remove katia
+            {AjouterCoupe(ma_coupe);}
         else {
             assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
         }
+        
     }
     //non pour le moment
     // TODO: Rendre modifier apte a modifier toute coupe possible
@@ -207,7 +223,7 @@ public class CNC {
         else return false;//for now
     } // to change in the next livrable
     //juste penser a enlever cette fonction d'ici 
-/*    
+/*
     public boolean inPanneau(Point p, Panneau panneau){
         assert p != null : "Le point ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas etre invalide.";
@@ -217,8 +233,8 @@ public class CNC {
         int maxY = (int) panneau.getLongueur() - 130;
         return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
     }
-    
-  */
+*/
+ 
     //amen
     // TODO: changer en ajoutant les uuid
     public void AjouterCoupe(Coupe coupe) {
