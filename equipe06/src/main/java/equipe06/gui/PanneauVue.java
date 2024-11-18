@@ -24,9 +24,12 @@ public class PanneauVue extends JPanel {
     public boolean deleteTriggered = false;
     public boolean modifyTriggered;
     //private static final double SCALE_FACTOR = 0.09;
+    private float BordureX;
+    private float BordureY;
 
     private double zoomFactor = 1.0;
     private boolean peutCreerCoupe = false;
+    private boolean peutCreerCoupeRect = false ;
     private boolean peutCreerCoupeBordure = false ;
 
     // Variables pour gérer le décalage de la vue lors du zoom
@@ -174,8 +177,12 @@ public class PanneauVue extends JPanel {
         } else {
             afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
         }
-        if (peutCreerCoupeBordure) {
+        if (peutCreerCoupeRect) {
             afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
+        }
+        
+        if (peutCreerCoupeBordure) {
+            afficheur.dessinerBordure(g, BordureX, BordureY, hauteurPixelsTable);
         }
 
         // Réinitialiser après dessin
@@ -186,6 +193,7 @@ public class PanneauVue extends JPanel {
         rectY1 = -1;
         rectY2 = -1;
         modifyTriggered = false;
+        peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
     }
 
@@ -221,8 +229,8 @@ public class PanneauVue extends JPanel {
     public void activerCreationCoupe() {
         this.peutCreerCoupe = true;
     }
-    public void activerCreationCoupeBordure() {
-        this.peutCreerCoupeBordure = true;
+    public void activerCreationCoupeRect() {
+        this.peutCreerCoupeRect = true;
     }
     
     public boolean isAttenteClicPourCoupe() {
@@ -230,7 +238,7 @@ public class PanneauVue extends JPanel {
     }
     
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && peutCreerCoupeBordure) {
+        if (rectX1 == -1 && rectY1 == -1 && peutCreerCoupeRect) {
             rectX1 = evt.getX();
             rectY1 = evt.getY();
         } else {
@@ -238,6 +246,17 @@ public class PanneauVue extends JPanel {
             rectY2 = evt.getY();
             repaint();
         }
+    }
+    
+    public void activerCreationCoupeBordure() {
+        this.peutCreerCoupeBordure = true;
+    }
+    
+    public void DimensionsBordure(float BordureXValue, float BordureYValue) {
+        this.BordureX = BordureXValue;
+        this.BordureY = BordureYValue;
+        this.peutCreerCoupeBordure = true;
+        repaint();
     }
     
 }

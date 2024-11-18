@@ -89,19 +89,26 @@ public class Afficheur {
         int hauteur = Math.abs(y2px - y1px);
            
         g2d.drawRect(x, y, largeur, hauteur);
-
-        
-        
-        
-        
-    
-    
-    
-    
     }
     }
     //TODO dessiner un L : Katia, fares entre vous deux
     //TODO Bordure Zied
+    
+    public void dessinerBordure(Graphics g, float bordureX, float bordureY, int hauteurTable) {
+        if (bordureX != -1) {
+        Repere repere = controleur.getRepere();
+        int bordureXPx = repere.convertirEnPixelsDepuisMm(bordureX);
+        int bordureYPx = repere.convertirEnPixelsDepuisMm(bordureY);
+        int longueurOriginalePx = repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur());
+        int largeurOriginalePx = repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur());
+        int xOrigine = (longueurOriginalePx - bordureXPx) / 2;
+        int yOrigine = hauteurTable - largeurOriginalePx + (largeurOriginalePx - bordureYPx) / 2;
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(2f));
+        g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
+        
+    }}
 
     
     
