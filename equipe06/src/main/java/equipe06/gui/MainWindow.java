@@ -713,7 +713,7 @@ public class MainWindow extends javax.swing.JFrame {
             panneauVue.repaint();
 
     }//GEN-LAST:event_ModCoupeActionPerformed
-
+    //TODO: liaison bouton, controleur fares
     private void DefCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefCoupeActionPerformed
         // TODO add your handling code here:
         String selection = (String) Type_Coupe.getSelectedItem();

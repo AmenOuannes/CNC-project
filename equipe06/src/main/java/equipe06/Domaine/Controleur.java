@@ -63,6 +63,7 @@ public class Controleur {
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
     //fares
+    //TODO liaison controleur afficheur, controleur CNC : amen, katia
      // TODO: change content
      public void CreerCoupe(float axe, float y, boolean composante) {
 

@@ -29,6 +29,7 @@ public class Afficheur {
 
     //rendre cette fonction capable à dessiner toutes les coupes possible
     //accepte l'outil courant comme critere s'epaisseur de ligne
+    //TODO hedi dessiner Coupe Axe
     public void dessinerCoupe(Graphics g, int x, int y, int hauteurTable ){
            if (x != -1) {
         Repere repere = controleur.getRepere();
@@ -36,7 +37,7 @@ public class Afficheur {
         x_mm = repere.convertirEnMmDepuisPixels(x_mm);  
         float y_mm = y;
         y_mm = repere.convertirEnMmDepuisPixels(y_mm);
-        controleur.CreerCoupe((float) x_mm, (float) y_mm, true);
+        controleur.CreerCoupe((float) x_mm, (float) y_mm, true); // vertical est true
         // Transmettre la distance au contrôleur pour affichage dans MainWindow
         if(!controleur.getCoupes().isEmpty())
         {
@@ -65,7 +66,7 @@ public class Afficheur {
 
     }
     
-    
+    //TODO zied Change en rect
     public void dessinerRectangleAVdeuxpoints (Graphics g, int x1px, int y1px, int x2px, int y2px) {
         if (x1px != -1) {
         Repere repere = controleur.getRepere();
@@ -97,7 +98,11 @@ public class Afficheur {
     
     
     
-    }}
+    }
+    }
+    //TODO dessiner un L : Katia, fares entre vous deux
+    //TODO Bordure Zied
+
     
     
     

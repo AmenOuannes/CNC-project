@@ -145,7 +145,7 @@ public class PanneauVue extends JPanel {
             repaint();*/
         }
     }
-
+// TODO dessiner tout le vecteur, amen
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -168,7 +168,7 @@ public class PanneauVue extends JPanel {
         // Utiliser l'Afficheur pour dessiner les autres éléments (panneau, coupes, etc.)
         Afficheur afficheur = new Afficheur(mainWindow.controleur);
         afficheur.DessinerPanneau(g, hauteurPixelsTable);
-
+        //for coupe in coupes if coupe kedhe afficheur.kedhe
         if (modifyTriggered) {
             afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
         } else {
