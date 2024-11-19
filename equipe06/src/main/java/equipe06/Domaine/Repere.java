@@ -9,7 +9,7 @@ package equipe06.Domaine;
  * @author ziedd 
  */
 
-public class Repere {
+public  class Repere {
     private static final float PPI = 6; // Pixels par pouce, à ajuster selon l'écran
     private static final float PPM = PPI / 25.4f; // Pixels par millimètre
     

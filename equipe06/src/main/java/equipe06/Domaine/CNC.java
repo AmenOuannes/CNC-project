@@ -22,7 +22,7 @@ public class CNC {
 
 
     public CNC() {
-        panneau = new Panneau(0,0,0);
+        panneau = new Panneau(1200,1200,0);
         //panneau = new Panneau(1219.2f,914.4f , 0.5f); // Dimensions en mm //remove @zied
         //panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm //remove @zied
         repere = new Repere(); // Repère pour gérer les conversions
@@ -54,8 +54,8 @@ public class CNC {
     //-------------------------------------------------OUTILS--------------------------------------------
     // TODO fix redundancy
     public void ajouterOutil(String nom, float largeurCoupe){
-        if (outils.size() < 12 /* || outil.exist*/){
-            Outil outil = new Outil(nom, largeurCoupe);
+        Outil outil = new Outil(nom, largeurCoupe);
+        if (outils.size() < 12  && !outils.contains(outil)){
             outils.add(outil);
             System.out.println("Outil ajouté avec succès : " + outil); //remove @zied
         } else {
@@ -78,8 +78,13 @@ public class CNC {
     // TODO check if outil est outilCourant
     public void supprimerOutilParIndex(int index) {
         if (index >= 0 && index < outils.size()) {
+            Outil outil = outils.get(index);
             outils.remove(index);
+            if (outil_courant.getNom() == outil.getNom())  //set another
+                outil_courant = outils.get(0);
+
             System.out.println("Outil supprimé avec succès."); //control local remove @ zied
+
         } else {
             System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
@@ -97,7 +102,6 @@ public class CNC {
         }
     }
     public void ModifierCoupesOutilCourant(){
-        //TODO modifier toutes les coupes par l'outil courant
         for(Coupe coupe: coupes){
             coupe.setOutil(outil_courant);
         }
