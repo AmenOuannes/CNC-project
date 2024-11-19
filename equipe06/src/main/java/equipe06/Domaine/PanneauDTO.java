@@ -16,14 +16,14 @@ public class PanneauDTO {
     public ZoneInterditeDTO zoneInterditeDTO;
     public UUID UuidDTO;
     
-    public PanneauDTO (Panneau panneau) {
-        longueurDTO = panneau.getLongueur();
-        largeurDTO = panneau.getLargeur();
-        profondeurDTO = panneau.getProfondeur();
-        ZoneInterdite z = panneau.getZoneInterdite();
-        zoneInterditeDTO = new ZoneInterditeDTO(z);
-    }
-    
+  public PanneauDTO(Panneau panneau) {
+    this.longueurDTO = panneau.getLongueur();
+    this.largeurDTO = panneau.getLargeur();
+    this.profondeurDTO = panneau.getProfondeur();
+    ZoneInterdite z = panneau.getZoneInterdite();
+    this.zoneInterditeDTO = (z != null) ? new ZoneInterditeDTO(z) : null;
+}
+
     
     public float getLongueur() { return longueurDTO; }
     public float getLargeur() { return largeurDTO; }

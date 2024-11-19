@@ -6,12 +6,15 @@ public class ZoneInterditeDTO {
     private float DistanceToXDTO;
     private float DistanceToYDTO;
 
-    public ZoneInterditeDTO(ZoneInterdite zoneInterdite) {
+   public ZoneInterditeDTO(ZoneInterdite zoneInterdite) {
+    if (zoneInterdite != null) {
         this.longueurDTO = zoneInterdite.getLongueur();
         this.largeurDTO = zoneInterdite.getLargeur();
         this.DistanceToXDTO = zoneInterdite.getDistanceToX();
         this.DistanceToYDTO = zoneInterdite.getDistanceToY();
-    }
+    } 
+}
+
     public float getLongueurDTO() {
         return longueurDTO;
     }

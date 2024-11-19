@@ -33,6 +33,7 @@ public class Panneau {
         this.longueur = longueur;
         this.largeur = largeur;
         this.profondeur = profondeur;
+        this.zoneInterdite = new ZoneInterdite(10, 10, 0, 0); // Initialisation par défaut
         //this.Uuid = UUID.randomUUID();
     }
 
