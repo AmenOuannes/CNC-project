@@ -235,18 +235,18 @@ public class PanneauVue extends JPanel {
             g.drawString(String.valueOf(i), xPosition - 45, yPos + 5);
         }
     }
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
 
     // Activer la création de la coupe
-    public void activerCreationCoupe() { 
+    //public void activerCreationCoupe() { 
         // Hedi houni zid les variables teeks true false switch case
         // starr 788 fi mainwindow
-=======
+//=======
     public void activerCreationCoupeL() {
         this.peutCreerCoupeL = true;
     }
     public void activerCreationCoupe() {
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
         this.peutCreerCoupe = true;
     }
     public void activerCreationCoupeRect() {

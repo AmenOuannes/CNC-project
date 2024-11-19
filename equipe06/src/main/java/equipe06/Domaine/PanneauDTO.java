@@ -15,17 +15,9 @@ public class PanneauDTO {
     public float profondeurDTO;
     public ZoneInterditeDTO zoneInterditeDTO;
     public UUID UuidDTO;
-    
-<<<<<<< Updated upstream
-  public PanneauDTO(Panneau panneau) {
-    this.longueurDTO = panneau.getLongueur();
-    this.largeurDTO = panneau.getLargeur();
-    this.profondeurDTO = panneau.getProfondeur();
-    ZoneInterdite z = panneau.getZoneInterdite();
-    this.zoneInterditeDTO = (z != null) ? new ZoneInterditeDTO(z) : null;
-}
 
-=======
+
+//=======
     public PanneauDTO (Panneau panneau) {
         longueurDTO = panneau.getLongueur();
         largeurDTO = panneau.getLargeur();
@@ -34,7 +26,7 @@ public class PanneauDTO {
 //        zoneInterditeDTO = new ZoneInterditeDTO(z);
     }
     
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     
     public float getLongueur() { return longueurDTO; }
     public float getLargeur() { return largeurDTO; }
