@@ -46,7 +46,7 @@ public class Afficheur {
             g2d.setColor(Color.BLACK); // Set color for the line
             controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = hauteurTable; // Starting point of the line
-            g2d.drawLine(x, ligneY1, x, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur())); // Draw the vertical line
+            g2d.drawLine(x, ligneY1, x, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur())); // Draw the vertical line
         }
     }
     }
