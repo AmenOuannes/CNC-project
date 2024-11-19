@@ -52,12 +52,6 @@ public class Controleur {
         System.out.println("MainWindow est null"); // verification console ne peut l'enlever 
     }
 }
-
-
-
-
-
-
     //getters
     public Repere getRepere() {return cnc.getRepere();}
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}

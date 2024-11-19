@@ -58,9 +58,6 @@ public class MainWindow extends javax.swing.JFrame {
         }}
         });
         
-        
-        
-
         // Ajuster la fenêtre à la taille totale des composants
         pack();
     }

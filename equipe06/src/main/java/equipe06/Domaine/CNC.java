@@ -254,7 +254,8 @@ public class CNC {
         coupes.add(coupe);
 
     }
-    //zied
+    //katia
+    // juste a la sup svpl zied
     // TODO: changer ça , delete en se basant sur l 'UUID
    /* public void supprimerCoupe() {
         if(!coupes.isEmpty()) coupes.removeLast();

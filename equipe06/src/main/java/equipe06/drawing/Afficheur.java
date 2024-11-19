@@ -74,14 +74,10 @@ public class Afficheur {
         float y1 = repere.convertirEnMmDepuisPixels(y1px);
         float x2 = repere.convertirEnMmDepuisPixels(x2px);
         float y2 = repere.convertirEnMmDepuisPixels(y2px);
-        
         //controleur.CreerCoupe();
-        
-        
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2f));
         g2d.setColor(Color.BLACK);
-        
         // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
         int x = Math.min(x1px, x2px);
         int y = Math.min(y1px, y2px);
@@ -91,7 +87,25 @@ public class Afficheur {
         g2d.drawRect(x, y, largeur, hauteur);
     }
     }
-    //TODO dessiner un L : Katia, fares entre vous deux
+    //TODO dessiner un L : Katia
+    public void dessinerL (Graphics g, int x1, int y1, int x2 , int y2) {
+        if (x1 != -1|| y1 == -1 || x2 == -1 || y2 == -1) {
+            System.out.println("Cordonées pas valides pour dessiner");
+            return;
+        }
+        Repere repere = controleur.getRepere();
+        int x1px = repere.convertirEnPixelsDepuisMm(x1);
+        int x2px = repere.convertirEnPixelsDepuisMm(x2);
+        int y1px = repere.convertirEnPixelsDepuisMm(y1);
+        int y2px = repere.convertirEnPixelsDepuisMm(y2);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(2f));
+        g2d.setColor(Color.BLACK);
+        // dessiner le trait vertical
+        g2d.drawLine(x1px, y1px, x2px, y1px);
+        // dessiner trai horizontal
+        g2d.drawLine(x2px, y2px, x2px, y1px);
+    }
     //TODO Bordure Zied
     
     public void dessinerBordure(Graphics g, float bordureX, float bordureY, int hauteurTable) {
@@ -108,7 +122,9 @@ public class Afficheur {
         g2d.setStroke(new BasicStroke(2f));
         g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
         
-    }}
+    }
+
+    }
 
     
     

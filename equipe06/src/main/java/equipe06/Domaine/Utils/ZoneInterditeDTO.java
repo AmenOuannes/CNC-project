@@ -6,9 +6,14 @@ public class ZoneInterditeDTO {
     private float DistanceToXDTO;
     private float DistanceToYDTO;
 
+<<<<<<< Updated upstream
    public ZoneInterditeDTO(ZoneInterdite zoneInterdite) {
     if (zoneInterdite != null) {
         this.longueurDTO = zoneInterdite.getLongueur();
+=======
+    public ZoneInterditeDTO(ZoneInterdite zoneInterdite) {
+//        this.longueurDTO = zoneInterdite.getLongueur();
+>>>>>>> Stashed changes
         this.largeurDTO = zoneInterdite.getLargeur();
         this.DistanceToXDTO = zoneInterdite.getDistanceToX();
         this.DistanceToYDTO = zoneInterdite.getDistanceToY();

@@ -31,6 +31,7 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerCoupe = false;
     private boolean peutCreerCoupeRect = false ;
     private boolean peutCreerCoupeBordure = false ;
+    private boolean peutCreerCoupeL = false ;
 
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
@@ -41,7 +42,11 @@ public class PanneauVue extends JPanel {
     private int rectY1 = -1;
     private int rectX2 = -1;
     private int rectY2 = -1;
-
+    // Variable pour la coupe L
+    private int x1 = -1;
+    private int y1 = -1;
+    private int x2 = -1;
+    private int y2 = -1;
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.repere = new Repere();
@@ -180,7 +185,9 @@ public class PanneauVue extends JPanel {
         if (peutCreerCoupeRect) {
             afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
         }
-        
+        if (peutCreerCoupeL) {
+          afficheur.dessinerL(g, x1, y1, x2, y2);
+         }
         if (peutCreerCoupeBordure) {
             afficheur.dessinerBordure(g, BordureX, BordureY, hauteurPixelsTable);
         }
@@ -192,6 +199,10 @@ public class PanneauVue extends JPanel {
         rectY1 = -1;
         rectY1 = -1;
         rectY2 = -1;
+        x1 = -1;
+        y1 = -1;
+        x2 = -1;
+        y2 = -1;
         modifyTriggered = false;
         peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
@@ -224,21 +235,26 @@ public class PanneauVue extends JPanel {
             g.drawString(String.valueOf(i), xPosition - 45, yPos + 5);
         }
     }
+<<<<<<< Updated upstream
 
     // Activer la création de la coupe
     public void activerCreationCoupe() { 
         // Hedi houni zid les variables teeks true false switch case
         // starr 788 fi mainwindow
+=======
+    public void activerCreationCoupeL() {
+        this.peutCreerCoupeL = true;
+    }
+    public void activerCreationCoupe() {
+>>>>>>> Stashed changes
         this.peutCreerCoupe = true;
     }
     public void activerCreationCoupeRect() {
         this.peutCreerCoupeRect = true;
     }
-    
     public boolean isAttenteClicPourCoupe() {
         return peutCreerCoupe;
     }
-    
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
         if (rectX1 == -1 && rectY1 == -1 && peutCreerCoupeRect) {
             rectX1 = evt.getX();
