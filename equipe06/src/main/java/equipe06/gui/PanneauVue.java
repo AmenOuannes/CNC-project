@@ -226,7 +226,9 @@ public class PanneauVue extends JPanel {
     }
 
     // Activer la création de la coupe
-    public void activerCreationCoupe() {
+    public void activerCreationCoupe() { 
+        // Hedi houni zid les variables teeks true false switch case
+        // starr 788 fi mainwindow
         this.peutCreerCoupe = true;
     }
     public void activerCreationCoupeRect() {

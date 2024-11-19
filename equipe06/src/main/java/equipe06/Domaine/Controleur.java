@@ -90,9 +90,12 @@ public class Controleur {
 
     
     public void SetPanneau(float longueurX, float largeurY, float profondeurZ) {
-        // Appel de CNC pour créer le panneau avec les valeurs
+        if (longueurX <= 0 || largeurY <= 0 || profondeurZ <= 0) {
+            throw new IllegalArgumentException("Les dimensions doivent être positives.");
+        }
         cnc.creerPanneau(longueurX, largeurY, profondeurZ);
     }
+
     
     public void SetOutil(String nomOutil, float epaisseur) {
         cnc.ajouterOutil(nomOutil, epaisseur);    

@@ -785,8 +785,12 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         String selection = (String) Type_Coupe.getSelectedItem();
         switch (selection) {
-            case "axe":
-            System.out.println("Création d'une coupe Axe");
+            case "Vertical":
+            System.out.println("Création d'une coupe Verticale");
+            panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
+            break;
+            case "Horizontal":
+            System.out.println("Création d'une coupe Horizontale");
             panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
             break;
             case "Rect":
