@@ -213,11 +213,12 @@ public class PanneauVue extends JPanel {
           afficheur.dessinerL(g, rectX1, rectY1, rectX2, rectY2);
          }
 
-
+        
         if (peutCreerCoupeBordure) {
             float adjustedBordureX = BordureX;
             float adjustedBordureY = BordureY;
             afficheur.dessinerBordure(g, adjustedBordureX, adjustedBordureY, hauteurPixelsTable);
+            peutCreerCoupeBordure = false;
         }
         
         // Réinitialiser après dessin - Zoom ma t5dmch bel partie hethi
@@ -240,8 +241,10 @@ public class PanneauVue extends JPanel {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
                 peutCreerCoupeV = false;
             }
-            else if(coupe.getTypeCoupeDTO()=="Bordure")
+            else if(coupe.getTypeCoupeDTO()=="Bordure") {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
+                peutCreerCoupeBordure = false;
+            }
             else   {
                 afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
                 peutCreerCoupeH = false;

@@ -152,14 +152,14 @@ public class CNC {
     }
 
     //zied
-    public void CreerCoupeBordure(float x1, float y1, float x2, float y2){
+    public void CreerCoupeBordure(float x, float y){
         //TODO creer une coupe bordure
-        /*
-        Point pointOrigine = new Point((int)x1, (int)y1);
-        Point pointDestination = new Point((int)x2, (int)y2);
-        ElementCoupe e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-                pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, 0.0f, 0.0f, "Bordure", null );
-        */
+        float bordureX = x;
+        float bordureY = y;
+        ElementCoupe e = new ElementCoupe(
+                null, null, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", null );
+        CoupeRec coupe = new CoupeRec(e);
+        coupes.add(coupe);        
         
     }
 

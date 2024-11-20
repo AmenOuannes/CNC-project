@@ -827,7 +827,9 @@ public class MainWindow extends javax.swing.JFrame {
                         BordureXValue *= 25.4; // Convertir en mm
                         BordureYValue *= 25.4;
                 }
+                controleur.SetCoupeBordure(BordureXValue, BordureYValue);
                 panneauVue.DimensionsBordure(BordureXValue, BordureYValue);
+                panneauVue.repaint();
             } catch (NumberFormatException ex) {
                 message.setText("format non valide.");
             }

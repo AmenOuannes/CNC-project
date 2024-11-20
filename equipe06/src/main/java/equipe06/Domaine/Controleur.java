@@ -66,6 +66,11 @@ public class Controleur {
                     Repere.getInstance().convertirEnMmDepuisPixels((int) p.getY())
                 , composante);
     }
+     
+    public void SetCoupeBordure(float BordureXValue, float BordureYValue) {
+        cnc.CreerCoupeBordure(BordureXValue, BordureYValue);
+    }     
+     
     //TODO: get the uuid from the click on panneau to use in modifying or deleting coupe
     public UUID getUUID(){
         return UUID.randomUUID();//to change remove by @amen
