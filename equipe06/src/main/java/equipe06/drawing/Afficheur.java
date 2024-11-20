@@ -30,23 +30,40 @@ public class Afficheur {
     //rendre cette fonction capable à dessiner toutes les coupes possible
     //accepte l'outil courant comme critere s'epaisseur de ligne
     //TODO hedi dessiner Coupe Axe
-    public void dessinerCoupe(Graphics g, int x, int y, int hauteurTable ){
+    public void dessinerCoupe(Graphics g, int x, int y, int hauteurTable, int largeurTable, boolean xy){
+           System.out.println(x);
            if (x != -1) {
         Repere repere = controleur.getRepere();
         float x_mm = x;
         x_mm = repere.convertirEnMmDepuisPixels(x_mm);  
         float y_mm = y;
         y_mm = repere.convertirEnMmDepuisPixels(y_mm);
-        controleur.CreerCoupe((float) x_mm, (float) y_mm, true); // vertical est true
+        controleur.CreerCoupe((float) x_mm, (float) y_mm, xy); // vertical est true
+        System.out.printf("ENTREE 1");
+        if(!controleur.getCoupes().isEmpty()){
+        if (xy){
         // Transmettre la distance au contrôleur pour affichage dans MainWindow
-        if(!controleur.getCoupes().isEmpty())
-        {
+        
+            System.out.printf("ENTREE 2");
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(2f)); //for now
             g2d.setColor(Color.BLACK); // Set color for the line
             controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = hauteurTable; // Starting point of the line
             g2d.drawLine(x, ligneY1, x, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur())); // Draw the vertical line
+        
+        }
+        else{
+        // Transmettre la distance au contrôleur pour affichage dans MainWindow
+        
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(2f)); //for now
+            g2d.setColor(Color.BLACK); // Set color for the line
+            controleur.mettreAJourDistanceX(x_mm);
+            int ligneX1 = largeurTable; // Starting point of the line
+            g2d.drawLine(0, y, repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur()), y); // Draw the vertical line
+        
+        }
         }
     }
     }

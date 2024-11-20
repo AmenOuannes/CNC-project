@@ -784,11 +784,11 @@ public class MainWindow extends javax.swing.JFrame {
         switch (selection) {
             case "Vertical":
             System.out.println("Création d'une coupe Verticale");
-            panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
+            panneauVue.activerCreationCoupeV();  // Active la possibilité de créer une coupe
             break;
             case "Horizontal":
             System.out.println("Création d'une coupe Horizontale");
-            panneauVue.activerCreationCoupe();  // Active la possibilité de créer une coupe
+            panneauVue.activerCreationCoupeH();  // Active la possibilité de créer une coupe
             break;
             case "Rect":
             System.out.println("Création d'une coupe Rectangulaire");

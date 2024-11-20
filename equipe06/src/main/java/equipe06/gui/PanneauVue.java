@@ -32,6 +32,9 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerCoupeRect = false ;
     private boolean peutCreerCoupeBordure = false ;
     private boolean peutCreerCoupeL = false ;
+    private boolean peutCreerCoupeH = false;
+    private boolean peutCreerCoupeV = false;
+
 
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
@@ -79,7 +82,7 @@ public class PanneauVue extends JPanel {
         
         
         
-
+        
         // Ajouter un écouteur pour la roulette de la souris
         this.addMouseWheelListener(new MouseWheelListener() {
             @Override
@@ -129,11 +132,13 @@ public class PanneauVue extends JPanel {
     }
 
     private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
-        if (peutCreerCoupe) {
+        if (peutCreerCoupeH || peutCreerCoupeV) {
             lastClickX = evt.getX();
             lastClickY = evt.getY();
             repaint();
-            peutCreerCoupe = false;
+            //peutCreerCoupeH = false;
+            //peutCreerCoupeV = false;
+
         } else {
             /*// Zoom centré sur le clic
             double oldZoomFactor = zoomFactor;
@@ -179,8 +184,15 @@ public class PanneauVue extends JPanel {
         //for coupe in coupes if coupe kedhe afficheur.kedhe
         if (modifyTriggered) {
             afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
-        } else {
-            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable);
+        }
+        if (peutCreerCoupeH){
+            System.out.printf("peutCreerCoupeH MRGLA");
+
+            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable, largeurPixelsTable, false);
+        }
+        if (peutCreerCoupeV){
+            System.out.printf("peutCreerCoupeV MRGLA");
+            afficheur.dessinerCoupe(g, lastClickX, lastClickY, hauteurPixelsTable, largeurPixelsTable, true);
         }
         if (peutCreerCoupeRect) {
             afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
@@ -245,9 +257,13 @@ public class PanneauVue extends JPanel {
     public void activerCreationCoupeL() {
         this.peutCreerCoupeL = true;
     }
-    public void activerCreationCoupe() {
+    public void activerCreationCoupeH() {
 //>>>>>>> Stashed changes
-        this.peutCreerCoupe = true;
+        this.peutCreerCoupeH = true;
+    }
+    public void activerCreationCoupeV() {
+//>>>>>>> Stashed changes
+        this.peutCreerCoupeV = true;
     }
     public void activerCreationCoupeRect() {
         this.peutCreerCoupeRect = true;
