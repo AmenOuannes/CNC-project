@@ -207,7 +207,10 @@ public class PanneauVue extends JPanel {
             afficheur.dessinerBordure(g, adjustedBordureX, adjustedBordureY, hauteurPixelsTable);
         }
         
-        // Réinitialiser après dessin
+        // Réinitialiser après dessin - Zoom ma t5dmch bel partie hethi
+        // Supprimer coupe t5dmch menghirha 
+        // Naarch chnowa l hall , nhebech nzid nbarbech 
+        /* 
         lastClickX = -1;
         lastClickY = -1;
         rectX1 = -1;
@@ -217,7 +220,7 @@ public class PanneauVue extends JPanel {
         modifyTriggered = false;
         peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
-        peutCreerCoupeL = false;
+        peutCreerCoupeL = false; */ 
 
     }
 
