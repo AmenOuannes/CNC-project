@@ -140,7 +140,8 @@ public class PanneauVue extends JPanel {
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
-
+// Houni fama mochkla , ki nzid zoom bech to5rejch ml panneau , maadech najmou 
+    //nsawrou coupe a partie mn 996 mm , fhmtch aaleh meme si limite hattha
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -174,7 +175,7 @@ public class PanneauVue extends JPanel {
 
             // S'assurer que la coupe reste dans les limites du panneau (zone orange)
             adjustedX = Math.max(0, Math.min(adjustedX, largeurPixelsPanneau - 1));
-            adjustedY = Math.max(hauteurPixelsTable - hauteurPixelsPanneau, Math.min(adjustedY, hauteurPixelsTable - 1));
+            adjustedY = Math.max(hauteurPixelsTable - hauteurPixelsTable, Math.min(adjustedY, hauteurPixelsTable - 1));
 
             if (peutCreerCoupeH) {
                 afficheur.dessinerCoupe(g, adjustedX, adjustedY, hauteurPixelsTable, largeurPixelsTable, false);
