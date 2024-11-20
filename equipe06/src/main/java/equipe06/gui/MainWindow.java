@@ -5,8 +5,11 @@
 package equipe06.gui;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
+
+import equipe06.Domaine.Repere;
 import equipe06.gui.PanneauVue;
 import equipe06.Domaine.Controleur;
 import equipe06.Domaine.CoupeDTO;
@@ -785,10 +788,15 @@ public class MainWindow extends javax.swing.JFrame {
             case "Vertical":
             System.out.println("Création d'une coupe Verticale");
             panneauVue.activerCreationCoupeV();  // Active la possibilité de créer une coupe
+            //if(panneauVue.myPoint!=null)
+            //controleur.CreerCoupeAxiale(panneauVue.myPoint, true);
+            panneauVue.repaint();
+            //
             break;
             case "Horizontal":
             System.out.println("Création d'une coupe Horizontale");
             panneauVue.activerCreationCoupeH();  // Active la possibilité de créer une coupe
+            panneauVue.repaint();
             break;
             case "Rect":
             System.out.println("Création d'une coupe Rectangulaire");

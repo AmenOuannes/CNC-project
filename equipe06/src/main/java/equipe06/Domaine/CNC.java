@@ -180,7 +180,7 @@ public class CNC {
         }
         else{
             pointOrigine = new Point(0, (int)y); //change point
-            pointDestination = new Point((int) panneau.getLargeur() + 130, (int)y);
+            pointDestination = new Point((int) panneau.getLargeur() +130, (int)y);
             e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
             pointOrigine, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "axe", null
             );

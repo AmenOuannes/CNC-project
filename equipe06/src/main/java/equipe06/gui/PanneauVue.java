@@ -1,5 +1,6 @@
 package equipe06.gui;
 
+import equipe06.Domaine.CoupeDTO;
 import equipe06.gui.MainWindow;
 import equipe06.Domaine.Repere;
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class PanneauVue extends JPanel {
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
     private double offsetY = 0.0;
-
+    public Point myPoint;
     // Variable pour la coupe rect (clic)
     private int rectX1 = -1;
     private int rectY1 = -1;
@@ -125,16 +126,30 @@ public class PanneauVue extends JPanel {
         repaint(); // Redessiner la vue pour l'état initial
     }
 
-    private void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
-        if (peutCreerCoupeH) {
+    public void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
+        //if (peutCreerCoupeH) {
             lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            repaint();
-        } else if (peutCreerCoupeV) {
-            lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            repaint();
+        //    repaint();
+        //} else if (peutCreerCoupeV) {
+        //    lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+         //   lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+         //   repaint();
+        //}
+
+        if(peutCreerCoupeV) {
+            myPoint = new Point(lastClickX, lastClickY);
+            controleur.CreerCoupeAxiale(myPoint, true);
         }
+        if(peutCreerCoupeH) {
+            myPoint = new Point(lastClickY, lastClickX);
+            controleur.CreerCoupeAxiale(myPoint, false);
+        }
+
+
+
+
+
     }
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
@@ -164,7 +179,7 @@ public class PanneauVue extends JPanel {
 
         // Dessiner les axes X et Y
         dessinerAxes(g2d);
-
+        /*
         // Dessiner les coupes selon le zoom et le décalage
         if (modifyTriggered) {
             afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
@@ -210,8 +225,8 @@ public class PanneauVue extends JPanel {
         // Réinitialiser après dessin - Zoom ma t5dmch bel partie hethi
         // Supprimer coupe t5dmch menghirha 
         // Naarch chnowa l hall , nhebech nzid nbarbech 
-        /* 
-        lastClickX = -1;
+
+        /*lastClickX = -1;
         lastClickY = -1;
         rectX1 = -1;
         rectY1 = -1;
@@ -220,7 +235,20 @@ public class PanneauVue extends JPanel {
         modifyTriggered = false;
         peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
-        peutCreerCoupeL = false; */ 
+        peutCreerCoupeL = false;*/
+        for(CoupeDTO coupe: controleur.getCoupes())
+        {
+            if(coupe.isComposanteDTO()) {
+                afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
+                peutCreerCoupeV = false;
+            }
+            else if(coupe.getTypeCoupeDTO()=="Bordure")
+                afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
+            else   {
+                afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
+                peutCreerCoupeH = false;
+            }
+        }
 
     }
 

@@ -4,6 +4,8 @@
  */
 package equipe06.Domaine;
 
+import java.awt.*;
+
 /**
  *
  * @author ziedd 
@@ -13,6 +15,7 @@ public  class Repere {
     private final float PPI; // = 6; // Pixels par pouce, à ajuster selon l'écran
     private final float PPM ; // = PPI / 25.4f; // Pixels par millimètre
     private static Repere instance = null;
+    public Point myPoint;
     
     private Repere() {
         this.PPI = 6; // Valeur par défaut
@@ -47,5 +50,9 @@ public  class Repere {
     }
     public float convertirEnUnitesDepuisPixels(float valeurEnPixels) {
         return valeurEnPixels / PPM;
+    }
+
+    public void savePoint(Point p) {
+        myPoint = p;
     }
 }

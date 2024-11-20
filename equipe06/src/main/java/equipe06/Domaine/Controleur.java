@@ -59,10 +59,12 @@ public class Controleur {
     //fares
     //TODO liaison controleur afficheur, controleur CNC : amen, katia
      // TODO: change content
-     public void CreerCoupe(float axe, float y, boolean composante) {
+     public void CreerCoupeAxiale(Point p, boolean composante) {
 
 
-        cnc.CreerCoupeAxe(axe, y, composante);
+        cnc.CreerCoupeAxe(Repere.getInstance().convertirEnMmDepuisPixels((int) p.getX()),
+                    Repere.getInstance().convertirEnMmDepuisPixels((int) p.getY())
+                , composante);
     }
     //TODO: get the uuid from the click on panneau to use in modifying or deleting coupe
     public UUID getUUID(){
