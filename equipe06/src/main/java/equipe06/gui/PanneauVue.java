@@ -193,13 +193,11 @@ public class PanneauVue extends JPanel {
             afficheur.dessinerRectangleAVdeuxpoints(g, adjustedX1, adjustedY1, adjustedX2, adjustedY2);
         }
 
-        if (peutCreerCoupeL && x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1) {
-            int adjustedX1 = x1;
-            int adjustedY1 = y1;
-            int adjustedX2 = x2;
-            int adjustedY2 = y2;
-            afficheur.dessinerL(g, adjustedX1, adjustedY1, adjustedX2, adjustedY2);
-        }
+         if (peutCreerCoupeL) {
+         
+          afficheur.dessinerL(g, rectX1, rectY1, rectX2, rectY2);
+         }
+
 
         if (peutCreerCoupeBordure) {
             float adjustedBordureX = BordureX;
