@@ -16,7 +16,6 @@ public class PanneauVue extends JPanel {
     public int hauteurPixelsTable;
     private int largeurPixelsPanneau; 
     private int hauteurPixelsPanneau;
-
     private Repere repere;
     private Controleur controleur;
     private int lastClickX = -1;
@@ -45,11 +44,6 @@ public class PanneauVue extends JPanel {
     private int rectY1 = -1;
     private int rectX2 = -1;
     private int rectY2 = -1;
-    // Variable pour la coupe L
-    private int x1 = -1;
-    private int y1 = -1;
-    private int x2 = -1;
-    private int y2 = -1;
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.repere = new Repere();
@@ -79,9 +73,7 @@ public class PanneauVue extends JPanel {
                 captureRectanglePoints(evt);
             }
         });
-        
-        
-        
+         
         
         // Ajouter un écouteur pour la roulette de la souris
         this.addMouseWheelListener(new MouseWheelListener() {
@@ -198,7 +190,7 @@ public class PanneauVue extends JPanel {
             afficheur.dessinerRectangleAVdeuxpoints(g, rectX1, rectY1, rectX2, rectY2);
         }
         if (peutCreerCoupeL) {
-          afficheur.dessinerL(g, x1, y1, x2, y2);
+          afficheur.dessinerL(g, rectX1, rectY1, rectX2, rectY2);
          }
         if (peutCreerCoupeBordure) {
             afficheur.dessinerBordure(g, BordureX, BordureY, hauteurPixelsTable);
@@ -211,13 +203,10 @@ public class PanneauVue extends JPanel {
         rectY1 = -1;
         rectY1 = -1;
         rectY2 = -1;
-        x1 = -1;
-        y1 = -1;
-        x2 = -1;
-        y2 = -1;
         modifyTriggered = false;
         peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
+        peutCreerCoupeL = false;
     }
 
     private void dessinerAxes(Graphics g) {
@@ -272,7 +261,7 @@ public class PanneauVue extends JPanel {
         return peutCreerCoupe;
     }
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && peutCreerCoupeRect) {
+        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL)) {
             rectX1 = evt.getX();
             rectY1 = evt.getY();
         } else {

@@ -731,7 +731,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         message.setText("Outil supprimé avec succès.");
     } else {
-        message.setText("Veuillez sélectionner un outil à supprimer.");
+        message.setText("Veuill2ez sélectionner un outil à supprimer.");
     }
     }//GEN-LAST:event_Supprimer_OutilActionPerformed
 
@@ -796,6 +796,7 @@ public class MainWindow extends javax.swing.JFrame {
             break;
             case "L":
             System.out.println("Création d'une coupe en L");
+            panneauVue.activerCreationCoupeL();
             break;
             case "Bordure":
             System.out.println("Création d'une coupe Bordure");
