@@ -10,8 +10,21 @@ package equipe06.Domaine;
  */
 
 public  class Repere {
-    private static final float PPI = 6; // Pixels par pouce, à ajuster selon l'écran
-    private static final float PPM = PPI / 25.4f; // Pixels par millimètre
+    private final float PPI; // = 6; // Pixels par pouce, à ajuster selon l'écran
+    private final float PPM ; // = PPI / 25.4f; // Pixels par millimètre
+    private static Repere instance = null;
+    
+    private Repere() {
+        this.PPI = 6; // Valeur par défaut
+        this.PPM = PPI / 25.4f;
+    }
+    
+    public static Repere getInstance() {
+        if (instance == null) {
+            instance = new Repere();
+        }
+        return instance;
+    }
     
     
     public int convertirEnPixelsDepuisMm(double valeurEnMm) {

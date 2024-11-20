@@ -12,7 +12,7 @@ public class Afficheur {
     }
 
     public void DessinerPanneau(Graphics g, int hauteurTable) {
-        Repere repere = controleur.getRepere();
+        Repere repere = Repere.getInstance();
         // Dessiner le panneau au-dessus de la table CNC en marron clair, positionné en bas à gauche
         g.setColor(new Color(205, 133, 63)); // Couleur marron clair pour le panneau
 
@@ -33,7 +33,7 @@ public class Afficheur {
     public void dessinerCoupe(Graphics g, int x, int y, int hauteurTable, int largeurTable, boolean xy){
            System.out.println(x);
            if (x != -1) {
-        Repere repere = controleur.getRepere();
+        Repere repere = Repere.getInstance();
         float x_mm = x;
         x_mm = repere.convertirEnMmDepuisPixels(x_mm);  
         float y_mm = y;
@@ -73,7 +73,7 @@ public class Afficheur {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2f));
         float axe = coupe.getAxeDTO();
-        Repere repere = controleur.getRepere();
+        Repere repere = Repere.getInstance();
         int x = (int) ( repere.convertirEnPixelsDepuisMm(axe));
         System.out.printf(String.valueOf(x));
         g2d.setColor(Color.BLACK); // Set color for the line
@@ -86,12 +86,6 @@ public class Afficheur {
     //TODO zied Change en rect
     public void dessinerRectangleAVdeuxpoints (Graphics g, int x1px, int y1px, int x2px, int y2px) {
         if (x1px != -1) {
-        Repere repere = controleur.getRepere();
-        float x1 = repere.convertirEnMmDepuisPixels(x1px);
-        float y1 = repere.convertirEnMmDepuisPixels(y1px);
-        float x2 = repere.convertirEnMmDepuisPixels(x2px);
-        float y2 = repere.convertirEnMmDepuisPixels(y2px);
-        //controleur.CreerCoupe();
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2f));
         g2d.setColor(Color.BLACK);
@@ -120,7 +114,7 @@ public class Afficheur {
     
     public void dessinerBordure(Graphics g, float bordureX, float bordureY, int hauteurTable) {
         if (bordureX != -1) {
-        Repere repere = controleur.getRepere();
+        Repere repere = Repere.getInstance();
         int bordureXPx = repere.convertirEnPixelsDepuisMm(bordureX);
         int bordureYPx = repere.convertirEnPixelsDepuisMm(bordureY);
         int longueurOriginalePx = repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur());

@@ -50,7 +50,7 @@ public class PanneauVue extends JPanel {
 
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        this.repere = new Repere();
+        this.repere = Repere.getInstance();
         this.controleur = Controleur.getInstance();
         PanneauDTO panneauDTO = controleur.getPanneau();
 
@@ -206,6 +206,19 @@ public class PanneauVue extends JPanel {
             float adjustedBordureY = BordureY;
             afficheur.dessinerBordure(g, adjustedBordureX, adjustedBordureY, hauteurPixelsTable);
         }
+        
+        // Réinitialiser après dessin
+        lastClickX = -1;
+        lastClickY = -1;
+        rectX1 = -1;
+        rectY1 = -1;
+        rectY1 = -1;
+        rectY2 = -1;
+        modifyTriggered = false;
+        peutCreerCoupeRect = false;
+        peutCreerCoupeBordure = false;
+        peutCreerCoupeL = false;
+
     }
 
     private void dessinerAxes(Graphics g) {
@@ -213,6 +226,7 @@ public class PanneauVue extends JPanel {
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics metrics = g.getFontMetrics();
 
+        Repere repere = Repere.getInstance();
         // Axe X (horizontal, sur la bordure inférieure)
         int yPosition = hauteurPixelsTable;
         g.drawLine(0, yPosition, largeurPixelsTable, yPosition);

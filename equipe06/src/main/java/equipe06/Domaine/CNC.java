@@ -23,9 +23,7 @@ public class CNC {
 
     public CNC() {
         panneau = new Panneau(1200,1000,0);
-        //panneau = new Panneau(1219.2f,914.4f , 0.5f); // Dimensions en mm //remove @zied
-        //panneau = new Panneau(914.4f, 1219.2f, 0.5f); // Dimensions en mm //remove @zied
-        repere = new Repere(); // Repère pour gérer les conversions
+        //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
         
