@@ -57,7 +57,7 @@ public class ElementCoupe {
                     throw new IllegalArgumentException("le pointDestination ne peut pas etre null.");
                 }
                 break;
-            case "axe":
+            case "Axe":
                 if (axe < 0) {
                     throw new IllegalArgumentException("L'axe doit etre superieur ou egal a zero.");
                 }

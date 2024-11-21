@@ -48,6 +48,7 @@ public  class CoupeDTO {
             this.pointOrigineDTO = ((CoupeL) coupe).getPointOrigine();
             this.pointDestinoDTO = ((CoupeL) coupe).getPointDestination();
         }
+        this.TypeCoupeDTO = coupe.getTypeCoupe();
 
 
 

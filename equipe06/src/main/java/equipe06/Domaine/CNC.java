@@ -132,7 +132,7 @@ public class CNC {
         assert pointDestination != null;
         ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"CoupeenL",null);
          CoupeL coupe = new CoupeL(e);
-         if(panneau.inPanneau(pointOrigine)&& panneau.inPanneau(pointDestination)){
+         if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
              coupes.add(coupe);
          }
     }
@@ -145,21 +145,22 @@ public class CNC {
                 Origine, Destination, 5.0f,
                 0.3f,0,false,0.0f, 0.0f,"Rect", null);
         CoupeRec coupe = new CoupeRec(e);
-        if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
+        //if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
             coupes.add(coupe);
-        }
+        //}
 
     }
 
     //zied
     public void CreerCoupeBordure(float x, float y){
-        //TODO creer une coupe bordure
+
         float bordureX = x;
         float bordureY = y;
         ElementCoupe e = new ElementCoupe(
                 null, null, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", null );
         CoupeRec coupe = new CoupeRec(e);
-        coupes.add(coupe);        
+        //TODO coupe valide
+        coupes.add(coupe);
         
     }
 
@@ -167,31 +168,34 @@ public class CNC {
     // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
     public void CreerCoupeAxe(float x,  float y, boolean composante) {
         ElementCoupe e = null;
-        CoupeAxe ma_coupe = null;
-        Point pointOrigine;
-        Point pointDestination;
+        //CoupeAxe ma_coupe = null;
+        Point pointOrigine = new Point();
+        pointOrigine.x = 0; pointOrigine.y = 0;
+        Point pointDestination = new Point();
+        pointDestination.x = 0; pointDestination.y = 0;
         if (composante == true)
         {
-        pointOrigine = new Point((int)x, (int) y); //change point
-        pointDestination = new Point((int)x, 0);
-        e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-                pointOrigine, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "axe", null
+        //pointOrigine = new Point((int)x, (int) y); //change point
+        //pointDestination = new Point((int)x, 0);
+         e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+                pointOrigine, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "Axe", null
         );
         }
         else{
-            pointOrigine = new Point(0, (int)y); //change point
-            pointDestination = new Point((int) panneau.getLargeur() +130, (int)y);
-            e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-            pointOrigine, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "axe", null
+            //pointOrigine = new Point((int) x, (int)y); //change point
+            //pointDestination = new Point((int) panneau.getLargeur() +130, (int)y); //TODO hedi 130????
+             e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
+            pointOrigine, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "Axe", null
             );
         }
-        assert e != null : "l'element de la coupe ne peut pas etre invalide" ;
-        ma_coupe = new CoupeAxe(e);
-        AjouterCoupe(ma_coupe);
-        if (panneau.inPanneau(pointOrigine)) //remove katia
-            {AjouterCoupe(ma_coupe);}
+
+        CoupeAxe ma_coupe = new CoupeAxe(e);
+        if (panneau.inPanneau(x,y)) //remove katia
+            {
+                AjouterCoupe(ma_coupe);
+            }
         else {
-            assert false : "La coupe est invalide et ne peut pas etre ajoutée.";//to change, throws you out of the app
+            System.out.println("invalide");
         }
         
     }
@@ -250,6 +254,8 @@ public class CNC {
         }while(uuids.contains(coupe.getUUID()));
 
         coupes.add(coupe);
+        System.out.print("coupe enregistrée\n");
+        System.out.print(coupes.size());
 
     }
     //katia

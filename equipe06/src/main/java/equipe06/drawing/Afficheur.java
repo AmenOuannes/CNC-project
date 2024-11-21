@@ -115,6 +115,7 @@ public class Afficheur {
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2f));
         g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
+        System.out.println("here");
         
     }
 

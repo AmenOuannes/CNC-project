@@ -734,7 +734,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         message.setText("Outil supprimé avec succès.");
     } else {
-        message.setText("Veuill2ez sélectionner un outil à supprimer.");
+        message.setText("Veuillez sélectionner un outil à supprimer.");
     }
     }//GEN-LAST:event_Supprimer_OutilActionPerformed
 
@@ -788,8 +788,6 @@ public class MainWindow extends javax.swing.JFrame {
             case "Vertical":
             System.out.println("Création d'une coupe Verticale");
             panneauVue.activerCreationCoupeV();  // Active la possibilité de créer une coupe
-            //if(panneauVue.myPoint!=null)
-            //controleur.CreerCoupeAxiale(panneauVue.myPoint, true);
             panneauVue.repaint();
             //
             break;
@@ -828,7 +826,8 @@ public class MainWindow extends javax.swing.JFrame {
                         BordureYValue *= 25.4;
                 }
                 controleur.SetCoupeBordure(BordureXValue, BordureYValue);
-                panneauVue.DimensionsBordure(BordureXValue, BordureYValue);
+                System.out.print("Coupe créé!\n");
+                //panneauVue.DimensionsBordure(BordureXValue, BordureYValue);
                 panneauVue.repaint();
             } catch (NumberFormatException ex) {
                 message.setText("format non valide.");

@@ -136,15 +136,20 @@ public class PanneauVue extends JPanel {
          //   lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
          //   repaint();
         //}
-
+        myPoint = new Point(lastClickX, lastClickY);
         if(peutCreerCoupeV) {
-            myPoint = new Point(lastClickX, lastClickY);
+
             controleur.CreerCoupeAxiale(myPoint, true);
+            peutCreerCoupeV=false;
+            System.out.print("Coupe créé avec succès!\n");
         }
         if(peutCreerCoupeH) {
-            myPoint = new Point(lastClickY, lastClickX);
             controleur.CreerCoupeAxiale(myPoint, false);
+            peutCreerCoupeH = false;
+            System.out.print("Coupe créé avec succès!\n");
         }
+        lastClickX = -1;
+        lastClickY = -1;
 
 
 
@@ -179,6 +184,23 @@ public class PanneauVue extends JPanel {
 
         // Dessiner les axes X et Y
         dessinerAxes(g2d);
+        for(CoupeDTO coupe: controleur.getCoupes())
+        {
+            if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO()) {
+                afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
+
+            }
+
+            else if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO())  {
+                afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
+
+            }
+            else if(coupe.getTypeCoupeDTO()=="Bordure") {
+                afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
+
+            }
+        }
+
         /*
         // Dessiner les coupes selon le zoom et le décalage
         if (modifyTriggered) {
@@ -235,21 +257,6 @@ public class PanneauVue extends JPanel {
         peutCreerCoupeRect = false;
         peutCreerCoupeBordure = false;
         peutCreerCoupeL = false;*/
-        for(CoupeDTO coupe: controleur.getCoupes())
-        {
-            if(coupe.isComposanteDTO()) {
-                afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
-                peutCreerCoupeV = false;
-            }
-            else if(coupe.getTypeCoupeDTO()=="Bordure") {
-                afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
-                peutCreerCoupeBordure = false;
-            }
-            else   {
-                afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
-                peutCreerCoupeH = false;
-            }
-        }
 
     }
 
@@ -319,10 +326,10 @@ public class PanneauVue extends JPanel {
         this.peutCreerCoupeBordure = true;
     }
 
-    public void DimensionsBordure(float BordureXValue, float BordureYValue) {
+ /*   public void DimensionsBordure(float BordureXValue, float BordureYValue) {
         this.BordureX = BordureXValue;
         this.BordureY = BordureYValue;
         this.peutCreerCoupeBordure = true;
         repaint();
-    }
+    }*/
 }
