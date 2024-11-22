@@ -132,9 +132,9 @@ public class CNC {
         assert pointDestination != null;
         ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"CoupeenL",null);
          CoupeL coupe = new CoupeL(e);
-         if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
+         //if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
              coupes.add(coupe);
-         }
+         //}
     }
     //Amen
     public void CreerCoupeRect(Point Origine, Point Destination){
@@ -227,20 +227,7 @@ public class CNC {
             else return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();
         }
         else return false;//for now
-    } // to change in the next livrable
-    //juste penser a enlever cette fonction d'ici 
-/*
-    public boolean inPanneau(Point p, Panneau panneau){
-        assert p != null : "Le point ne peut pas etre invalide.";
-        assert panneau != null : "Le panneau ne peut pas etre invalide.";
-        int minX = 130;
-        int maxX = (int) panneau.getLargeur() + 130;
-        int minY = 0;
-        int maxY = (int) panneau.getLongueur() - 130;
-        return (p.x >= minX && p.x <= maxX) && ((1500 - p.y) >= minY && (1500 - p.y) <= maxY);
-    }
-*/
- 
+    } 
     //amen
     // TODO: changer en ajoutant les uuid
     public void AjouterCoupe(Coupe coupe) {
@@ -258,13 +245,6 @@ public class CNC {
         System.out.print(coupes.size());
 
     }
-    //katia
-    // juste a la sup svpl zied
-    // TODO: changer ça , delete en se basant sur l 'UUID
-   /* public void supprimerCoupe() {
-        if(!coupes.isEmpty()) coupes.removeLast();
-
-    }*/
     public void supprimerCoupe(UUID uuid) {
         try{
             for (int i=0; i<coupes.size(); i++){

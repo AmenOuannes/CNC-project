@@ -803,6 +803,7 @@ public class MainWindow extends javax.swing.JFrame {
             case "L":
             System.out.println("Création d'une coupe en L");
             panneauVue.activerCreationCoupeL();
+            //panneauVue.repaint();
             break;
             case "Bordure":
             System.out.println("Création d'une coupe Bordure");

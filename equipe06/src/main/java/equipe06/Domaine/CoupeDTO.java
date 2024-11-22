@@ -49,10 +49,6 @@ public  class CoupeDTO {
             this.pointDestinoDTO = ((CoupeL) coupe).getPointDestination();
         }
         this.TypeCoupeDTO = coupe.getTypeCoupe();
-
-        
-
-
     }
     
     public float getProfondeurDTO() {

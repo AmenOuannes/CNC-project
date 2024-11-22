@@ -44,12 +44,6 @@ public class PanneauVue extends JPanel {
     private int rectX2 = -1;
     private int rectY2 = -1;
 
-    // Variable pour la coupe L
-    private int x1 = -1;
-    private int y1 = -1;
-    private int x2 = -1;
-    private int y2 = -1;
-
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.repere = Repere.getInstance();
@@ -155,11 +149,6 @@ public class PanneauVue extends JPanel {
         }
         lastClickX = -1;
         lastClickY = -1;
-
-
-
-
-
     }
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
@@ -170,23 +159,18 @@ public class PanneauVue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2d = (Graphics2D) g;
-
         // Appliquer le facteur de zoom et le décalage
         g2d.translate(offsetX, offsetY);
         g2d.scale(zoomFactor, zoomFactor);
-
         // Dessiner la table CNC en gris clair avec une bordure noire
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.fillRect(0, 0, largeurPixelsTable, hauteurPixelsTable);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(0, 0, largeurPixelsTable - 1, hauteurPixelsTable - 1);
-
         // Utiliser l'Afficheur pour dessiner les autres éléments (panneau, coupes, etc.)
         Afficheur afficheur = new Afficheur(mainWindow.controleur);
         afficheur.DessinerPanneau(g, hauteurPixelsTable);
-
         // Dessiner les axes X et Y
         dessinerAxes(g2d);
         Vector<CoupeDTO> Coupes = controleur.getCoupes();
@@ -194,89 +178,29 @@ public class PanneauVue extends JPanel {
         {
             if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO()) {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
-
             }
-
             else if(coupe.getTypeCoupeDTO()=="Axe" && !coupe.isComposanteDTO())  {
                 afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
-
             }
             else if(coupe.getTypeCoupeDTO()=="Bordure") {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
-
             }
             else if(coupe.getTypeCoupeDTO().equals("Rect")){
                 //TODO fix dessiner avec argument coupe
                 Point pointOrigine = coupe.getPointOrigineDTO();
                 Point pointDestino = coupe.getPointDestinoDTO();
-    
-                System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
-                System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
+                //System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
+                //System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
                 afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
-            else if (coupe.getTypeCoupeDTO()=="L") {
-                //TODO fixe dessiner avec L
-                //afficheur.dessinerL(g, coupe);
-            }
+            else if (coupe.getTypeCoupeDTO()== "L")  {
+            Point pointOrigine = coupe.getPointOrigineDTO();
+            Point pointDestino = coupe.getPointDestinoDTO();
+            System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
+            System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
+            afficheur.dessinerL(g, pointOrigine, pointDestino);
+             }
         }
-
-        /*
-        // Dessiner les coupes selon le zoom et le décalage
-        if (modifyTriggered) {
-            afficheur.dessinerCoupeModifie(g, hauteurPixelsTable);
-        } else if (lastClickX != -1 && lastClickY != -1) {
-            // Ajuster les coordonnées de la coupe au zoom et au décalage
-            int adjustedX = ajusterCoordonneePourVue(lastClickX, offsetX, zoomFactor);
-            int adjustedY = ajusterCoordonneePourVue(lastClickY, offsetY, zoomFactor);
-
-            // S'assurer que la coupe reste dans les limites du panneau (zone orange)
-            adjustedX = Math.max(0, Math.min(adjustedX, largeurPixelsPanneau - 1));
-            adjustedY = Math.max(hauteurPixelsTable - hauteurPixelsTable, Math.min(adjustedY, hauteurPixelsTable - 1));
-
-            if (peutCreerCoupeH) {
-                afficheur.dessinerCoupe(g, adjustedX, adjustedY, hauteurPixelsTable, largeurPixelsTable, false);
-            }
-            if (peutCreerCoupeV) {
-                afficheur.dessinerCoupe(g, adjustedX, adjustedY, hauteurPixelsTable, largeurPixelsTable, true);
-            }
-        }
-
-        if (peutCreerCoupeRect && rectX1 != -1 && rectY1 != -1 && rectX2 != -1 && rectY2 != -1) {
-            int adjustedX1 = rectX1;
-            int adjustedY1 = rectY1;
-            int adjustedX2 = rectX2;
-            int adjustedY2 = rectY2;
-            afficheur.dessinerRectangleAVdeuxpoints(g, adjustedX1, adjustedY1, adjustedX2, adjustedY2);
-        }
-
-         if (peutCreerCoupeL) {
-         
-          afficheur.dessinerL(g, rectX1, rectY1, rectX2, rectY2);
-         }
-
-        
-        if (peutCreerCoupeBordure) {
-            float adjustedBordureX = BordureX;
-            float adjustedBordureY = BordureY;
-            afficheur.dessinerBordure(g, adjustedBordureX, adjustedBordureY, hauteurPixelsTable);
-            peutCreerCoupeBordure = false;
-        }
-        
-        // Réinitialiser après dessin - Zoom ma t5dmch bel partie hethi
-        // Supprimer coupe t5dmch menghirha 
-        // Naarch chnowa l hall , nhebech nzid nbarbech 
-
-        /*lastClickX = -1;
-        lastClickY = -1;
-        rectX1 = -1;
-        rectY1 = -1;
-        rectY1 = -1;
-        rectY2 = -1;
-        modifyTriggered = false;
-        peutCreerCoupeRect = false;
-        peutCreerCoupeBordure = false;
-        peutCreerCoupeL = false;*/
-
     }
 
     private void dessinerAxes(Graphics g) {
@@ -334,9 +258,13 @@ public class PanneauVue extends JPanel {
         if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL)) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.println(rectX1);
+            System.out.println(rectY1);
         } else {
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.println(rectX2);
+            System.out.println(rectY2);
             Point Origin = new Point(rectX1, rectY1);
             Point Dest = new Point(rectX2, rectY2);
             if(peutCreerCoupeRect) {
@@ -346,7 +274,9 @@ public class PanneauVue extends JPanel {
             }
             else if(peutCreerCoupeL) {
                 controleur.CreerCoupeL(Origin, Dest);
+                System.out.printf("avant REpaint");
                 repaint();
+                System.out.printf("apres REpaint");
                 peutCreerCoupeL = false;
             }
 

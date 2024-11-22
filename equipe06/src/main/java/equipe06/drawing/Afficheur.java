@@ -81,7 +81,6 @@ public class Afficheur {
             int y1px = origine.y;
             int x2px = destination.x;
             int y2px = destination.y; 
-            
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(2f));
             g2d.setColor(Color.BLACK);
@@ -90,21 +89,26 @@ public class Afficheur {
             int y = Math.min(y1px, y2px);
             int largeur = Math.abs(x2px - x1px);
             int hauteur = Math.abs(y2px - y1px);
-           
             g2d.drawRect(x, y, largeur, hauteur);
     }
     }
     //TODO dessiner un L : Katia
-    public void dessinerL (Graphics g, int x1, int y1, int x2 , int y2) {
-        if (x1 != -1 && x2 != -1){
+    public void dessinerL (Graphics g, Point origine, Point destination) {
+        if (origine != null && destination != null) {
+            // Extraire les coordonnées des point
+        int x1 = origine.x;
+        int y1= origine.y;
+        int x2 = destination.x;
+        int y2 = destination.y; 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2f));
         g2d.setColor(Color.BLACK);
         // dessiner le trait vertical
+        //J 'ai essayé avec origine.x origine.y desti.x origi.y et tout ca marche pas aussi 
         g2d.drawLine(x1, y1, x2, y1);
         // dessiner trai horizontal
         g2d.drawLine(x2, y1, x2, y2);
-    }
+       }
     }
     //TODO Bordure Zied
     
