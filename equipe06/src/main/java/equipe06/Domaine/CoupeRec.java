@@ -18,6 +18,8 @@ public class CoupeRec extends Coupe{
         // Transfert direct des valeurs de ElementCoupe
         this.BordureX = e.getBordureX();
         this.BordureY = e.getBordureY();
+        PointOrigine = e.getPointOrigine();
+        PointDestination = e.getPointDestination();
 
         // Validation avec des affichages
         System.out.println("Dans le constructeur de CoupeRec - BordureX après transfert : " + this.BordureX);
