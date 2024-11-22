@@ -75,7 +75,8 @@ public class PanneauVue extends JPanel {
 
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                captureRectanglePoints(evt);
+                if(peutCreerCoupeL||peutCreerCoupeRect)
+                    captureRectanglePoints(evt);
             }
         });
 
@@ -191,13 +192,21 @@ public class PanneauVue extends JPanel {
 
             }
 
-            else if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO())  {
+            else if(coupe.getTypeCoupeDTO()=="Axe" && !coupe.isComposanteDTO())  {
                 afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
 
             }
             else if(coupe.getTypeCoupeDTO()=="Bordure") {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
 
+            }
+            else if(coupe.getTypeCoupeDTO()=="Rect"){
+                //TODO fix dessiner avec argument coupe
+                //afficheur.dessinerRectangleAVdeuxpoints(g, coupe);
+            }
+            else if (coupe.getTypeCoupeDTO()=="L") {
+                //TODO fixe dessiner avec L
+                //afficheur.dessinerL(g, coupe);
             }
         }
 
@@ -318,7 +327,17 @@ public class PanneauVue extends JPanel {
         } else {
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            repaint();
+            Point Origin = new Point(rectX1, rectY1);
+            Point Dest = new Point(rectX2, rectY2);
+            if(peutCreerCoupeRect) {
+                controleur.CreerCoupeRect(Origin, Dest);
+                peutCreerCoupeRect = false;
+            }
+            else if(peutCreerCoupeL) {
+                controleur.CreerCoupeL(Origin, Dest);
+                peutCreerCoupeL = false;
+            }
+
         }
     }
 

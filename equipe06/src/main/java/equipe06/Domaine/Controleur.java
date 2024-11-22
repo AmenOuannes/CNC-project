@@ -112,8 +112,15 @@ public class Controleur {
     public void supprimerOutil(int index) {
         cnc.supprimerOutilParIndex(index); // Supprime l'outil en fonction de l'index
     }
-    
 
+
+    public void CreerCoupeRect(Point origin, Point dest) {
+        cnc.CreerCoupeRect(origin, dest);
+    }
+
+    public void CreerCoupeL(Point origin, Point dest) {
+        cnc.CreerCoupeL(origin, dest);
+    }
 }
     
     
