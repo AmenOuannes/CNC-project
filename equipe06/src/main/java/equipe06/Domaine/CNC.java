@@ -131,7 +131,7 @@ public class CNC {
         assert pointOrigine != null;
         assert pointDestination != null;
         ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"CoupeenL",null);
-         CoupeL coupe = new CoupeL(e);
+        CoupeL coupe = new CoupeL(e);
          //if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
              coupes.add(coupe);
          //}

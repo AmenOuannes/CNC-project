@@ -89,10 +89,10 @@ public class Panneau {
 {
         //assert p != null : "Le point ne peut pas etre invalide."; //TODO remove
         assert this != null : "Le panneau ne peut pas etre invalide.";
-        int minX = 130;
-        int maxX = (int) this.getLargeur() /*+ 130*/;
+        //int minX = 130;
+        int maxY = (int) this.getLargeur() /*+ 130*/;
         int minY = 0;
-        int maxY = (int) this.getLongueur() /*- 130*/;
+        int maxX = (int) this.getLongueur() /*- 130*/;
         return (x >= 0 && x <= maxX) && ((1500 - y) >= minY && (1500 - y) <= maxY);
     }
 }

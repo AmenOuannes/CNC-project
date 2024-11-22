@@ -193,13 +193,14 @@ public class PanneauVue extends JPanel {
                 //System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
                 afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
-            else if (coupe.getTypeCoupeDTO()== "L")  {
+            else if (coupe.getTypeCoupeDTO().equals("CoupeenL"))  {
             Point pointOrigine = coupe.getPointOrigineDTO();
             Point pointDestino = coupe.getPointDestinoDTO();
             System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
             System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
             afficheur.dessinerL(g, pointOrigine, pointDestino);
              }
+            System.out.println("Valeur de coupe.getTypeCoupeDTO() : " + coupe.getTypeCoupeDTO());
         }
     }
 
@@ -279,6 +280,8 @@ public class PanneauVue extends JPanel {
                 System.out.printf("apres REpaint");
                 peutCreerCoupeL = false;
             }
+            rectX1 = -1;
+            rectY1 = -1;
 
         }
     }

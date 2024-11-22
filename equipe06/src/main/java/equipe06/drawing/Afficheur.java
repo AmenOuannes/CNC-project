@@ -95,6 +95,7 @@ public class Afficheur {
     //TODO dessiner un L : Katia
     public void dessinerL (Graphics g, Point origine, Point destination) {
         if (origine != null && destination != null) {
+        System.out.println("here");
             // Extraire les coordonnées des point
         int x1 = origine.x;
         int y1= origine.y;
@@ -121,17 +122,16 @@ public class Afficheur {
         int largeurOriginalePx = repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur());
         int xOrigine = (longueurOriginalePx - bordureXPx) / 2;
         int yOrigine = hauteurTable - largeurOriginalePx + (largeurOriginalePx - bordureYPx) / 2;
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(2f));
-        g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
-        System.out.println("here");
-        
+        if (xOrigine >= 0 && yOrigine >= 0 && bordureXPx <= longueurOriginalePx && bordureYPx <= largeurOriginalePx){
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(2f));
+            g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
+            System.out.println("here");
+        }   
+        else{
+            System.out.println("out");
+        }
     }
-
-    }
-
-    
-    
-    
 } 
+}
