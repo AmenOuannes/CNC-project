@@ -45,7 +45,7 @@ public class Afficheur {
             int ligneY1 = hauteurTable; // Starting point of the line
             g2d.drawLine(axe_pixel, ligneY1, axe_pixel, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur())); // Draw the vertical line
         }
-        else{
+        else{     
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(2f)); //for now
             g2d.setColor(Color.BLACK); // Set color for the line
@@ -74,18 +74,24 @@ public class Afficheur {
     }
     
     //TODO zied Change en rect
-    public void dessinerRectangleAVdeuxpoints (Graphics g, int x1px, int y1px, int x2px, int y2px) {
-        if (x1px != -1) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(2f));
-        g2d.setColor(Color.BLACK);
-        // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
-        int x = Math.min(x1px, x2px);
-        int y = Math.min(y1px, y2px);
-        int largeur = Math.abs(x2px - x1px);
-        int hauteur = Math.abs(y2px - y1px);
+    public void dessinerRectangleAVdeuxpoints (Graphics g, Point origine, Point destination) {
+        if (origine != null && destination != null) {
+            // Extraire les coordonnées des points
+            int x1px = origine.x;
+            int y1px = origine.y;
+            int x2px = destination.x;
+            int y2px = destination.y; 
+            
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(2f));
+            g2d.setColor(Color.BLACK);
+            // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
+            int x = Math.min(x1px, x2px);
+            int y = Math.min(y1px, y2px);
+            int largeur = Math.abs(x2px - x1px);
+            int hauteur = Math.abs(y2px - y1px);
            
-        g2d.drawRect(x, y, largeur, hauteur);
+            g2d.drawRect(x, y, largeur, hauteur);
     }
     }
     //TODO dessiner un L : Katia

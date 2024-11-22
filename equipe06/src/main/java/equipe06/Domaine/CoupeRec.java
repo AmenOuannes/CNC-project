@@ -24,6 +24,8 @@ public class CoupeRec extends Coupe{
         // Validation avec des affichages
         System.out.println("Dans le constructeur de CoupeRec - BordureX après transfert : " + this.BordureX);
         System.out.println("Dans le constructeur de CoupeRec - BordureY après transfert : " + this.BordureY);
+        System.out.println("Dans le constructeur de CoupeRec - BordureX après transfert : " + this.PointOrigine);
+        System.out.println("Dans le constructeur de CoupeRec - BordureY après transfert : " + this.PointDestination);
         /*
         // Ajoutez des affichages ici pour valider les valeurs de ElementCoupe
         if(e.getPointDestination() != null && e.getPointOrigine()!= null) {

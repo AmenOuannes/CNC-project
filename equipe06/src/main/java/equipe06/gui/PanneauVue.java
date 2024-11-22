@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 import equipe06.drawing.Afficheur;
 import equipe06.Domaine.Controleur;
 import equipe06.Domaine.PanneauDTO;
+import java.util.Vector;
 
 public class PanneauVue extends JPanel {
     private MainWindow mainWindow;
@@ -75,8 +76,9 @@ public class PanneauVue extends JPanel {
 
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect)
+                if(peutCreerCoupeL||peutCreerCoupeRect){
                     captureRectanglePoints(evt);
+                    }
             }
         });
 
@@ -141,11 +143,13 @@ public class PanneauVue extends JPanel {
         if(peutCreerCoupeV) {
 
             controleur.CreerCoupeAxiale(myPoint, true);
+            repaint();
             peutCreerCoupeV=false;
             System.out.print("Coupe créé avec succès!\n");
         }
         if(peutCreerCoupeH) {
             controleur.CreerCoupeAxiale(myPoint, false);
+            repaint();
             peutCreerCoupeH = false;
             System.out.print("Coupe créé avec succès!\n");
         }
@@ -185,7 +189,8 @@ public class PanneauVue extends JPanel {
 
         // Dessiner les axes X et Y
         dessinerAxes(g2d);
-        for(CoupeDTO coupe: controleur.getCoupes())
+        Vector<CoupeDTO> Coupes = controleur.getCoupes();
+        for(CoupeDTO coupe: Coupes)
         {
             if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO()) {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
@@ -200,9 +205,14 @@ public class PanneauVue extends JPanel {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
 
             }
-            else if(coupe.getTypeCoupeDTO()=="Rect"){
+            else if(coupe.getTypeCoupeDTO().equals("Rect")){
                 //TODO fix dessiner avec argument coupe
-                //afficheur.dessinerRectangleAVdeuxpoints(g, coupe);
+                Point pointOrigine = coupe.getPointOrigineDTO();
+                Point pointDestino = coupe.getPointDestinoDTO();
+    
+                System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
+                System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
+                afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
             else if (coupe.getTypeCoupeDTO()=="L") {
                 //TODO fixe dessiner avec L
@@ -331,10 +341,12 @@ public class PanneauVue extends JPanel {
             Point Dest = new Point(rectX2, rectY2);
             if(peutCreerCoupeRect) {
                 controleur.CreerCoupeRect(Origin, Dest);
+                repaint();
                 peutCreerCoupeRect = false;
             }
             else if(peutCreerCoupeL) {
                 controleur.CreerCoupeL(Origin, Dest);
+                repaint();
                 peutCreerCoupeL = false;
             }
 

@@ -146,7 +146,7 @@ public class CNC {
                 0.3f,0,false,0.0f, 0.0f,"Rect", null);
         CoupeRec coupe = new CoupeRec(e);
         //if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
-            coupes.add(coupe);
+        coupes.add(coupe);
         //}
 
     }

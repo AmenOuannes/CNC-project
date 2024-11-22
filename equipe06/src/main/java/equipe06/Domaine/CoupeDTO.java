@@ -33,7 +33,7 @@ public  class CoupeDTO {
         assert coupe != null;
         this.ProfondeurDTO = coupe.getMargeProfondeur();
         this.marge_profondeurDTO= coupe.getProfondeur();
-        this.outilDTO = coupe.getOutil();
+        this.outilDTO = coupe.getOutil();    
         if(coupe instanceof CoupeAxe){
             this.axeDTO = ((CoupeAxe) coupe).getAxe();
             this.composanteDTO = ((CoupeAxe) coupe).getComposante();
@@ -50,7 +50,7 @@ public  class CoupeDTO {
         }
         this.TypeCoupeDTO = coupe.getTypeCoupe();
 
-
+        
 
 
     }
