@@ -174,6 +174,7 @@ public void updateDimY(float y) {
         DimY = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        Actualiser = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -483,13 +484,17 @@ public void updateDimY(float y) {
 
         jLabel23.setText("y:");
 
+        Actualiser.setText("Actualiser");
+        Actualiser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualiserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(PanneauContrôleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,13 +533,11 @@ public void updateDimY(float y) {
                         .addComponent(jLabel21)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DefCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(SuppCoupe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DistanceX)
-                                .addComponent(ModCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(SuppCoupe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DistanceX)
+                            .addComponent(ModCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(45, 45, 45)
                         .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanneauContrôleLayout.createSequentialGroup()
@@ -548,6 +551,14 @@ public void updateDimY(float y) {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jSeparator4)
+            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(DefCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Actualiser, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,7 +590,9 @@ public void updateDimY(float y) {
                     .addComponent(jLabel20)
                     .addComponent(BordureY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DefCoupe)
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DefCoupe)
+                    .addComponent(Actualiser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -806,7 +819,18 @@ public void updateDimY(float y) {
     }//GEN-LAST:event_Epaisseur_OutilActionPerformed
 
     private void Outil_CoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Outil_CoupeActionPerformed
-        // TODO add your handling code here:
+          String outilSelectionne = (String) Outil_Coupe.getSelectedItem();
+    if (outilSelectionne != null) {
+        // Récupérer l'épaisseur en millimètres de l'outil sélectionné
+        float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
+
+        // Convertir l'épaisseur en pixels
+        Repere repere = Repere.getInstance();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
+
+        // Passer l'épaisseur au contrôleur pour qu'elle soit utilisée par l'Afficheur
+        controleur.setEpaisseurActuelle(epaisseurPixels);
+    }
     }//GEN-LAST:event_Outil_CoupeActionPerformed
 
     private void DistanceXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DistanceXActionPerformed
@@ -905,6 +929,26 @@ public void updateDimY(float y) {
         // TODO add your handling code here:
     }//GEN-LAST:event_Type_CoupeActionPerformed
 
+    private void ActualiserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualiserActionPerformed
+         String outilSelectionne = (String) Outil_Coupe.getSelectedItem(); // Outil sélectionné
+    if (outilSelectionne != null) {
+        // Récupérer l'épaisseur de l'outil sélectionné
+        float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
+
+        // Convertir l'épaisseur en pixels
+        Repere repere = Repere.getInstance();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
+
+        // Forcer le repaint du panneau de visualisation
+        panneauVue.repaint();
+
+        // Message de confirmation
+        message.setText("Les coupes ont été redessinées avec le nouvel outil.");
+    } else {
+        message.setText("Veuillez sélectionner un outil avant de redessiner.");
+    }
+    }//GEN-LAST:event_ActualiserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -941,6 +985,7 @@ public void updateDimY(float y) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Actualiser;
     private javax.swing.JTextField BordureX;
     private javax.swing.JTextField BordureY;
     private javax.swing.JButton Creer_Outil;

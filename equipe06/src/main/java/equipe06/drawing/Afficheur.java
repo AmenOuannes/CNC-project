@@ -39,7 +39,13 @@ public class Afficheur {
         if(xy) {
 
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(2f)); // TODO: largeur outil
+            //g2d.setStroke(new BasicStroke(1.18f)); // TODO: largeur outil
+            // Partie Largeur outil : 
+            float epaisseur = controleur.getEpaisseurActuelle();
+            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
+              
+              
+              
             g2d.setColor(Color.BLACK); // Set color for the line
             //controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = hauteurTable; // Starting point of the line
@@ -61,7 +67,12 @@ public class Afficheur {
     public void dessinerCoupeModifie(Graphics g, int hauteurTable){
         CoupeDTO coupe = controleur.getCoupes().get(0);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(2f));
+        
+        
+        float epaisseur = controleur.getEpaisseurActuelle();
+        g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
+        
+        
         float axe = coupe.getAxeDTO();
         Repere repere = Repere.getInstance();
         int x = (int) ( repere.convertirEnPixelsDepuisMm(axe));
@@ -102,7 +113,12 @@ public class Afficheur {
         int x2 = destination.x;
         int y2 = destination.y; 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(2f));
+        
+        
+        float epaisseur = controleur.getEpaisseurActuelle();
+        g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
+        
+        
         g2d.setColor(Color.BLACK);
         // dessiner le trait vertical
         //J 'ai essayé avec origine.x origine.y desti.x origi.y et tout ca marche pas aussi 
@@ -125,7 +141,14 @@ public class Afficheur {
         if (xOrigine >= 0 && yOrigine >= 0 && bordureXPx <= longueurOriginalePx && bordureYPx <= largeurOriginalePx){
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.BLACK);
-            g2d.setStroke(new BasicStroke(2f));
+           //g2d.setStroke(new BasicStroke(2f));
+           
+           
+            float epaisseur = controleur.getEpaisseurActuelle();
+            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
+            
+            
+            
             g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
             System.out.println("here");
         }   

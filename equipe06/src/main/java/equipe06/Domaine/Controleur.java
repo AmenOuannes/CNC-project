@@ -20,6 +20,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
+    private float epaisseurActuelle = 2.0f; // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
     public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
@@ -121,6 +122,24 @@ public class Controleur {
     public void CreerCoupeL(Point origin, Point destination) {
         cnc.CreerCoupeL(origin, destination);
     }
+    public float getEpaisseurOutil(String nomOutil) {
+    for (OutilDTO outil : cnc.getOutils()) {
+        if (outil.getNomDTO().equals(nomOutil)) {
+            return outil.getLargeur_coupeDTO();
+        }
+    }
+    // Retourne une valeur par défaut si l'outil n'est pas trouvé
+    return 2.0f; // 2.0f correspond à une épaisseur par défaut
+}
+    public void setEpaisseurActuelle(float epaisseurPixels) {
+    this.epaisseurActuelle = epaisseurPixels;
+}
+
+
+public float getEpaisseurActuelle() {
+    return epaisseurActuelle;
+}
+
 }
     
     

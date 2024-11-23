@@ -19,6 +19,7 @@ public  class CoupeDTO {
     //private Outils outils;
     private float marge_profondeurDTO = 0.5f;
     private float ProfondeurDTO;
+    private float epaisseur;
     private  float axeDTO;
     private boolean composanteDTO;
     private Point pointOrigineDTO;
@@ -33,6 +34,9 @@ public  class CoupeDTO {
         assert coupe != null;
         this.ProfondeurDTO = coupe.getMargeProfondeur();
         this.marge_profondeurDTO= coupe.getProfondeur();
+        
+        this.epaisseur = epaisseur;
+         
         this.outilDTO = coupe.getOutil();    
         if(coupe instanceof CoupeAxe){
             this.axeDTO = ((CoupeAxe) coupe).getAxe();
@@ -88,9 +92,6 @@ public  class CoupeDTO {
     public Outil getOutilDTO() {
         return outilDTO;
     }
-
-
-
 }
 
 

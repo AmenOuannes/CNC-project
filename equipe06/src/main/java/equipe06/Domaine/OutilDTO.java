@@ -14,7 +14,7 @@ public class OutilDTO {
     private String NomDTO;
     private UUID idDTO;
     private float largeur_coupeDTO;
-    
+     
     public OutilDTO(Outil outil){
         this.NomDTO = outil.getNom();
         this.idDTO = outil.getId();

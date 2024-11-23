@@ -71,9 +71,27 @@ public class CNC {
         return new OutilDTO(outil_courant);
     }
     //TODO: mettre a jour depuis la selection du outil courant depuis l'interface
-    public void setOutil_courant(OutilDTO outil_courant) {}
+    
+    public void setOutil_courant(OutilDTO outil_courantDTO) {
+    if (outil_courantDTO != null) {
+        // Recherche l'outil correspondant dans la liste des outils
+        for (Outil outil : outils) {
+            if (outil.getNom().equals(outil_courantDTO.getNomDTO())) {
+                this.outil_courant = outil;
+                System.out.println("Outil courant mis à jour : " + outil.getNom());
+                return;
+            }
+        }
+        System.out.println("Outil courant non trouvé dans la liste.");
+    } else {
+        this.outil_courant = null; // Réinitialise l'outil courant si aucun outil DTO n'est fourni
+        System.out.println("Outil courant réinitialisé.");
+    }
+}
+
     //TODO : rendre cette boucle en try catch
     // TODO check if outil est outilCourant
+    /*
     public void supprimerOutilParIndex(int index) {
         if (index >= 0 && index < outils.size()) {
             Outil outil = outils.get(index);
@@ -86,7 +104,30 @@ public class CNC {
         } else {
             System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
+    }*/
+   public void supprimerOutilParIndex(int index) {
+    if (index >= 0 && index < outils.size()) {
+        Outil outilSupprime = outils.get(index); // Récupère l'outil à supprimer
+        outils.remove(index); // Supprime l'outil de la liste
+
+        // Vérifie si l'outil courant est celui qui a été supprimé
+        if (outil_courant != null && outil_courant.getNom().equals(outilSupprime.getNom())) {
+            if (!outils.isEmpty()) {
+                outil_courant = outils.get(0); // Définit un nouvel outil courant
+                System.out.println("Outil courant mis à jour après suppression : " + outil_courant.getNom());
+            } else {
+                outil_courant = null; // Réinitialise si aucun outil n'est disponible
+                System.out.println("Aucun outil disponible. Outil courant réinitialisé.");
+            }
+        }
+
+        System.out.println("Outil supprimé avec succès : " + outilSupprime.getNom());
+    } else {
+        System.out.println("Index invalide. Impossible de supprimer l'outil.");
     }
+}
+
+
     //amen
     public void ModifierOutil(UUID uuid, String NewName, float NewLargeur){
 
