@@ -45,32 +45,33 @@ public class Controleur {
     
     
     // cette methode permet au controleur de transmettre la valeur de x a mainwindow et de mettre a jours distancex (jtextframe ou s'affiche la valeur a cote bout modif coupe)
-    public void mettreAJourDistanceX(float x) {
+    /*public void mettreAJourDistanceX(float x) {
     if (mainWindow != null) {
         //System.out.println("MainWindow est bien référencée"); // verification console ne peut l'enlever
         mainWindow.afficherValeurDistanceX(x); // Appeler la méthode de MainWindow pour afficher la distance 
     }else {
         System.out.println("MainWindow est null"); // verification console ne peut l'enlever 
     }
-}
+}*/ //TODO: enlever par zied
+
     //getters
     public Repere getRepere() {return cnc.getRepere();}
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
-    //fares
-    //TODO liaison controleur afficheur, controleur CNC : amen, katia
-     // TODO: change content
-     public void CreerCoupeAxiale(Point p, boolean composante) {
+//------------------------------------------------------COUPES----------------------------------------------------------
+     public void CreerCoupeAxiale(Point p, boolean composante, Point reference) {
 
 
         cnc.CreerCoupeAxe(Repere.getInstance().convertirEnMmDepuisPixels((int) p.getX()),
                     Repere.getInstance().convertirEnMmDepuisPixels((int) p.getY())
-                , composante);
+                , composante, reference);
     }
+
      
     public void SetCoupeBordure(float BordureXValue, float BordureYValue) {
         cnc.CreerCoupeBordure(BordureXValue, BordureYValue);
-    }     
+    }
+
      
     //TODO: get the uuid from the click on panneau to use in modifying or deleting coupe
     public UUID getUUID(){
@@ -88,9 +89,16 @@ public class Controleur {
         }
 
     }
+    public void CreerCoupeRect(Point origin, Point dest) {
+        cnc.CreerCoupeRect(origin, dest);
+    }
+
+    public void CreerCoupeL(Point origin, Point destination) {
+        cnc.CreerCoupeL(origin, destination);
+    }
 
 
-    
+//---------------------------------------------PANNEAU & OUTILS---------------------------------------------------------
     public void SetPanneau(float longueurX, float largeurY, float profondeurZ) {
         if (longueurX <= 0 || largeurY <= 0 || profondeurZ <= 0) {
             throw new IllegalArgumentException("Les dimensions doivent être positives.");
@@ -114,14 +122,6 @@ public class Controleur {
         cnc.supprimerOutilParIndex(index); // Supprime l'outil en fonction de l'index
     }
 
-
-    public void CreerCoupeRect(Point origin, Point dest) {
-        cnc.CreerCoupeRect(origin, dest);
-    }
-
-    public void CreerCoupeL(Point origin, Point destination) {
-        cnc.CreerCoupeL(origin, destination);
-    }
     public float getEpaisseurOutil(String nomOutil) {
     for (OutilDTO outil : cnc.getOutils()) {
         if (outil.getNomDTO().equals(nomOutil)) {

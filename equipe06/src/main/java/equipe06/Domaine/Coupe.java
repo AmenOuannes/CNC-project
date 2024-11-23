@@ -5,7 +5,9 @@
 package equipe06.Domaine;
 import equipe06.Domaine.Utils.ElementCoupe;
 
+import java.awt.*;
 import java.util.UUID;
+import java.util.Vector;
 
 /**
  *
@@ -21,7 +23,8 @@ public abstract class Coupe {
     public UUID uuid;
     private String typeCoupe;
 
-    public Coupe(ElementCoupe e){
+
+    public Coupe(ElementCoupe e) {
         
         assert e != null : "l'element coupe ne pas etre invalide" ;
         assert e.getProfondeur() > 0 : "La profondeur doit etre positive.";
@@ -34,6 +37,7 @@ public abstract class Coupe {
         this.outil = e.getOutil();
         this.uuid = UUID.randomUUID();
         this.typeCoupe = e.getTypeCoupe();
+
     }
     
 
@@ -75,4 +79,9 @@ public String getTypeCoupe() {
         return typeCoupe;
     }
 }
+
+
+
+
+
 

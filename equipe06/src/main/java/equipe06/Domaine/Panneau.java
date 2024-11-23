@@ -90,10 +90,18 @@ public class Panneau {
         //assert p != null : "Le point ne peut pas etre invalide."; //TODO remove
         assert this != null : "Le panneau ne peut pas etre invalide.";
         //int minX = 130;
-        int maxY = (int) this.getLargeur() /*+ 130*/;
+        float maxY =  this.getLargeur() /*+ 130*/;
         int minY = 0;
-        int maxX = (int) this.getLongueur() /*- 130*/;
+        float maxX =  this.getLongueur() /*- 130*/;
         return (x >= 0 && x <= maxX) && ((1500 - y) >= minY && (1500 - y) <= maxY);
+    }
+    //TODO : TEST
+    public boolean surPanneau(Point reference) {
+        float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+        float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
+        return ((x==0 || x==this.getLongueur()) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur()))
+                 || ((y==1500 || y==1500-this.getLargeur()) && (x >= 0 && x <= this.getLongueur()));
+
     }
 }
  

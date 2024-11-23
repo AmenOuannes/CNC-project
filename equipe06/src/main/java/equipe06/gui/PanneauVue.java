@@ -201,7 +201,7 @@ public class PanneauVue extends JPanel {
                 //System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
                 afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
-            else if (coupe.getTypeCoupeDTO().equals("CoupeenL"))  {
+            else if (coupe.getTypeCoupeDTO().equals("L"))  {
             Point pointOrigine = coupe.getPointOrigineDTO();
             Point pointDestino = coupe.getPointDestinoDTO();
             System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
@@ -269,6 +269,7 @@ public class PanneauVue extends JPanel {
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
             System.out.println(rectX1);
             System.out.println(rectY1);
+
             rectX2 = -1;
             rectY2 = -1;
         } 
@@ -280,8 +281,8 @@ public class PanneauVue extends JPanel {
             Point Ref = new Point(rectX1, rectY1);
             Point Axe = new Point(rectX2, rectY2);
             if(peutCreerCoupeV) {
-                System.out.print("Coupe créé avec succès!\n");
-                controleur.CreerCoupeAxiale(Axe, true);
+
+                controleur.CreerCoupeAxiale(Axe, true, Ref);
                 repaint();
                 System.out.print("Coupe créé avec succès!\n");
                 peutCreerCoupeV=false;
@@ -291,7 +292,7 @@ public class PanneauVue extends JPanel {
                 rectY2 = -1;
             }
             if(peutCreerCoupeH) {
-                controleur.CreerCoupeAxiale(Axe, false);
+                controleur.CreerCoupeAxiale(Axe, false, Ref);
                 repaint();
                 peutCreerCoupeH = false;
                 System.out.print("Coupe créé avec succès!\n");

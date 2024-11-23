@@ -148,30 +148,12 @@ public class CNC {
 
 
     //-------------------------------------------------COUPES--------------------------------------------------------
-    //amen
-    public void CreerCoupe(String TypeCoupe, float axe, float y, boolean composante) {
-        switch(TypeCoupe){
-            case "axe":
-                this.CreerCoupeAxe(axe, y, composante);
-                break;
-            case "Rect":
-                //this.CreerCoupeRect(e);
-                break;
-            case "L":
-                //this.CreerCoupeL(e);
-                break;
-            case "Bordure":
-                //this.CreerCoupeBordure(e);
-                break;
-
-        }
-    }
     //Katia
     public void CreerCoupeL(Point pointOrigine , Point pointDestination){
         //TODO coupe en L, attribut extraits du controleur
         assert pointOrigine != null;
         assert pointDestination != null;
-        ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"CoupeenL",null);
+        ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
         CoupeL coupe = new CoupeL(e);
          //if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
              coupes.add(coupe);
@@ -207,31 +189,29 @@ public class CNC {
 
     //hedi+amen
     // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
-    public void CreerCoupeAxe(float x,  float y, boolean composante) {
+    public void CreerCoupeAxe(float x,  float y, boolean composante, Point reference) {
         ElementCoupe e = null;
         //CoupeAxe ma_coupe = null;
-        Point pointOrigine = new Point();
-        pointOrigine.x = 0; pointOrigine.y = 0;
         Point pointDestination = new Point();
-        pointDestination.x = 0; pointDestination.y = 0;
+
         if (composante == true)
         {
         //pointOrigine = new Point((int)x, (int) y); //change point
         //pointDestination = new Point((int)x, 0);
          e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-                pointOrigine, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "Axe", null
+                reference, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "V", null
         );
         }
         else{
             //pointOrigine = new Point((int) x, (int)y); //change point
             //pointDestination = new Point((int) panneau.getLargeur() +130, (int)y); //TODO hedi 130????
              e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-            pointOrigine, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "Axe", null
+            reference, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "H", null
             );
         }
 
-        CoupeAxe ma_coupe = new CoupeAxe(e);
-        if (panneau.inPanneau(x,y)) //remove katia
+        CoupeAxe ma_coupe = new CoupeAxe(e, surCoupes(reference) ,reference);
+        if (CoupeValide(ma_coupe, panneau)) //remove katia
             {
                 AjouterCoupe(ma_coupe);
             }
@@ -261,13 +241,16 @@ public class CNC {
         assert panneau != null : "Le panneau ne peut pas être invalide.";
 
         //to change when we have more coupes
-        if(coupe instanceof CoupeAxe) {
-            if(((CoupeAxe) coupe).getComposante()){
-                return ((CoupeAxe) coupe).getAxe() < panneau.getLongueur(); //check either largeur or longueur
+        if(coupe.getTypeCoupe()=="H" || coupe.getTypeCoupe()=="V"){
+            CoupeAxe c = (CoupeAxe) coupe;
+            if(c.getMyRef()!= null)
+                return true;
+            else if (panneau.surPanneau(c.getReference())) {
+                System.out.println("here");
+                return true;
             }
-            else return ((CoupeAxe) coupe).getAxe() < panneau.getLargeur();
         }
-        else return false;//for now
+        return false;
     } 
     //amen
     // TODO: changer en ajoutant les uuid
@@ -298,4 +281,33 @@ public class CNC {
             System.out.println("Erreur : y'a pas de coupe a suprimmer ");
         }
     }
+
+    public Vector<UUID> surCoupes(Point reference){
+        float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+        float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
+        Vector<UUID> uuids = new Vector<>();
+       for(Coupe c: coupes){
+           switch (c.getTypeCoupe()){
+               case "V":
+                   CoupeAxe axiale = (CoupeAxe) c;
+                   if((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= x) &&
+                           (x <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
+                       uuids.add(c.getUUID());
+                   }
+                   break;
+               case "H":
+                   axiale = (CoupeAxe) c;
+                   if((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= y) &&
+                           (y <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
+                       uuids.add(c.getUUID());
+                   }
+
+           }
+       }
+       return uuids;
+    }
+
+
+
 }
+

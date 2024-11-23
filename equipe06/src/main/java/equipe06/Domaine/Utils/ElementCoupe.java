@@ -23,6 +23,8 @@ public class ElementCoupe {
     private float bordureY;
     private String typeCoupe;
     private Outil outil;
+
+
     //private UUID uuid;
 
     // Constructeur par défaut
@@ -87,7 +89,6 @@ public class ElementCoupe {
         this.bordureY = bordureY;
         this.typeCoupe = typeCoupe;
         this.outil = outil;
-        UUID u = UUID.randomUUID(); //check the randomness
 
     }
 
@@ -190,6 +191,8 @@ public class ElementCoupe {
         
         this.outil = outil;
     }
+
+
 
     /*public UUID getUuid() {
         return uuid;
