@@ -133,18 +133,21 @@ public class PanneauVue extends JPanel {
          //   lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
          //   repaint();
         //}
+         int invertedY = hauteurPixelsTable - lastClickY;
+         mainWindow.updateDimensions(lastClickX, invertedY);
+        
         myPoint = new Point(lastClickX, lastClickY);
         if(peutCreerCoupeV) {
 
             controleur.CreerCoupeAxiale(myPoint, true);
-            mainWindow.updateDimensions(lastClickX, 0);
+           
             repaint();
             peutCreerCoupeV=false;
             System.out.print("Coupe créé avec succès!\n");
         }
         if(peutCreerCoupeH) {
-             int invertedY = hauteurPixelsTable - lastClickY;
-             mainWindow.updateDimensions(0, invertedY);
+            
+          
             controleur.CreerCoupeAxiale(myPoint, false);
             repaint();
             peutCreerCoupeH = false;
