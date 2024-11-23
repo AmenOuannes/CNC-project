@@ -113,20 +113,17 @@ public class Afficheur {
         int x2 = destination.x;
         int y2 = destination.y; 
         Graphics2D g2d = (Graphics2D) g;
-        
-        
         float epaisseur = controleur.getEpaisseurActuelle();
         g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
-        
-        
         g2d.setColor(Color.BLACK);
         // dessiner le trait vertical
-        //J 'ai essayé avec origine.x origine.y desti.x origi.y et tout ca marche pas aussi 
-        g2d.drawLine(x1, y1, x2, y1);
-        // dessiner trai horizontal
-        g2d.drawLine(x2, y1, x2, y2);
+        //J 'ai essayé avec origine.x origine.y desti.x origi.y et tout ca marche pas aussi
+            g2d.drawLine(x2, y2, x1 ,y2);
+            // dessiner trai horizontal
+            g2d.drawLine(x2, y2, x2, y1);
        }
     }
+
     //TODO Bordure Zied
     
     public void dessinerBordure(Graphics g, float bordureX, float bordureY, int hauteurTable) {
