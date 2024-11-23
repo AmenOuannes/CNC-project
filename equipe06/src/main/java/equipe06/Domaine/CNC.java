@@ -8,6 +8,7 @@ import equipe06.Domaine.Utils.ElementCoupe;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -26,6 +27,8 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
+        outils.add(new Outil("defaut", 10));
+        outil_courant = outils.firstElement();
         
     }
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
@@ -196,21 +199,19 @@ public class CNC {
 
         if (composante == true)
         {
-        //pointOrigine = new Point((int)x, (int) y); //change point
-        //pointDestination = new Point((int)x, 0);
-         e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-                reference, pointDestination, 5.0f, 0.3f, x, composante, 0.0f, 0.0f, "V", null
-        );
+
+         e = new ElementCoupe(
+                reference, pointDestination, 5.0f, 0.3f,
+                 x, composante, 0.0f, 0.0f, "V", null);
         }
         else{
-            //pointOrigine = new Point((int) x, (int)y); //change point
-            //pointDestination = new Point((int) panneau.getLargeur() +130, (int)y); //TODO hedi 130????
-             e = new ElementCoupe( // elle doit etre dans le cnc pas dans controleur
-            reference, pointDestination, 5.0f, 0.3f, y, composante, 0.0f, 0.0f, "H", null
-            );
-        }
 
-        CoupeAxe ma_coupe = new CoupeAxe(e, surCoupes(reference) ,reference);
+             e = new ElementCoupe(
+            reference, pointDestination, 5.0f, 0.3f,
+                     y, composante, 0.0f, 0.0f, "H", null);
+        }
+        Vector<UUID> CoupesDeReferences = surCoupes(reference);
+        CoupeAxe ma_coupe = new CoupeAxe(e, CoupesDeReferences ,reference);
         if (CoupeValide(ma_coupe, panneau)) //remove katia
             {
                 AjouterCoupe(ma_coupe);
@@ -240,13 +241,13 @@ public class CNC {
         assert coupe != null : "La coupe ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas être invalide.";
 
-        //to change when we have more coupes
-        if(coupe.getTypeCoupe()=="H" || coupe.getTypeCoupe()=="V"){
+
+        if(Objects.equals(coupe.getTypeCoupe(), "H") || Objects.equals(coupe.getTypeCoupe(), "V")){
             CoupeAxe c = (CoupeAxe) coupe;
-            if(c.getMyRef()!= null)
+            if(!c.getMyRef().isEmpty())
                 return true;
             else if (panneau.surPanneau(c.getReference())) {
-                System.out.println("here");
+                System.out.println(" click sur Panneau");
                 return true;
             }
         }
@@ -266,7 +267,7 @@ public class CNC {
 
         coupes.add(coupe);
         System.out.print("coupe enregistrée\n");
-        System.out.print(coupes.size());
+        //System.out.print(coupes.size());
 
     }
     public void supprimerCoupe(UUID uuid) {
@@ -278,7 +279,7 @@ public class CNC {
                 }
             }
         } catch (IndexOutOfBoundsException e){
-            System.out.println("Erreur : y'a pas de coupe a suprimmer ");
+            System.out.println("Erreur : y'a pas de coupe a supprimer ");
         }
     }
 

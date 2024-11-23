@@ -87,20 +87,25 @@ public class Panneau {
     //la fonction qui verifie si on est a l'interieur de panneau ou pas
      public boolean inPanneau(float x, float y) //katia
 {
-        //assert p != null : "Le point ne peut pas etre invalide."; //TODO remove
+
         assert this != null : "Le panneau ne peut pas etre invalide.";
-        //int minX = 130;
+
         float maxY =  this.getLargeur() /*+ 130*/;
         int minY = 0;
         float maxX =  this.getLongueur() /*- 130*/;
         return (x >= 0 && x <= maxX) && ((1500 - y) >= minY && (1500 - y) <= maxY);
     }
-    //TODO : TEST
+    // X -> LONGUEUR, Y -> LARGEUR
     public boolean surPanneau(Point reference) {
         float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+        final float tolerance = 10;
         float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
-        return ((x==0 || x==this.getLongueur()) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur()))
-                 || ((y==1500 || y==1500-this.getLargeur()) && (x >= 0 && x <= this.getLongueur()));
+        boolean BordGauche = (Math.abs(x-0) < tolerance) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur());
+        boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur());
+        boolean BordBas = (Math.abs(y-1500)< tolerance) && ((x >= 0 && x <= this.getLongueur()));
+        boolean BordHaut = (Math.abs( y-( 1500-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
+
+        return BordGauche || BordDroit || BordHaut || BordBas;
 
     }
 }

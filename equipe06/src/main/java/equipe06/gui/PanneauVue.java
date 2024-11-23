@@ -184,31 +184,24 @@ public class PanneauVue extends JPanel {
         Vector<CoupeDTO> Coupes = controleur.getCoupes();
         for(CoupeDTO coupe: Coupes)
         {
-            if(coupe.getTypeCoupeDTO()=="Axe" && coupe.isComposanteDTO()) {
+            if(coupe.getTypeCoupeDTO()=="V" && coupe.isComposanteDTO()) {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
             }
-            else if(coupe.getTypeCoupeDTO()=="Axe" && !coupe.isComposanteDTO())  {
+            else if(coupe.getTypeCoupeDTO()=="H" && !coupe.isComposanteDTO())  {
                 afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
             }
             else if(coupe.getTypeCoupeDTO()=="Bordure") {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
             }
             else if(coupe.getTypeCoupeDTO().equals("Rect")){
-                //TODO fix dessiner avec argument coupe
-                Point pointOrigine = coupe.getPointOrigineDTO();
-                Point pointDestino = coupe.getPointDestinoDTO();
-                //System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
-                //System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
                 afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
             else if (coupe.getTypeCoupeDTO().equals("L"))  {
             Point pointOrigine = coupe.getPointOrigineDTO();
             Point pointDestino = coupe.getPointDestinoDTO();
-            System.out.println("Point Origine DTO: x=" + pointOrigine.x + ", y=" + pointOrigine.y);
-            System.out.println("Point Destino DTO: x=" + pointDestino.x + ", y=" + pointDestino.y);
             afficheur.dessinerL(g, pointOrigine, pointDestino);
              }
-            System.out.println("Valeur de coupe.getTypeCoupeDTO() : " + coupe.getTypeCoupeDTO());
+
         }
     }
 
@@ -267,8 +260,7 @@ public class PanneauVue extends JPanel {
         if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH)) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.println(rectX1);
-            System.out.println(rectY1);
+
 
             rectX2 = -1;
             rectY2 = -1;
@@ -276,8 +268,7 @@ public class PanneauVue extends JPanel {
         else if(rectX2 == -1 && rectY2 == -1){
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.println(rectX2);
-            System.out.println(rectY2);
+
             Point Ref = new Point(rectX1, rectY1);
             Point Axe = new Point(rectX2, rectY2);
             if(peutCreerCoupeV) {
@@ -305,8 +296,7 @@ public class PanneauVue extends JPanel {
         else if (peutCreerCoupeRect || peutCreerCoupeL){
             rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.println(rectX3);
-            System.out.println(rectY3);
+
             Point Ref = new Point(rectX1, rectY1);
             Point Origin = new Point(rectX2, rectY2);
             Point Dest = new Point(rectX3, rectY3);
@@ -322,9 +312,9 @@ public class PanneauVue extends JPanel {
                 float origineXmm = repere.convertirEnMmDepuisPixels(Origin.x);
                 float destYmm = repere.convertirEnMmDepuisPixels(Dest.y);
                 mainWindow.updateDimensions(origineXmm, destYmm ); */
-                System.out.printf("avant REpaint");
+
                 repaint();
-                System.out.printf("apres REpaint");
+
                 peutCreerCoupeL = false;
             }
             rectX1 = -1;
