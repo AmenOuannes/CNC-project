@@ -22,6 +22,8 @@ public class PanneauVue extends JPanel {
     private Controleur controleur;
     private int lastClickX = -1;
     private int lastClickY = -1;
+    private int rectX3 = -1;
+    private int rectY3 = -1;
     public boolean deleteTriggered = false;
     public boolean modifyTriggered;
     private float BordureX;
@@ -62,22 +64,22 @@ public class PanneauVue extends JPanel {
         this.setPreferredSize(new Dimension(largeurPixelsTable, hauteurPixelsTable));
 
         // Ajouter un MouseListener pour la création de coupe
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
+        /*this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 drawingPanelMouseClicked(evt);
             }
-        });
+        });*/
 
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect){
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
                     captureRectanglePoints(evt);
                     }
             }
         });
 
         // Ajouter un écouteur pour la roulette de la souris
-        this.addMouseWheelListener(new MouseWheelListener() {
+        this.addMouseWheelListener(new MouseWheelListener() { 
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
@@ -122,7 +124,7 @@ public class PanneauVue extends JPanel {
         offsetY = 0.0;
         repaint(); // Redessiner la vue pour l'état initial
     }
-
+/*
     public void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
         //if (peutCreerCoupeH) {
             lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
@@ -155,7 +157,7 @@ public class PanneauVue extends JPanel {
         }
         lastClickX = -1;
         lastClickY = -1;
-    }
+    }*/
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
@@ -262,18 +264,51 @@ public class PanneauVue extends JPanel {
     }
 
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL)) {
+        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH)) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
             System.out.println(rectX1);
             System.out.println(rectY1);
-        } else {
+            rectX2 = -1;
+            rectY2 = -1;
+        } 
+        else if(rectX2 == -1 && rectY2 == -1){
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
             System.out.println(rectX2);
             System.out.println(rectY2);
-            Point Origin = new Point(rectX1, rectY1);
-            Point Dest = new Point(rectX2, rectY2);
+            Point Ref = new Point(rectX1, rectY1);
+            Point Axe = new Point(rectX2, rectY2);
+            if(peutCreerCoupeV) {
+                System.out.print("Coupe créé avec succès!\n");
+                controleur.CreerCoupeAxiale(Axe, true);
+                repaint();
+                System.out.print("Coupe créé avec succès!\n");
+                peutCreerCoupeV=false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+            if(peutCreerCoupeH) {
+                controleur.CreerCoupeAxiale(Axe, false);
+                repaint();
+                peutCreerCoupeH = false;
+                System.out.print("Coupe créé avec succès!\n");
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+            }
+        else if (peutCreerCoupeRect || peutCreerCoupeL){
+            rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+            rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.println(rectX3);
+            System.out.println(rectY3);
+            Point Ref = new Point(rectX1, rectY1);
+            Point Origin = new Point(rectX2, rectY2);
+            Point Dest = new Point(rectX3, rectY3);
             if(peutCreerCoupeRect) {
                 controleur.CreerCoupeRect(Origin, Dest);
                 repaint();
@@ -293,7 +328,8 @@ public class PanneauVue extends JPanel {
             }
             rectX1 = -1;
             rectY1 = -1;
-
+            rectX2 = -1;
+            rectY2 = -1;
         }
     }
 
