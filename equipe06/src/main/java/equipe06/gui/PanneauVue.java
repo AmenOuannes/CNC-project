@@ -137,11 +137,14 @@ public class PanneauVue extends JPanel {
         if(peutCreerCoupeV) {
 
             controleur.CreerCoupeAxiale(myPoint, true);
+            mainWindow.updateDimensions(lastClickX, 0);
             repaint();
             peutCreerCoupeV=false;
             System.out.print("Coupe créé avec succès!\n");
         }
         if(peutCreerCoupeH) {
+             int invertedY = hauteurPixelsTable - lastClickY;
+             mainWindow.updateDimensions(0, invertedY);
             controleur.CreerCoupeAxiale(myPoint, false);
             repaint();
             peutCreerCoupeH = false;
@@ -275,6 +278,11 @@ public class PanneauVue extends JPanel {
             }
             else if(peutCreerCoupeL) {
                 controleur.CreerCoupeL(Origin, Dest);
+                /*
+                Repere repere = Repere.getInstance();
+                float origineXmm = repere.convertirEnMmDepuisPixels(Origin.x);
+                float destYmm = repere.convertirEnMmDepuisPixels(Dest.y);
+                mainWindow.updateDimensions(origineXmm, destYmm ); */
                 System.out.printf("avant REpaint");
                 repaint();
                 System.out.printf("apres REpaint");
