@@ -617,7 +617,7 @@ public void updateDimY(float y) {
                         .addGap(12, 12, 12)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DimX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22))))
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,6 +850,8 @@ public void updateDimY(float y) {
     }//GEN-LAST:event_DistanceXActionPerformed
 
     private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
+        panneauVue.activerSuppressionCoupe();      
+        /*
         if (!controleur.getCoupes().isEmpty()) {
             panneauVue.deleteTriggered = true;
             System.out.printf("mainwindow \n");
@@ -859,7 +861,7 @@ public void updateDimY(float y) {
             panneauVue.deleteTriggered = false;
         } else {
             message.setText("Aucune coupe à supprimer.");
-        }
+        }*/
     }//GEN-LAST:event_SuppCoupeActionPerformed
 
     private void ModCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModCoupeActionPerformed

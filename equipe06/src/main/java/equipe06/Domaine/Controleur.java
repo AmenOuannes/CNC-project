@@ -141,7 +141,10 @@ public float getEpaisseurActuelle() {
     return epaisseurActuelle;
 }
 
+public void supprimerCoupeSurClic(Point clic) {
+    cnc.supprimerCoupesParPoint(clic);
+    }
+
 }
     
     
-

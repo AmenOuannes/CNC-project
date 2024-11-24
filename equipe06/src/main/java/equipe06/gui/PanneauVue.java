@@ -75,6 +75,22 @@ public class PanneauVue extends JPanel {
                 if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
                     captureRectanglePoints(evt);
                     }
+                if (deleteTriggered) {
+                    
+                    // Convertir les coordonnées en millimètres
+                    float xMm = Repere.getInstance().convertirEnMmDepuisPixels(
+                        ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor)
+                    );
+                    float yMm = Repere.getInstance().convertirEnMmDepuisPixels(
+                        ajusterCoordonneePourVue(evt.getY(), offsetX, zoomFactor)
+                    );
+                    // Créer un point avec les coordonnées en millimètres
+                    Point clicMm = new Point((int) xMm, (int) yMm);
+                    // Transmettre le point au contrôleur
+                    controleur.supprimerCoupeSurClic(clicMm);
+                    repaint();
+                    deleteTriggered = false;
+                }  
             }
         });
 
@@ -334,4 +350,10 @@ public class PanneauVue extends JPanel {
         this.peutCreerCoupeBordure = true;
         repaint();
     }*/
+    
+    public void activerSuppressionCoupe() {
+    this.deleteTriggered = true;
+    }
+    
+    
 }

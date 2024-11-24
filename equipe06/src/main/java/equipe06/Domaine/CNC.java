@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.Vector;
+import java.util.Iterator;
 
 
 public class CNC {
@@ -168,9 +169,12 @@ public class CNC {
         ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeL coupe = new CoupeL(e, CoupesDeReferences ,reference);
-         //if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
-             coupes.add(coupe);
-         //}
+        if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
+            AjouterCoupe(coupe);
+            System.out.println("Coupe en L créée avec succès.");
+        } else {
+            System.out.println("La coupe en L est invalide et n'a pas été ajoutée.");
+        }
     }
     //Amen
     public void CreerCoupeRect(Point Origine, Point Destination, Point reference){
@@ -182,9 +186,12 @@ public class CNC {
                 0.3f,0,false,0.0f, 0.0f,"Rect", null);
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
-        //if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
-        coupes.add(coupe);
-        //}
+        if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
+            AjouterCoupe(coupe);
+            System.out.println("Coupe rectangulaire créée avec succès.");
+        } else {
+            System.out.println("La coupe rectangulaire est invalide et n'a pas été ajoutée.");
+        }
 
     }
 
@@ -197,6 +204,7 @@ public class CNC {
                 null, null, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", null );
         CoupeRec coupe = new CoupeRec(e);
         //TODO coupe valide
+        // on a pas besoin de verifier la coupe Bordure
         coupes.add(coupe);
         
     }
@@ -259,6 +267,48 @@ public class CNC {
                 return true;
             else if (panneau.surPanneau(c.getReference())) {
                 System.out.println(" click sur Panneau");
+                return true;
+            }
+        }else if (Objects.equals(coupe.getTypeCoupe(), "Rect")) {
+            CoupeRec c = (CoupeRec) coupe;
+
+            // Convertir les points origine et destination en coordonnées nécessaires
+            float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
+            float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
+            float destinationX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
+            float destinationY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
+            float referenceX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().x);
+            float referenceY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().y);
+            Point reference = new Point((int) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().x),
+                                     (int) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().y));
+
+            // Vérifier que origine et destination sont dans le panneau, et que la référence est sur le panneau
+            if (panneau.inPanneau(origineX, origineY) && 
+                    panneau.inPanneau(destinationX, destinationY )/*&& panneau.surPanneau(reference)*/ && 
+                    panneau.inPanneau(referenceX, referenceY ) ) {
+                System.out.println("Coupe rectangulaire valide.");
+                return true;
+                }   
+        } else if (Objects.equals(coupe.getTypeCoupe(), "L")) {
+            CoupeL c = (CoupeL) coupe;
+            // Extraire les coordonnées des points
+            float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
+            float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
+            float destinationX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
+            float destinationY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
+            Point origine = /*c.getPointOrigine();*/   new Point((int) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x),
+                                     (int) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y));
+            // Calculer les points adjacents pour une coupe en L
+            float adj1X = destinationX;
+            float adj1Y = origineY; // Coin horizontal adjacent
+            float adj2X = origineX;
+            float adj2Y = destinationY; // Coin vertical adjacent
+            // Vérifier que origine est sur le panneau, et les autres points sont dans le panneau
+            if (/*panneau.surPanneau(origine) && */ panneau.inPanneau(origineX, origineY) &&
+                panneau.inPanneau(destinationX, destinationY) &&
+                panneau.inPanneau(adj1X, adj1Y) &&
+                panneau.inPanneau(adj2X, adj2Y)) {
+                System.out.println("Coupe en L valide.");
                 return true;
             }
         }
@@ -346,8 +396,54 @@ public class CNC {
        }
        return uuids;
     }
+    
+    
 
+    public void supprimerCoupesParPoint(Point point) {
+        // Convertir les coordonnées du point de référence en millimètres
+        float y = Repere.getInstance().convertirEnMmDepuisPixels(point.y);
+        float x = Repere.getInstance().convertirEnMmDepuisPixels(point.x);
+        boolean coupeSupprimee = false;
+        // Parcourir les coupes pour identifier celles à supprimer
+        Iterator<Coupe> iterator = coupes.iterator();
+        while (iterator.hasNext()) {
+            Coupe coupe = iterator.next();
+            switch (coupe.getTypeCoupe()) {
+                /*
+                case "Rect": // Coupe rectangulaire
+                case "L":    // Coupe en L
+                    Point origine = coupe.getPointOrigine();
+                    Point destination = coupe.getPointDestination();
 
+                    // Vérifier si le point correspond à l'origine ou à la destination
+                    if ((origine != null && Math.abs(origine.x - x) <= 1 && Math.abs(origine.y - y) <= 1) ||
+                        (destination != null && Math.abs(destination.x - x) <= 1 && Math.abs(destination.y - y) <= 1)) {
+                        iterator.remove();
+                        coupeSupprimee = true;
+                    }
+                    break;
+*/
+                case "H": // Coupe axiale horizontale
+                case "V": // Coupe axiale verticale
+                    CoupeAxe coupeAxe = (CoupeAxe) coupe;
 
+                    // Vérifier si le point correspond directement à l'axe
+                    if ((coupe.getTypeCoupe().equals("H") && Math.abs(coupeAxe.getAxe() - x) <= 10) ||
+                        (coupe.getTypeCoupe().equals("V") && Math.abs(coupeAxe.getAxe() - y) <= 10)) {
+                        iterator.remove();
+                        coupeSupprimee = true;
+                    }
+                    break;
+            }
+       }
+
+    // Afficher le résultat de la suppression
+    if (coupeSupprimee) {
+        System.out.println("Coupe(s) supprimée(s) avec succès.");
+    } else {
+        System.out.println("Aucune coupe trouvée à supprimer.");
+    }
+    
+    }
+     
 }
-
