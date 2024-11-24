@@ -89,12 +89,13 @@ public class Controleur {
         }
 
     }
-    public void CreerCoupeRect(Point origin, Point dest) {
-        cnc.CreerCoupeRect(origin, dest);
+    public void CreerCoupeRect(Point origin, Point dest, Point reference) {
+        cnc.CreerCoupeRect(origin, dest, reference);
+
     }
 
-    public void CreerCoupeL(Point origin, Point destination) {
-        cnc.CreerCoupeL(origin, destination);
+    public void CreerCoupeL(Point origin, Point destination, Point reference) {
+        cnc.CreerCoupeL(origin, destination, reference);
     }
 
 

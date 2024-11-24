@@ -93,17 +93,18 @@ public class Panneau {
         float maxY =  this.getLargeur() /*+ 130*/;
         int minY = 0;
         float maxX =  this.getLongueur() /*- 130*/;
-        return (x >= 0 && x <= maxX) && ((1500 - y) >= minY && (1500 - y) <= maxY);
+        // Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) = 1500 
+        return (x >= 0 && x <= maxX) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= minY && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= maxY);
     }
     // X -> LONGUEUR, Y -> LARGEUR
     public boolean surPanneau(Point reference) {
         float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
         final float tolerance = 10;
         float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
-        boolean BordGauche = (Math.abs(x-0) < tolerance) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur());
-        boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((1500 - y) >= 0 && (1500 - y) <= this.getLargeur());
-        boolean BordBas = (Math.abs(y-1500)< tolerance) && ((x >= 0 && x <= this.getLongueur()));
-        boolean BordHaut = (Math.abs( y-( 1500-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
+        boolean BordGauche = (Math.abs(x-0) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
+        boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
+        boolean BordBas = (Math.abs(y-Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)))< tolerance) && ((x >= 0 && x <= this.getLongueur()));
+        boolean BordHaut = (Math.abs( y-( Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60))-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
 
         return BordGauche || BordDroit || BordHaut || BordBas;
 

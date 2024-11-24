@@ -3,15 +3,20 @@ package equipe06.Domaine;
 import equipe06.Domaine.Utils.ElementCoupe;
 
 import java.awt.*;
+import java.util.UUID;
+import java.util.Vector;
+
 
 public class CoupeRec extends Coupe{
     private Point PointOrigine;
     private Point PointDestination;
     private float BordureX;
     private float BordureY;
+    private Point reference;
+    private Vector<UUID> myRef;
 
     //create new subclass Bordure
-    public CoupeRec(ElementCoupe e) {
+    public CoupeRec(ElementCoupe e, Vector<UUID> myRef, Point reference) {
         super(e);
         assert e != null;
         
@@ -20,6 +25,8 @@ public class CoupeRec extends Coupe{
         this.BordureY = e.getBordureY();
         PointOrigine = e.getPointOrigine();
         PointDestination = e.getPointDestination();
+        this.reference = reference;
+        this.myRef = myRef;
 
         // Validation avec des affichages
         System.out.println("Dans le constructeur de CoupeRec - BordureX après transfert : " + this.BordureX);
@@ -43,6 +50,23 @@ public class CoupeRec extends Coupe{
 
 */
     }
+    
+    public CoupeRec(ElementCoupe e) {
+        super(e);
+        assert e != null;
+
+        // Transfert direct des valeurs de ElementCoupe
+        this.BordureX = e.getBordureX();
+        this.BordureY = e.getBordureY();
+        this.PointOrigine = e.getPointOrigine();
+        this.PointDestination = e.getPointDestination();
+
+        // Valeurs par défaut pour myRef et reference
+        this.reference = null; // Pas de référence
+        this.myRef = new Vector<>(); // Vecteur vide
+    }
+    
+    
     public Point getPointOrigine() {
         return PointOrigine;
     }
@@ -70,6 +94,16 @@ public class CoupeRec extends Coupe{
     public void setBordureY(float BordureY) {
         assert BordureY >= 0;
         this.BordureY = BordureY;
+    }
+    
+    public Point getReference() {
+        return reference;
+    }
+    public void ChangeReference(Point reference, UUID myRef) {
+        this.reference = reference;
+    }
+    public Vector<UUID> getMyRef() {
+        return myRef;
     }
 
 }

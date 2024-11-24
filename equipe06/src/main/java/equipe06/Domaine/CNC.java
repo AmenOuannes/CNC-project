@@ -94,20 +94,28 @@ public class CNC {
 
     //TODO : rendre cette boucle en try catch
     // TODO check if outil est outilCourant
-    /*
     public void supprimerOutilParIndex(int index) {
         if (index >= 0 && index < outils.size()) {
             Outil outil = outils.get(index);
             outils.remove(index);
-            if (outil_courant.getNom() == outil.getNom())  //set another
-                outil_courant = outils.get(0);
+            // Vérifie si l'outil courant est celui qui a été supprimé
+            if (outil_courant != null && outil_courant.getNom().equals(outil.getNom())) {
+                if (!outils.isEmpty()) {
+                    outil_courant = outils.get(0); // Définit un nouvel outil courant
+                    System.out.println("Outil courant mis à jour après suppression : " + outil_courant.getNom());
+                } else {
+                    outil_courant = null; // Réinitialise si aucun outil n'est disponible
+                    System.out.println("Aucun outil disponible. Outil courant réinitialisé.");
+                }
+            }
 
             System.out.println("Outil supprimé avec succès."); //control local remove @ zied
 
         } else {
             System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
-    }*/
+    }
+    /* fonction existe deja marra jeya dzid ell code ell nekes fi west ell fonction
    public void supprimerOutilParIndex(int index) {
     if (index >= 0 && index < outils.size()) {
         Outil outilSupprime = outils.get(index); // Récupère l'outil à supprimer
@@ -129,6 +137,7 @@ public class CNC {
         System.out.println("Index invalide. Impossible de supprimer l'outil.");
     }
 }
+*/
 
 
     //amen
@@ -152,25 +161,27 @@ public class CNC {
 
     //-------------------------------------------------COUPES--------------------------------------------------------
     //Katia
-    public void CreerCoupeL(Point pointOrigine , Point pointDestination){
+    public void CreerCoupeL(Point pointOrigine , Point pointDestination, Point reference){
         //TODO coupe en L, attribut extraits du controleur
         assert pointOrigine != null;
         assert pointDestination != null;
         ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
-        CoupeL coupe = new CoupeL(e);
+        Vector<UUID> CoupesDeReferences = surCoupes(reference);
+        CoupeL coupe = new CoupeL(e, CoupesDeReferences ,reference);
          //if(panneau.inPanneau((float) pointOrigine.getX() , (float) pointOrigine.getY())&& panneau.inPanneau((float) pointDestination.getX(), (float) pointDestination.getY())){
              coupes.add(coupe);
          //}
     }
     //Amen
-    public void CreerCoupeRect(Point Origine, Point Destination){
+    public void CreerCoupeRect(Point Origine, Point Destination, Point reference){
         //TODO coupe rect, attribut extraits du controleur
         assert (Origine != null);
         assert (Destination != null);
         ElementCoupe e = new ElementCoupe(
                 Origine, Destination, 5.0f,
                 0.3f,0,false,0.0f, 0.0f,"Rect", null);
-        CoupeRec coupe = new CoupeRec(e);
+        Vector<UUID> CoupesDeReferences = surCoupes(reference);
+        CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         //if(panneau.inPanneau(Origine) && panneau.inPanneau(Destination)){
         coupes.add(coupe);
         //}
@@ -302,6 +313,34 @@ public class CNC {
                            (y <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
                        uuids.add(c.getUUID());
                    }
+                   break;
+                case "Rect":
+                CoupeRec coupeRect = (CoupeRec) c;
+                Point origineRect = coupeRect.getPointOrigine();
+                Point destinationRect = coupeRect.getPointDestination();
+                // Le point doit correspondre à un des 4 coins du rectangle
+                if ((x == origineRect.x && y == origineRect.y) || 
+                    (x == origineRect.x && y == destinationRect.y) || 
+                    (x == destinationRect.x && y == origineRect.y) || 
+                    (x == destinationRect.x && y == destinationRect.y)) {
+                    uuids.add(c.getUUID());
+                }
+                break;
+                case "L":
+                CoupeL coupeL = (CoupeL) c;
+                Point destinationL = coupeL.getPointDestination();
+                Point adjacent1 = new Point(destinationL.x, coupeL.getPointOrigine().y); // Coin horizontal adjacent
+                Point adjacent2 = new Point(coupeL.getPointOrigine().x, destinationL.y); // Coin vertical adjacent
+                // Vérifie si le point de référence est le point destination ou un des coins adjacents
+                if ((x == destinationL.x && y == destinationL.y) ||
+                    (x == adjacent1.x && y == adjacent1.y) ||
+                    (x == adjacent2.x && y == adjacent2.y)) {
+                    uuids.add(c.getUUID());
+                }
+                break;
+                default:
+                    System.out.println("Type de coupe non pris en charge : " + c.getTypeCoupe());
+                    break;
 
            }
        }

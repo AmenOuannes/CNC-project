@@ -301,12 +301,12 @@ public class PanneauVue extends JPanel {
             Point Origin = new Point(rectX2, rectY2);
             Point Dest = new Point(rectX3, rectY3);
             if(peutCreerCoupeRect) {
-                controleur.CreerCoupeRect(Origin, Dest);
+                controleur.CreerCoupeRect(Origin, Dest, Ref);
                 repaint();
                 peutCreerCoupeRect = false;
             }
             else if(peutCreerCoupeL) {
-                controleur.CreerCoupeL(Origin, Dest);
+                controleur.CreerCoupeL(Origin, Dest, Ref);
                 /*
                 Repere repere = Repere.getInstance();
                 float origineXmm = repere.convertirEnMmDepuisPixels(Origin.x);
