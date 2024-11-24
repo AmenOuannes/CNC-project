@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.Iterator;
+import java.io.IOException;
 
 
 public class CNC {
@@ -345,6 +346,8 @@ public class CNC {
     }
 
     public Vector<UUID> surCoupes(Point reference){
+        if (panneau.inPanneau((float) Repere.getInstance().convertirEnMmDepuisPixels(reference.x), (float) Repere.getInstance().convertirEnMmDepuisPixels(reference.y)))
+        {
         float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
         float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
         Vector<UUID> uuids = new Vector<>();
@@ -369,22 +372,27 @@ public class CNC {
                 Point origineRect = coupeRect.getPointOrigine();
                 Point destinationRect = coupeRect.getPointDestination();
                 // Le point doit correspondre à un des 4 coins du rectangle
-                if ((x == origineRect.x && y == origineRect.y) || 
-                    (x == origineRect.x && y == destinationRect.y) || 
-                    (x == destinationRect.x && y == origineRect.y) || 
-                    (x == destinationRect.x && y == destinationRect.y)) {
+                if ((((origineRect.x - outil_courant.getLargeur_coupe() / 2 <= x && origineRect.x + outil_courant.getLargeur_coupe() / 2 >= x) || 
+                        (destinationRect.x - outil_courant.getLargeur_coupe() / 2 <= x && destinationRect.x + outil_courant.getLargeur_coupe() / 2 >= x)) &&
+                        (y >= Math.min(destinationRect.y, origineRect.y) && y <= Math.max(destinationRect.y, origineRect.y))) || (((origineRect.y - outil_courant.getLargeur_coupe() / 2 <= y && origineRect.y + outil_courant.getLargeur_coupe() / 2 >= y) || 
+                        (destinationRect.y - outil_courant.getLargeur_coupe() / 2 <= y && destinationRect.y + outil_courant.getLargeur_coupe() / 2 >= y)) &&
+                        (x >= Math.min(destinationRect.x, origineRect.x) && y <= Math.max(destinationRect.x, origineRect.x))))
+                {
                     uuids.add(c.getUUID());
                 }
                 break;
                 case "L":
                 CoupeL coupeL = (CoupeL) c;
                 Point destinationL = coupeL.getPointDestination();
-                Point adjacent1 = new Point(destinationL.x, coupeL.getPointOrigine().y); // Coin horizontal adjacent
-                Point adjacent2 = new Point(coupeL.getPointOrigine().x, destinationL.y); // Coin vertical adjacent
+                Point OrigineL = coupeL.getPointOrigine();
+                Point adjacent1 = new Point(destinationL.x, OrigineL.y); // Coin horizontal adjacent
+                Point adjacent2 = new Point(OrigineL.x, destinationL.y); // Coin vertical adjacent
                 // Vérifie si le point de référence est le point destination ou un des coins adjacents
-                if ((x == destinationL.x && y == destinationL.y) ||
-                    (x == adjacent1.x && y == adjacent1.y) ||
-                    (x == adjacent2.x && y == adjacent2.y)) {
+                if ((((OrigineL.x - outil_courant.getLargeur_coupe() / 2 <= x && OrigineL.x + outil_courant.getLargeur_coupe() / 2 >= x) || 
+                        (destinationL.x - outil_courant.getLargeur_coupe() / 2 <= x && destinationL.x + outil_courant.getLargeur_coupe() / 2 >= x)) &&
+                        (y >= Math.min(destinationL.y, OrigineL.y) && y <= Math.max(destinationL.y, OrigineL.y))) || (((OrigineL.y - outil_courant.getLargeur_coupe() / 2 <= y && OrigineL.y + outil_courant.getLargeur_coupe() / 2 >= y) || 
+                        (destinationL.y - outil_courant.getLargeur_coupe() / 2 <= y && destinationL.y + outil_courant.getLargeur_coupe() / 2 >= y)) &&
+                        (x >= Math.min(destinationL.x, OrigineL.x) && y <= Math.max(destinationL.x, OrigineL.x)))) {
                     uuids.add(c.getUUID());
                 }
                 break;
@@ -395,6 +403,10 @@ public class CNC {
            }
        }
        return uuids;
+        }
+        else {
+            return null;
+        }
     }
     
     
