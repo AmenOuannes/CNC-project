@@ -90,7 +90,7 @@ public class Controleur {
     }
     public void CreerCoupeRect(Point origin, Point dest, float BordureX, float BordureY, Point reference) {
         cnc.CreerCoupeRect(origin, dest, BordureX, BordureY, reference);
-
+       
     }
 
     public void CreerCoupeL(Point reference, Point destination) {

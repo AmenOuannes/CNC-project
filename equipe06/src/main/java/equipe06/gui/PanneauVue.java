@@ -301,25 +301,18 @@ private void enregistrerPointAvantCoupe(Point point) {
         return peutCreerCoupe;
     }
 
-    private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 ) {
+   private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
+        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH || deleteTriggered)) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            if (deleteTriggered){
+                Point p = new Point (rectX1,rectY1);
+                controleur.supprimerCoupeSurClic(p);
 
-
-            rectX2 = -1;
-            rectY2 = -1;
-            if(modifyTriggeredA)
-            {
-                Point Ref = new Point(rectX1, rectY1);
-                controleur.modifierCoupeAxiale(AxeRelatif, Ref);
+              deleteTriggered = false;
+              repaint();
             }
-            if(modifyTriggeredR)
-            {
-                Point Ref = new Point(rectX1, rectY1);
-                controleur.modifierCoupeCarre(longueur_modify, largeur_modify, Ref);
-            }
-        } 
+        }
         else if(rectX2 == -1 && rectY2 == -1){
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
@@ -347,37 +340,44 @@ private void enregistrerPointAvantCoupe(Point point) {
                 rectX2 = -1;
                 rectY2 = -1;
             }
-            else if(peutCreerCoupeL) {
-                controleur.CreerCoupeL(Ref, Axe);
-                repaint();
-                peutCreerCoupeL = false;
             }
-            }
-        else if (peutCreerCoupeRect ){
+        else if (peutCreerCoupeRect || peutCreerCoupeL){
             rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
 
             Point Ref = new Point(rectX1, rectY1);
             Point Origin = new Point(rectX2, rectY2);
             Point Dest = new Point(rectX3, rectY3);
-            float BordureX = Math.abs(rectX3 - rectX2);
-            float BordureY = Math.abs(rectY3 - rectY2);
-            
             if(peutCreerCoupeRect) {
                 controleur.CreerCoupeRect(Origin, Dest, BordureX, BordureY, Ref);
                 repaint();
                 peutCreerCoupeRect = false;
+                rectX1 = -1;
+                rectY1 = -1;   
+                rectX2 = -1;
+                rectY2 = -1;
+                rectX3 = -1;
+                rectY3 = -1;
             }
+            else if(peutCreerCoupeL) {
+                controleur.CreerCoupeL(Ref, Dest);
+                /*
+                Repere repere = Repere.getInstance();
+                float origineXmm = repere.convertirEnMmDepuisPixels(Origin.x);
+                float destYmm = repere.convertirEnMmDepuisPixels(Dest.y);
+                mainWindow.updateDimensions(origineXmm, destYmm ); */
 
-            rectX1 = -1;
-            rectY1 = -1;
-            rectX2 = -1;
-            rectY2 = -1;
-            //BordureX = -1;
-            //BordureY = -1;
-            
+                repaint();
+                peutCreerCoupeL = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
         }
     }
+
+
 
     public void activerCreationCoupeBordure() {
         this.peutCreerCoupeBordure = true;
