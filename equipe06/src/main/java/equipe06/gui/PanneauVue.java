@@ -35,6 +35,8 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerCoupeL = false;
     private boolean peutCreerCoupeH = false;
     private boolean peutCreerCoupeV = false;
+    private Vector<Point> pointsEnregistres = new Vector<>();
+
 
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
@@ -73,10 +75,16 @@ public class PanneauVue extends JPanel {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                
+                
                  lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
                  lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
                  int invertedY = hauteurPixelsTable - lastClickY;
                  mainWindow.updateDimensions(lastClickX, invertedY); 
+                 Point point = new Point(lastClickX, lastClickY);
+                 enregistrerPointAvantCoupe(point);
+                
+                 
                 if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
                     captureRectanglePoints(evt);
                     }
@@ -183,6 +191,17 @@ public class PanneauVue extends JPanel {
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
+private void enregistrerPointAvantCoupe(Point point) {
+    if (peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV || peutCreerCoupeH) {
+     
+        pointsEnregistres.add(point);
+        
+        // Log immédiat pour chaque ajout
+        System.out.println("Point enregistré avec succès : (" + point.x + ", " + point.y + ")");
+        System.out.println("Total des points enregistrés : " + pointsEnregistres.size());
+    }
+}
+
 // Houni fama mochkla , ki nzid zoom bech to5rejch ml panneau , maadech najmou 
     //nsawrou coupe a partie mn 996 mm , fhmtch aaleh meme si limite hattha
     @Override
