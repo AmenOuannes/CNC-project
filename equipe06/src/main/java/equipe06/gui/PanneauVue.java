@@ -82,15 +82,15 @@ public class PanneauVue extends JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 
                 
-                 lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+                 /*lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
                  lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
                  int invertedY = hauteurPixelsTable - lastClickY;
                  mainWindow.updateDimensions(lastClickX, invertedY); 
                  Point point = new Point(lastClickX, lastClickY);
-                 enregistrerPointAvantCoupe(point);
+                 enregistrerPointAvantCoupe(point);*/
                 
                  
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR){
                     captureRectanglePoints(evt);
                     }
                 if (deleteTriggered) {
@@ -302,7 +302,7 @@ private void enregistrerPointAvantCoupe(Point point) {
     }
 
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH)) {
+        if (rectX1 == -1 && rectY1 == -1 ) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
 

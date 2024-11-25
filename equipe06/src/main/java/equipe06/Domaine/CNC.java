@@ -258,7 +258,7 @@ public class CNC {
             }
         }else if (Objects.equals(coupe.getTypeCoupe(), "Rect")) {
             CoupeRec c = (CoupeRec) coupe;
-
+            //TODO : check reference sur 2 coupes if axials ou sur rect ou sur coin panneau
             // Convertir les points origine et destination en coordonnées nécessaires
             float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
             float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
@@ -275,7 +275,8 @@ public class CNC {
                     panneau.inPanneau(referenceX, referenceY ) ) {
                 System.out.println("Coupe rectangulaire valide.");
                 return true;
-                }   
+                }
+            //TODO : check origine et destination seulement
         } else if (Objects.equals(coupe.getTypeCoupe(), "L")) {
             CoupeL c = (CoupeL) coupe;
             // Extraire les coordonnées des points
@@ -449,6 +450,9 @@ public class CNC {
                 y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
             else
                 y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
+            //ma_coupe.setBordureX(longueur); TODO
+            //ma_coupe.setBordureY(largeur);
+
         }
 
 
