@@ -308,14 +308,18 @@ private void enregistrerPointAvantCoupe(Point point) {
             if (deleteTriggered){
                 Point p = new Point (rectX1,rectY1);
                 controleur.supprimerCoupeSurClic(p);
+                System.out.print("Point pour supprimer\n");
 
               deleteTriggered = false;
               repaint();
             }
+            System.out.print("Point 1\n");
+
         }
         else if(rectX2 == -1 && rectY2 == -1){
             rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.print("Point 2\n");
 
             Point Ref = new Point(rectX1, rectY1);
             Point Axe = new Point(rectX2, rectY2);
@@ -344,6 +348,7 @@ private void enregistrerPointAvantCoupe(Point point) {
         else if (peutCreerCoupeRect || peutCreerCoupeL){
             rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.print("Point 3\n");
 
             Point Ref = new Point(rectX1, rectY1);
             Point Origin = new Point(rectX2, rectY2);
@@ -374,6 +379,9 @@ private void enregistrerPointAvantCoupe(Point point) {
                 rectX2 = -1;
                 rectY2 = -1;
             }
+        }
+        else {
+            System.out.print("rien\n");
         }
     }
 

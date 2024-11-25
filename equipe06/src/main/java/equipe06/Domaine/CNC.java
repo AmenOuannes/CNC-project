@@ -270,12 +270,36 @@ public class CNC {
                                      (int) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().y));
 
             // Vérifier que origine et destination sont dans le panneau, et que la référence est sur le panneau
+            Vector<UUID> uuids = surCoupes(c.getReference());
             if (panneau.inPanneau(origineX, origineY) && 
-                    panneau.inPanneau(destinationX, destinationY )/*&& panneau.surPanneau(reference)*/ && 
-                    panneau.inPanneau(referenceX, referenceY ) ) {
-                System.out.println("Coupe rectangulaire valide.");
-                return true;
-                }
+                    panneau.inPanneau(destinationX, destinationY))
+            {
+                        if(panneau.surPanneau(c.getReference())){
+                            System.out.println("Coupe rectangulaire valide.");
+                            return true;
+                        }
+                        
+                        else if (uuids.size() == 1 &&
+                               Objects.equals(coupes.get(0).getTypeCoupe(), "Rect")){
+                            System.out.println("hethi mrglaaa");
+                            return true;
+                        }
+                        
+                        else if (uuids.size() == 2 && ((Objects.equals(coupes.get(0).getTypeCoupe(), "H")
+                            && Objects.equals(coupes.get(1).getTypeCoupe(), "V")) || (Objects.equals(coupes.get(1).getTypeCoupe(), "H")
+                            && Objects.equals(coupes.get(0).getTypeCoupe(), "V")))/* && 
+                                           (coupes.get(i).getUUID() == uuids.get(0) || coupes.get(i).getUUID() == uuids.get(1))
+                                   && (coupes.get(j).getUUID() == uuids.get(0) || coupes.get(j).getUUID() == uuids.get(1))*/) {
+                            System.out.println("Coupe rectangulaire valide.");
+                               return true;
+                           }
+                        else {
+                            System.out.println("el ASBAAA");
+                        }
+                            System.out.print(uuids.size());
+            }
+          
+
             //TODO : check origine et destination seulement
         } else if (Objects.equals(coupe.getTypeCoupe(), "L")) {
             CoupeL c = (CoupeL) coupe;
@@ -351,12 +375,13 @@ public class CNC {
                 Point origineRect = coupeRect.getPointOrigine();
                 Point destinationRect = coupeRect.getPointDestination();
                 // Le point doit correspondre à un des 4 coins du rectangle
-                if ((((origineRect.x - outil_courant.getLargeur_coupe() / 2 <= x && origineRect.x + outil_courant.getLargeur_coupe() / 2 >= x) || 
-                        (destinationRect.x - outil_courant.getLargeur_coupe() / 2 <= x && destinationRect.x + outil_courant.getLargeur_coupe() / 2 >= x)) &&
-                        (y >= Math.min(destinationRect.y, origineRect.y) && y <= Math.max(destinationRect.y, origineRect.y))) || (((origineRect.y - outil_courant.getLargeur_coupe() / 2 <= y && origineRect.y + outil_courant.getLargeur_coupe() / 2 >= y) || 
-                        (destinationRect.y - outil_courant.getLargeur_coupe() / 2 <= y && destinationRect.y + outil_courant.getLargeur_coupe() / 2 >= y)) &&
-                        (x >= Math.min(destinationRect.x, origineRect.x) && y <= Math.max(destinationRect.x, origineRect.x))))
+                boolean BordGauche = (x >= origineRect.x - 50 && x <= origineRect.x + 50) && (y >= origineRect.y - 50 && y <= origineRect.y + 50);
+                boolean BordDroit = (x >= origineRect.x - 50 && x <= origineRect.x + 50) && (y >= destinationRect.y - 50 && y <= destinationRect.y + 50);
+                boolean BordBas = (x >= destinationRect.x - 50 && x <= destinationRect.x + 50) && (y >= origineRect.y - 50 && y <= origineRect.y + 50);
+                boolean BordHaut = (x >= destinationRect.x - 50 && x <= destinationRect.x + 50) && (y >= destinationRect.y - 50 && y <= destinationRect.y + 50);
+                if (BordGauche || BordDroit || BordHaut || BordBas)
                 {
+                    System.out.println("sayeb ZEBI");
                     uuids.add(c.getUUID());
                 }
                 break;

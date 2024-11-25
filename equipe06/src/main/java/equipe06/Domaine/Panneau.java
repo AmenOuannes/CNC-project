@@ -105,9 +105,7 @@ public class Panneau {
         boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
         boolean BordBas = (Math.abs(y-Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)))< tolerance) && ((x >= 0 && x <= this.getLongueur()));
         boolean BordHaut = (Math.abs( y-( Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60))-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
-
         return BordGauche || BordDroit || BordHaut || BordBas;
-
     }
 }
  
