@@ -435,6 +435,8 @@ public class CNC {
                 y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
             else
                 y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
+            ma_coupe.setBordureX(longueur);
+            ma_coupe.setBordureY(largeur);
         }
         else if (cut.getTypeCoupe()=="L") {
             CoupeL ma_coupe = (CoupeL) cut;
