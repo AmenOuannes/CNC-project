@@ -383,25 +383,34 @@ public class CNC {
         }
     }
     
-     public void supprimerCoupe(Point point) {
-        try{
-            System.out.println(" supprimer 1 ");
-            Vector<UUID> uuids = surCoupes(point);
-            System.out.println("UUIDs retournés par surCoupes : " + uuids);
-            for (int i=0; i<coupes.size(); i++){
-                System.out.println(" hereeee ");
-                if (coupes.get(i).getUUID().equals(uuids)){
-                    System.out.println("UUIDs retournés par surCoupes : " + uuids);
-                    System.out.println("UUID de la coupe actuelle : " + coupes.get(i).getUUID());
-                    System.out.println(" hereeee 2 ");
-                    coupes.remove(i);
-                    System.out.println("coupe supprimer");
-                    break;
-                    
-                }
+   public void supprimerCoupe(Point point) {
+    try {
+        // Récupérer les UUIDs associés au point
+        Vector<UUID> uuids = surCoupes(point);
+        System.out.println("UUIDs retournés par surCoupes : " + uuids);
+
+        // Parcourir la liste des coupes
+        for (int i = 0; i < coupes.size(); i++) {
+            UUID currentUUID = coupes.get(i).getUUID(); // UUID actuel de la coupe
+            System.out.println("UUID de la coupe actuelle : " + currentUUID);
+
+            // Vérifier si le UUID de la coupe actuelle est dans les UUIDs retournés
+            if (uuids.contains(currentUUID)) {
+                System.out.println("UUID trouvé, suppression en cours...");
+                coupes.remove(i);
+                System.out.println("Coupe supprimée avec succès.");
+                return; // Quitter après suppression
             }
-        } catch (IndexOutOfBoundsException e){
-            System.out.println("Erreur : y'a pas de coupe a supprimer ");
         }
-      } 
-}
+
+        // Si aucune coupe n'a été supprimée
+        System.out.println("Aucune coupe correspondante trouvée pour le point donné.");
+    } catch (IndexOutOfBoundsException e) {
+        System.out.println("Erreur : problème avec l'accès à la liste des coupes.");
+    } catch (Exception e) {
+        System.out.println("Erreur inattendue : " + e.getMessage());
+    }
+   }
+ }
+    
+

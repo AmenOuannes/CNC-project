@@ -77,18 +77,18 @@ public class PanneauVue extends JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 
                 
-                 lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+               /*  lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
                  lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
                  int invertedY = hauteurPixelsTable - lastClickY;
                  mainWindow.updateDimensions(lastClickX, invertedY); 
                  Point point = new Point(lastClickX, lastClickY);
-                 enregistrerPointAvantCoupe(point);
+                 enregistrerPointAvantCoupe(point);*/
                 
                  
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || deleteTriggered){
                     captureRectanglePoints(evt);
                     }
-                if (deleteTriggered) {
+                /*if (deleteTriggered) {
                     
                     // Convertir les coordonnées en millimètres
                     float xMm = Repere.getInstance().convertirEnMmDepuisPixels(
@@ -103,7 +103,7 @@ public class PanneauVue extends JPanel {
                     controleur.supprimerCoupeSurClic(clicMm);
                     repaint();
                     deleteTriggered = false;
-                }  
+                }  */
             }
         });
 
@@ -297,10 +297,16 @@ private void enregistrerPointAvantCoupe(Point point) {
     }
 
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH)) {
+        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH || deleteTriggered)) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-
+            if (deleteTriggered){
+                Point p = new Point (rectX1,rectY1);
+                controleur.supprimerCoupeSurClic(p);
+              
+              deleteTriggered = false;
+              repaint();
+            }
 
             rectX2 = -1;
             rectY2 = -1;
