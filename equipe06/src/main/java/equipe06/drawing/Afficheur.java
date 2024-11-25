@@ -93,7 +93,8 @@ public class Afficheur {
             int x2px = destination.x;
             int y2px = destination.y; 
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(2f));
+            float epaisseur = controleur.getEpaisseurActuelle();
+            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
             g2d.setColor(Color.BLACK);
             // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
             int x = Math.min(x1px, x2px);
