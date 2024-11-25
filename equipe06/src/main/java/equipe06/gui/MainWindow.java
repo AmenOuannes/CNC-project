@@ -40,8 +40,8 @@ public class MainWindow extends javax.swing.JFrame {
         // Configurer `PanneauVisualisation`
         PanneauVisualisation.setLayout(new BorderLayout());
          
-        System.out.println("Width: " + PanneauVisualisation.getWidth());
-        System.out.println("Height: " + PanneauVisualisation.getHeight());
+        //System.out.println("Width: " + PanneauVisualisation.getWidth());
+        //System.out.println("Height: " + PanneauVisualisation.getHeight());
         
         // Ajouter `panneauVue` dans `PanneauVisualisation`
         PanneauVisualisation.add(panneauVue, BorderLayout.CENTER);
@@ -86,6 +86,7 @@ public class MainWindow extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{outil.getNomDTO(), outil.getLargeur_coupeDTO()});
         }
     } 
+    
     //////////////////////////////////////////////////
 public void updateDimensions(float x, float y) {
     Repere repere = Repere.getInstance();
@@ -107,6 +108,29 @@ public void updateDimY(float y) {
 }
 
 //////////////////////////////////////////////////
+public void mettreAJourComboBoxOutil() {
+    Outil_Coupe.removeAllItems(); // Supprime tous les éléments existants
+
+    // Ajouter les outils mis à jour dans le comboBox
+    Vector<OutilDTO> outils = controleur.getOutils(); // Récupérer les outils à jour
+    for (OutilDTO outil : outils) {
+        Outil_Coupe.addItem(outil.getNomDTO()); // Ajouter chaque outil
+    }
+    Outil_Coupe.repaint(); // Redessiner le comboBox
+}
+
+public void mettreAJourTableauOutils() {
+    DefaultTableModel model = (DefaultTableModel) tableauOutils.getModel();
+    model.setRowCount(0); // Effacer les lignes actuelles
+
+    Vector<OutilDTO> outils = controleur.getOutils(); // Récupérer les outils
+    for (OutilDTO outil : outils) {
+        model.addRow(new Object[]{outil.getNomDTO(), outil.getLargeur_coupeDTO()});
+    }
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -142,11 +166,12 @@ public void updateDimY(float y) {
         Epaisseur_Outil = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         Supprimer_Outil = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        ModifOutil = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableauOutils = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
+        ValidModifOutil = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         PanneauContrôle = new javax.swing.JPanel();
         DefCoupe = new javax.swing.JButton();
@@ -321,10 +346,10 @@ public void updateDimY(float y) {
             }
         });
 
-        jButton4.setText("Modifier Outil");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        ModifOutil.setText("Modifier Outil");
+        ModifOutil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                ModifOutilActionPerformed(evt);
             }
         });
 
@@ -340,6 +365,13 @@ public void updateDimY(float y) {
 
         jLabel16.setText("Sélectionnez un outil pour le configurer ou supprimer");
 
+        ValidModifOutil.setText("Valider Modifcation");
+        ValidModifOutil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ValidModifOutilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -347,6 +379,9 @@ public void updateDimY(float y) {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Creer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -366,14 +401,16 @@ public void updateDimY(float y) {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Supprimer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(Supprimer_Outil, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ValidModifOutil)
+                                    .addComponent(ModifOutil, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jSeparator6)
                 .addContainerGap())
@@ -403,8 +440,10 @@ public void updateDimY(float y) {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(66, 66, 66)
                         .addComponent(Supprimer_Outil)
-                        .addGap(35, 35, 35)
-                        .addComponent(jButton4))
+                        .addGap(18, 18, 18)
+                        .addComponent(ModifOutil)
+                        .addGap(18, 18, 18)
+                        .addComponent(ValidModifOutil))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -478,7 +517,7 @@ public void updateDimY(float y) {
 
         UniteBordure.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm", "cm", "metre", "pouce" }));
 
-        jLabel21.setText("Coupe Actuelle: ");
+        jLabel21.setText("Point courant :");
 
         jLabel22.setText("x:");
 
@@ -513,7 +552,7 @@ public void updateDimY(float y) {
                                         .addGap(18, 18, 18)
                                         .addComponent(BordureX, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(UniteBordure, 0, 111, Short.MAX_VALUE))))
+                                        .addComponent(UniteBordure, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(PanneauContrôleLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -631,9 +670,9 @@ public void updateDimY(float y) {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel15)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SuppCoupe)
-                .addGap(17, 17, 17))
+                .addGap(29, 29, 29))
         );
 
         jLabel8.setText("1.Créer une coupe");
@@ -647,7 +686,7 @@ public void updateDimY(float y) {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanneauContrôle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
@@ -822,9 +861,36 @@ public void updateDimY(float y) {
         // TODO add your handling code here:
     }//GEN-LAST:event_PANlargeurYActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void ModifOutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifOutilActionPerformed
+      int selectedRow = tableauOutils.getSelectedRow(); // Récupérer l'index de l'outil sélectionné
+
+    if (selectedRow != -1) { // Vérifie qu'une ligne est sélectionnée
+        String nomActuel = (String) tableauOutils.getValueAt(selectedRow, 0); // Nom actuel de l'outil
+        String nouveauNom = Nom_Outil.getText(); // Nouveau nom saisi
+        String nouvelleEpaisseurStr = Epaisseur_Outil.getText(); // Nouvelle largeur saisie
+
+        if (nouveauNom.isEmpty() || nouvelleEpaisseurStr.isEmpty()) {
+            message.setText("Veuillez remplir les champs pour modifier l'outil.");
+            return;
+        }
+
+        try {
+            float nouvelleEpaisseur = Float.parseFloat(nouvelleEpaisseurStr);
+
+            // Appel du Controleur pour modifier l'outil
+            controleur.modifierOutil(nomActuel, nouveauNom, nouvelleEpaisseur);
+
+            // Nettoyer les champs de texte
+            Nom_Outil.setText("");
+            Epaisseur_Outil.setText("");
+            message.setText("Modification validée.");
+        } catch (NumberFormatException e) {
+            message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+        }
+    } else {
+        message.setText("Veuillez sélectionner un outil à modifier.");
+    }
+    }//GEN-LAST:event_ModifOutilActionPerformed
 
     private void Epaisseur_OutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Epaisseur_OutilActionPerformed
         // TODO add your handling code here:
@@ -948,9 +1014,10 @@ public void updateDimY(float y) {
     if (outilSelectionne != null) {
         // Récupérer l'épaisseur de l'outil sélectionné
         float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
-        if ("Defaut".equals(outilSelectionne)) {
-         controleur.setEpaisseurActuelle(2.0f); // Valeur par défaut en pixels
-         }
+       if ("Defaut".equals(outilSelectionne)) {
+           float epaisseurDefaut = Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // Convertir 0,5 pouces en pixels
+           controleur.setEpaisseurActuelle(epaisseurDefaut);
+       }
 
         // Convertir l'épaisseur en pixels
         Repere repere = Repere.getInstance();
@@ -965,6 +1032,44 @@ public void updateDimY(float y) {
         message.setText("Veuillez sélectionner un outil avant de redessiner.");
     }
     }//GEN-LAST:event_ActualiserActionPerformed
+
+    private void ValidModifOutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValidModifOutilActionPerformed
+       int selectedRow = tableauOutils.getSelectedRow(); // Récupérer la ligne sélectionnée
+
+    if (selectedRow != -1) { // Vérifie qu'une ligne est sélectionnée
+        String nouveauNom = Nom_Outil.getText();
+        String nouvelleEpaisseurStr = Epaisseur_Outil.getText();
+
+        if (nouveauNom.isEmpty() || nouvelleEpaisseurStr.isEmpty()) {
+            message.setText("Veuillez remplir les champs pour modifier l'outil.");
+            return;
+        }
+
+        try {
+            float nouvelleEpaisseur = Float.parseFloat(nouvelleEpaisseurStr);
+
+            // Récupérer le nom actuel de l'outil depuis la table
+            String nomActuel = (String) tableauOutils.getValueAt(selectedRow, 0);
+
+            // Mettre à jour l'outil via le contrôleur
+            controleur.modifierOutil(nomActuel, nouveauNom, nouvelleEpaisseur);
+
+            // **Mettre à jour la table et la combobox**
+            mettreAJourComboBoxOutil();
+            controleur.mettreAJourTableauOutils(); 
+
+            // Nettoyer les champs
+            Nom_Outil.setText("");
+            Epaisseur_Outil.setText("");
+            message.setText("Modification validée.");
+        } catch (NumberFormatException e) {
+            message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+        }
+    } else {
+        message.setText("Veuillez sélectionner un outil à modifier.");
+    }
+
+    }//GEN-LAST:event_ValidModifOutilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1013,6 +1118,7 @@ public void updateDimY(float y) {
     private javax.swing.JTextField DistanceX;
     private javax.swing.JTextField Epaisseur_Outil;
     private javax.swing.JButton ModCoupe;
+    private javax.swing.JButton ModifOutil;
     private javax.swing.JTextField Nom_Outil;
     private javax.swing.JComboBox<String> Outil_Coupe;
     private javax.swing.JTextField PANlargeurY;
@@ -1024,8 +1130,8 @@ public void updateDimY(float y) {
     private javax.swing.JButton Supprimer_Outil;
     private javax.swing.JComboBox<String> Type_Coupe;
     private javax.swing.JComboBox<String> UniteBordure;
+    private javax.swing.JButton ValidModifOutil;
     private javax.swing.JComboBox<String> comboBoxUnite;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

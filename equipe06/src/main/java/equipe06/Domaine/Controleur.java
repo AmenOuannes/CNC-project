@@ -20,7 +20,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = 2.0f; // Par défaut, en pixels
+    private float epaisseurActuelle = Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
     public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
@@ -114,11 +114,15 @@ public class Controleur {
 
     
     // on appelle cette methode lors d'ajouter ou modifier un outil pour que la table des outils fait une mise a jour
-    public void mettreAJourTableauOutils() {
-        Vector<OutilDTO> outils = cnc.getOutils(); // Récupérer le vecteur d'OutilDTO depuis CNC
-        mainWindow.afficherOutilsDansTable(outils); // Mettre à jour la table dans MainWindow
+ public void mettreAJourTableauOutils() {
+    Vector<OutilDTO> outils = this.getOutils(); 
+    System.out.println("Nombre d'outils après mise à jour : " + outils.size());
+    for (OutilDTO outil : outils) {
+        System.out.println("Outil : " + outil.getNomDTO() + ", Largeur : " + outil.getLargeur_coupeDTO());
     }
-    
+    mainWindow.afficherOutilsDansTable(outils);
+}
+
     public void supprimerOutil(int index) {
         cnc.supprimerOutilParIndex(index); // Supprime l'outil en fonction de l'index
     }
@@ -130,7 +134,7 @@ public class Controleur {
         }
     }
     // Retourne une valeur par défaut si l'outil n'est pas trouvé
-    return 2.0f; // 2.0f correspond à une épaisseur par défaut
+    return Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // 0,5 pouces par défaut
 }
     public void setEpaisseurActuelle(float epaisseurPixels) {
     this.epaisseurActuelle = epaisseurPixels;
@@ -144,6 +148,34 @@ public float getEpaisseurActuelle() {
 public void supprimerCoupeSurClic(Point clic) {
     cnc.supprimerCoupesParPoint(clic);
     }
+
+public void modifierOutil(String nomActuel, String nouveauNom, float nouvelleEpaisseur) {
+    // Recherche l'outil par son nom pour obtenir l'UUID
+    for (OutilDTO outilDTO : cnc.getOutils()) {
+        if (outilDTO.getNomDTO().equals(nomActuel)) {
+            // Appel de la méthode ModifierOutil de CNC
+            cnc.ModifierOutil(outilDTO.getId(), nouveauNom, nouvelleEpaisseur);
+
+            System.out.println("Outil modifié dans CNC : Nom = " + nouveauNom + ", Largeur = " + nouvelleEpaisseur);
+
+            // Mise à jour des composants graphiques
+            mettreAJourTableauOutils();
+            mainWindow.mettreAJourComboBoxOutil();
+            return; // Quitte la méthode après modification
+        }
+    }
+    System.out.println("Outil non trouvé : " + nomActuel);
+}
+
+
+
+// Méthode pour retourner tous les outils
+public Vector<OutilDTO> getOutils() {
+    return cnc.getOutils(); // Remplacez `cnc` par l'objet qui contient les outils si nécessaire
+}
+
+
+
 
 }
     

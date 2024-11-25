@@ -29,7 +29,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", 10));
+        outils.add(new Outil("defaut", 12.7f));
         outil_courant = outils.firstElement();
         
     }
@@ -97,6 +97,7 @@ public class CNC {
     //TODO : rendre cette boucle en try catch
     // TODO check if outil est outilCourant
     public void supprimerOutilParIndex(int index) {
+        assert index >= 0 && index < outils.size() : "Index invalide pour la suppression d'un outil.";
         if (index >= 0 && index < outils.size()) {
             Outil outil = outils.get(index);
             outils.remove(index);
@@ -117,30 +118,6 @@ public class CNC {
             System.out.println("Index invalide. Impossible de supprimer l'outil."); //control local remove @ zied
         }
     }
-    /* fonction existe deja marra jeya dzid ell code ell nekes fi west ell fonction
-   public void supprimerOutilParIndex(int index) {
-    if (index >= 0 && index < outils.size()) {
-        Outil outilSupprime = outils.get(index); // Récupère l'outil à supprimer
-        outils.remove(index); // Supprime l'outil de la liste
-
-        // Vérifie si l'outil courant est celui qui a été supprimé
-        if (outil_courant != null && outil_courant.getNom().equals(outilSupprime.getNom())) {
-            if (!outils.isEmpty()) {
-                outil_courant = outils.get(0); // Définit un nouvel outil courant
-                System.out.println("Outil courant mis à jour après suppression : " + outil_courant.getNom());
-            } else {
-                outil_courant = null; // Réinitialise si aucun outil n'est disponible
-                System.out.println("Aucun outil disponible. Outil courant réinitialisé.");
-            }
-        }
-
-        System.out.println("Outil supprimé avec succès : " + outilSupprime.getNom());
-    } else {
-        System.out.println("Index invalide. Impossible de supprimer l'outil.");
-    }
-}
-*/
-
 
     //amen
     public void ModifierOutil(UUID uuid, String NewName, float NewLargeur){
@@ -213,6 +190,11 @@ public class CNC {
     //hedi+amen
     // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
     public void CreerCoupeAxe(float x,  float y, boolean composante, Point reference) {
+        
+        assert reference != null : "Le point de référence ne doit pas être null.";
+        assert x >= 0 : "L'axe x doit être positif.";
+        assert y >= 0 : "L'axe y doit être positif.";
+   
         ElementCoupe e = null;
         //CoupeAxe ma_coupe = null;
         Point pointDestination = new Point();
@@ -318,6 +300,8 @@ public class CNC {
     //amen
     // TODO: changer en ajoutant les uuid
     public void AjouterCoupe(Coupe coupe) {
+        
+        assert coupe != null : "La coupe ne doit pas être null.";
         // vector of uuids
         Vector<UUID> uuids = new Vector<UUID>();
         for(Coupe c: coupes){

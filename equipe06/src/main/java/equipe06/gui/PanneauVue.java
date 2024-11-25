@@ -71,7 +71,12 @@ public class PanneauVue extends JPanel {
         });*/
 
         this.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                 lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+                 lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+                 int invertedY = hauteurPixelsTable - lastClickY;
+                 mainWindow.updateDimensions(lastClickX, invertedY); 
                 if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH){
                     captureRectanglePoints(evt);
                     }

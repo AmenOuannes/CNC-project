@@ -73,6 +73,7 @@ public UUID getUUID() {
         return uuid;
 }
 public void setUUID(UUID uuid) {
+    assert uuid != null : "Le UUID ne peut pas être null.";
         this.uuid = uuid;
 }
 public String getTypeCoupe() {
