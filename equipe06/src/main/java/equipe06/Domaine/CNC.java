@@ -316,18 +316,7 @@ public class CNC {
         //System.out.print(coupes.size());
 
     }
-    public void supprimerCoupe(UUID uuid) {
-        try{
-            for (int i=0; i<coupes.size(); i++){
-                if (coupes.get(i).getUUID().equals(uuid)){
-                    coupes.remove(i);
-                    break;
-                }
-            }
-        } catch (IndexOutOfBoundsException e){
-            System.out.println("Erreur : y'a pas de coupe a supprimer ");
-        }
-    }
+ 
 
     public Vector<UUID> surCoupes(Point reference){
         if (panneau.inPanneau((float) Repere.getInstance().convertirEnMmDepuisPixels(reference.x), (float) Repere.getInstance().convertirEnMmDepuisPixels(reference.y)))
@@ -342,6 +331,7 @@ public class CNC {
                    if((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= x) &&
                            (x <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
                        uuids.add(c.getUUID());
+                       System.out.println("le uuid est " + uuids);
                    }
                    break;
                case "H":
@@ -393,53 +383,25 @@ public class CNC {
         }
     }
     
-    
-
-    public void supprimerCoupesParPoint(Point point) {
-        // Convertir les coordonnées du point de référence en millimètres
-        float y = Repere.getInstance().convertirEnMmDepuisPixels(point.y);
-        float x = Repere.getInstance().convertirEnMmDepuisPixels(point.x);
-        boolean coupeSupprimee = false;
-        // Parcourir les coupes pour identifier celles à supprimer
-        Iterator<Coupe> iterator = coupes.iterator();
-        while (iterator.hasNext()) {
-            Coupe coupe = iterator.next();
-            switch (coupe.getTypeCoupe()) {
-                /*
-                case "Rect": // Coupe rectangulaire
-                case "L":    // Coupe en L
-                    Point origine = coupe.getPointOrigine();
-                    Point destination = coupe.getPointDestination();
-
-                    // Vérifier si le point correspond à l'origine ou à la destination
-                    if ((origine != null && Math.abs(origine.x - x) <= 1 && Math.abs(origine.y - y) <= 1) ||
-                        (destination != null && Math.abs(destination.x - x) <= 1 && Math.abs(destination.y - y) <= 1)) {
-                        iterator.remove();
-                        coupeSupprimee = true;
-                    }
+     public void supprimerCoupe(Point point) {
+        try{
+            System.out.println(" supprimer 1 ");
+            Vector<UUID> uuids = surCoupes(point);
+            System.out.println("UUIDs retournés par surCoupes : " + uuids);
+            for (int i=0; i<coupes.size(); i++){
+                System.out.println(" hereeee ");
+                if (coupes.get(i).getUUID().equals(uuids)){
+                    System.out.println("UUIDs retournés par surCoupes : " + uuids);
+                    System.out.println("UUID de la coupe actuelle : " + coupes.get(i).getUUID());
+                    System.out.println(" hereeee 2 ");
+                    coupes.remove(i);
+                    System.out.println("coupe supprimer");
                     break;
-*/
-                case "H": // Coupe axiale horizontale
-                case "V": // Coupe axiale verticale
-                    CoupeAxe coupeAxe = (CoupeAxe) coupe;
-
-                    // Vérifier si le point correspond directement à l'axe
-                    if ((coupe.getTypeCoupe().equals("H") && Math.abs(coupeAxe.getAxe() - x) <= 10) ||
-                        (coupe.getTypeCoupe().equals("V") && Math.abs(coupeAxe.getAxe() - y) <= 10)) {
-                        iterator.remove();
-                        coupeSupprimee = true;
-                    }
-                    break;
+                    
+                }
             }
-       }
-
-    // Afficher le résultat de la suppression
-    if (coupeSupprimee) {
-        System.out.println("Coupe(s) supprimée(s) avec succès.");
-    } else {
-        System.out.println("Aucune coupe trouvée à supprimer.");
-    }
-    
-    }
-     
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("Erreur : y'a pas de coupe a supprimer ");
+        }
+      } 
 }

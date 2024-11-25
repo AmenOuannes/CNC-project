@@ -83,11 +83,10 @@ public class Controleur {
     }
 
     // TODO: corriger appel , faut le UUID
-    public void supprimerCoupe() {
-       if ( getUUID() != null )
-        { cnc.supprimerCoupe(getUUID());
-        }
-
+    public void supprimerCoupeSurClic(Point point) {
+        System.out.println(" cont 1 ");
+    cnc.supprimerCoupe(point);
+    System.out.println(" supprimer cont 2 ");
     }
     public void CreerCoupeRect(Point origin, Point dest, Point reference) {
         cnc.CreerCoupeRect(origin, dest, reference);
@@ -144,10 +143,6 @@ public class Controleur {
 public float getEpaisseurActuelle() {
     return epaisseurActuelle;
 }
-
-public void supprimerCoupeSurClic(Point clic) {
-    cnc.supprimerCoupesParPoint(clic);
-    }
 
 public void modifierOutil(String nomActuel, String nouveauNom, float nouvelleEpaisseur) {
     // Recherche l'outil par son nom pour obtenir l'UUID
