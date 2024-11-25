@@ -159,13 +159,13 @@ public class CNC {
         }
     }
     //Amen
-    public void CreerCoupeRect(Point Origine, Point Destination, Point reference){
-        //TODO coupe rect, attribut extraits du controleur
+    public void CreerCoupeRect(Point Origine, Point Destination,float BordureX, float BordureY, Point reference){
+        //TODO coupe rect, attribut extraits du controleur float
         assert (Origine != null);
         assert (Destination != null);
         ElementCoupe e = new ElementCoupe(
                 Origine, Destination, 5.0f,
-                0.3f,0,false,0.0f, 0.0f,"Rect", null);
+                0.3f,0,false,BordureX, BordureY,"Rect", null);
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout

@@ -360,8 +360,11 @@ private void enregistrerPointAvantCoupe(Point point) {
             Point Ref = new Point(rectX1, rectY1);
             Point Origin = new Point(rectX2, rectY2);
             Point Dest = new Point(rectX3, rectY3);
+            float BordureX = Math.abs(rectX3 - rectX2);
+            float BordureY = Math.abs(rectY3 - rectY2);
+            
             if(peutCreerCoupeRect) {
-                controleur.CreerCoupeRect(Origin, Dest, Ref);
+                controleur.CreerCoupeRect(Origin, Dest, BordureX, BordureY, Ref);
                 repaint();
                 peutCreerCoupeRect = false;
             }
@@ -370,6 +373,9 @@ private void enregistrerPointAvantCoupe(Point point) {
             rectY1 = -1;
             rectX2 = -1;
             rectY2 = -1;
+            //BordureX = -1;
+            //BordureY = -1;
+            
         }
     }
 

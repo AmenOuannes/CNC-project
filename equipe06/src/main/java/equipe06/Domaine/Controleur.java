@@ -88,8 +88,8 @@ public class Controleur {
     cnc.supprimerCoupe(point);
     System.out.println(" supprimer cont 2 ");
     }
-    public void CreerCoupeRect(Point origin, Point dest, Point reference) {
-        cnc.CreerCoupeRect(origin, dest, reference);
+    public void CreerCoupeRect(Point origin, Point dest, float BordureX, float BordureY, Point reference) {
+        cnc.CreerCoupeRect(origin, dest, BordureX, BordureY, reference);
 
     }
 
