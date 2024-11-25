@@ -5,6 +5,7 @@ import equipe06.Domaine.Repere;
 import equipe06.Domaine.Coupe;
 import equipe06.Domaine.*;
 import equipe06.Domaine.Utils.ElementCoupe;
+import org.w3c.dom.css.Rect;
 
 import java.awt.Point;
 import java.util.List;
@@ -33,6 +34,9 @@ public class CNC {
         outil_courant = outils.firstElement();
         
     }
+
+
+
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
         // Création de l'objet Panneau avec les attributs donnés
         this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
@@ -140,13 +144,13 @@ public class CNC {
 
     //-------------------------------------------------COUPES--------------------------------------------------------
     //Katia
-    public void CreerCoupeL(Point pointOrigine , Point pointDestination, Point reference){
+    public void CreerCoupeL(Point referencePoint, Point pointDestination){
         //TODO coupe en L, attribut extraits du controleur
-        assert pointOrigine != null;
+        assert referencePoint != null;
         assert pointDestination != null;
-        ElementCoupe e  = new ElementCoupe( pointOrigine, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
-        Vector<UUID> CoupesDeReferences = surCoupes(reference);
-        CoupeL coupe = new CoupeL(e, CoupesDeReferences ,reference);
+        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
+        Vector<UUID> CoupesDeReferences = surCoupes(referencePoint);
+        CoupeL coupe = new CoupeL(e, CoupesDeReferences ,referencePoint);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
             AjouterCoupe(coupe);
             System.out.println("Coupe en L créée avec succès.");
@@ -411,6 +415,61 @@ public class CNC {
         System.out.println("Erreur inattendue : " + e.getMessage());
     }
    }
- }
+
+    public void modifierCoupeCarre(Float longueur, Float largeur, Point ref) {
+        UUID uuid = this.surCoupes(ref).firstElement();
+        Coupe cut = null ;
+        for(Coupe coupe : coupes) {
+            if(uuid==coupe.getUUID())
+                cut= coupe;
+        }
+        if(cut==null) return;
+        if(cut.getTypeCoupe()=="Rect")
+        {   CoupeRec ma_coupe = (CoupeRec) cut;
+            int x, y;
+            if(ma_coupe.getPointOrigine().getX()>ma_coupe.getPointDestination().getX())
+                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            else
+                x = ma_coupe.getPointOrigine().x - Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            if(ma_coupe.getPointOrigine().getY()>ma_coupe.getPointDestination().getY())
+                y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
+            else
+                y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
+        }
+        else if (cut.getTypeCoupe()=="L") {
+            CoupeL ma_coupe = (CoupeL) cut;
+            int x, y;
+            if (ma_coupe.getPointOrigine().getX() > ma_coupe.getPointDestination().getX())
+                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            else
+                x = ma_coupe.getPointOrigine().x - Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            if (ma_coupe.getPointOrigine().getY() > ma_coupe.getPointDestination().getY())
+                y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
+            else
+                y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
+        }
+
+
+
+
+    }
+    public void modifierCoupeAxiale(Float a, Point p) {
+        UUID uuid = this.surCoupes(p).firstElement();
+        CoupeAxe ma_coupe = null ;
+        for(Coupe coupe : coupes) {
+            if(uuid==coupe.getUUID())
+                ma_coupe=(CoupeAxe) coupe;
+        }
+        if(ma_coupe==null) return;
+        if(ma_coupe.getTypeCoupe()=="H"){
+            //TODO: relativisme
+            ma_coupe.setAxe(a);
+        }
+        else if(ma_coupe.getTypeCoupe()=="V"){
+            //TODO : relativisme
+            ma_coupe.setAxe(a);
+        }
+    }
+}
     
 

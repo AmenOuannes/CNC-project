@@ -93,8 +93,8 @@ public class Controleur {
 
     }
 
-    public void CreerCoupeL(Point origin, Point destination, Point reference) {
-        cnc.CreerCoupeL(origin, destination, reference);
+    public void CreerCoupeL(Point reference, Point destination) {
+        cnc.CreerCoupeL(reference, destination);
     }
 
 
@@ -170,8 +170,12 @@ public Vector<OutilDTO> getOutils() {
 }
 
 
-
-
+public void modifierCoupeAxiale(Float a, Point Ref) {
+        cnc.modifierCoupeAxiale(a,Ref);
+    }
+public void modifierCoupeCarre(Float longueur, Float largeur, Point Ref) {
+        cnc.modifierCoupeCarre(longueur, largeur, Ref);
+}
 }
     
     

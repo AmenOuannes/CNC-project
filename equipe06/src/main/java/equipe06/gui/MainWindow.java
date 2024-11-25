@@ -940,11 +940,30 @@ public void mettreAJourTableauOutils() {
 
     private void ModCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModCoupeActionPerformed
         //try {
-            Float Axe = Float.parseFloat(DistanceX.getText());
-            controleur.modifierCoupe(Axe);
+            String selection = (String) Type_Coupe.getSelectedItem();
+            switch (selection) {
+                case "Vertical":
+                    Float AxeRelatif = Float.parseFloat(DistanceX.getText());
+                    panneauVue.activerModifierCoupeAxiale(AxeRelatif);
 
-            panneauVue.modifyTriggered=true;
-            panneauVue.repaint();
+                    panneauVue.repaint();
+                    break;
+                case "Horizontal":
+                    Float a = Float.parseFloat(DistanceX.getText());
+                    panneauVue.activerModifierCoupeAxiale(a);
+
+                    panneauVue.repaint();
+                    break;
+                case "Rect", "L":
+                    Float longueur = Float.parseFloat(DistanceX.getText()); //TODO: change avec JText
+                    Float largeur = Float.parseFloat(DistanceY.getText()); //TODO: change avec JText
+                    panneauVue.activerModifierR(longueur, largeur);
+                    panneauVue.repaint();
+                    break;
+
+
+
+            }
     }//GEN-LAST:event_ModCoupeActionPerformed
 
     //TODO: liaison bouton, controleur fares

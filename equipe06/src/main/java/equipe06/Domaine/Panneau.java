@@ -99,7 +99,7 @@ public class Panneau {
     // X -> LONGUEUR, Y -> LARGEUR
     public boolean surPanneau(Point reference) {
         float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
-        final float tolerance = 10;
+        final float tolerance = 50;
         float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
         boolean BordGauche = (Math.abs(x-0) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
         boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
