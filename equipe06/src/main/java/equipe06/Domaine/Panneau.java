@@ -5,6 +5,8 @@
 package equipe06.Domaine;
 import java.util.UUID;
 import java.awt.Point;
+import java.util.Vector;
+
 import equipe06.Domaine.Utils.ZoneInterdite;
 /**
  *
@@ -106,6 +108,17 @@ public class Panneau {
         boolean BordBas = (Math.abs(y-Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)))< tolerance) && ((x >= 0 && x <= this.getLongueur()));
         boolean BordHaut = (Math.abs( y-( Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60))-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
         return BordGauche || BordDroit || BordHaut || BordBas;
+    }
+
+    public boolean surCoins(Point reference) {
+        float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+        final float tolerance = 100;
+        float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
+        boolean BordGauche = (Math.abs(x-0) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
+        boolean BordDroit = (Math.abs(x-this.getLongueur()) < tolerance) && ((Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) >= 0 && (Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)) - y) <= this.getLargeur());
+        boolean BordBas = (Math.abs(y-Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60)))< tolerance) && ((x >= 0 && x <= this.getLongueur()));
+        boolean BordHaut = (Math.abs( y-( Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60))-this.getLargeur() ) )< tolerance) && ( (x >= 0 && x <= this.getLongueur() ));
+        return (BordGauche || BordDroit) && (BordHaut || BordBas);
     }
 }
  

@@ -924,7 +924,7 @@ public void mettreAJourTableauOutils() {
     }//GEN-LAST:event_DistanceXActionPerformed
 
     private void SuppCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppCoupeActionPerformed
-        panneauVue.activerSuppressionCoupe();      
+        panneauVue.activerSuppressionCoupe();
         /*
         if (!controleur.getCoupes().isEmpty()) {
             panneauVue.deleteTriggered = true;

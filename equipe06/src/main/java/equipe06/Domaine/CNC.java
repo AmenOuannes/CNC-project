@@ -150,7 +150,7 @@ public class CNC {
         assert pointDestination != null;
         ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",null);
         Vector<UUID> CoupesDeReferences = surCoupes(referencePoint);
-        CoupeL coupe = new CoupeL(e, CoupesDeReferences ,referencePoint);
+        CoupeL coupe = new CoupeL(e, CoupesDeReferences);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
             AjouterCoupe(coupe);
             System.out.println("Coupe en L créée avec succès.");
@@ -159,10 +159,12 @@ public class CNC {
         }
     }
     //Amen
-    public void CreerCoupeRect(Point Origine, Point Destination,float BordureX, float BordureY, Point reference){
+    public void CreerCoupeRect(Point Origine, Point Destination, Point reference){
         //TODO coupe rect, attribut extraits du controleur float
         assert (Origine != null);
         assert (Destination != null);
+        float BordureX = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.x-Destination.x)));
+        float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
         ElementCoupe e = new ElementCoupe(
                 Origine, Destination, 5.0f,
                 0.3f,0,false,BordureX, BordureY,"Rect", null);
@@ -177,22 +179,27 @@ public class CNC {
 
     }
 
-    //zied
+
     public void CreerCoupeBordure(float x, float y){
 
         float bordureX = x;
         float bordureY = y;
+        int bordureXPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureX);
+        int bordureYPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureY);
+        int longueurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLongueur());
+        int largeurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLargeur());
+        int xOrigine = (longueurOriginalePx - bordureXPx) / 2;
+        int yOrigine = (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60) - largeurOriginalePx + (largeurOriginalePx - bordureYPx) / 2;
+        Point pointOrigine = new Point(xOrigine, yOrigine);
+        Point pointDestination = new Point(bordureXPx, bordureYPx);
         ElementCoupe e = new ElementCoupe(
-                null, null, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", null );
+                pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", null );
         CoupeRec coupe = new CoupeRec(e);
-        //TODO coupe valide
-        // on a pas besoin de verifier la coupe Bordure
         coupes.add(coupe);
         
     }
 
-    //hedi+amen
-    // TODO :changer ça en fnct creer coupeAXE, correction sur l'ajout du point origine et destination dans le element coupe
+
     public void CreerCoupeAxe(float x,  float y, boolean composante, Point reference) {
         
         assert reference != null : "Le point de référence ne doit pas être null.";
@@ -200,7 +207,7 @@ public class CNC {
         assert y >= 0 : "L'axe y doit être positif.";
    
         ElementCoupe e = null;
-        //CoupeAxe ma_coupe = null;
+
         Point pointDestination = new Point();
 
         if (composante == true)
@@ -208,17 +215,17 @@ public class CNC {
 
          e = new ElementCoupe(
                 reference, pointDestination, 5.0f, 0.3f,
-                 x, composante, 0.0f, 0.0f, "V", null);
+                 x, composante, 0.0f, 0.0f, "V", outil_courant);
         }
         else{
 
              e = new ElementCoupe(
             reference, pointDestination, 5.0f, 0.3f,
-                     y, composante, 0.0f, 0.0f, "H", null);
+                     y, composante, 0.0f, 0.0f, "H", outil_courant);
         }
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeAxe ma_coupe = new CoupeAxe(e, CoupesDeReferences ,reference);
-        if (CoupeValide(ma_coupe, panneau)) //remove katia
+        if (CoupeValide(ma_coupe, panneau))
             {
                 AjouterCoupe(ma_coupe);
             }
@@ -240,8 +247,15 @@ public class CNC {
     public void ModifierCoupeRectL() {
         //verifier si ma coupe est modifiée lors de la modification d'un axe
     }
-    //hedi
-    // TODO: fnct invalide pour le reste du travail
+    public boolean IsThere(Vector<UUID> uuids, String s){
+
+        for(Coupe coupe : coupes){
+            if(uuids.contains(coupe.getUUID()))
+                if(Objects.equals(s, coupe.getTypeCoupe()))
+                    return true;
+        }
+        return false;
+    }
     public boolean CoupeValide(Coupe coupe, Panneau panneau) {
 
         assert coupe != null : "La coupe ne peut pas etre invalide.";
@@ -258,76 +272,44 @@ public class CNC {
             }
         }else if (Objects.equals(coupe.getTypeCoupe(), "Rect")) {
             CoupeRec c = (CoupeRec) coupe;
-            //TODO : check reference sur 2 coupes if axials ou sur rect ou sur coin panneau
-            // Convertir les points origine et destination en coordonnées nécessaires
             float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
             float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
             float destinationX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
             float destinationY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
-            float referenceX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().x);
-            float referenceY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().y);
-            Point reference = new Point((int) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().x),
-                                     (int) Repere.getInstance().convertirEnMmDepuisPixels(c.getReference().y));
 
             // Vérifier que origine et destination sont dans le panneau, et que la référence est sur le panneau
             Vector<UUID> uuids = surCoupes(c.getReference());
             if (panneau.inPanneau(origineX, origineY) && 
                     panneau.inPanneau(destinationX, destinationY))
             {
-                        if(panneau.surPanneau(c.getReference())){
-                            System.out.println("Coupe rectangulaire valide.");
-                            return true;
-                        }
-                        
-                        else if (uuids.size() == 1 &&
-                               Objects.equals(coupes.get(0).getTypeCoupe(), "Rect")){
-                            System.out.println("hethi mrglaaa");
-                            return true;
-                        }
-                        
-                        else if (uuids.size() == 2 && ((Objects.equals(coupes.get(0).getTypeCoupe(), "H")
-                            && Objects.equals(coupes.get(1).getTypeCoupe(), "V")) || (Objects.equals(coupes.get(1).getTypeCoupe(), "H")
-                            && Objects.equals(coupes.get(0).getTypeCoupe(), "V")))/* && 
-                                           (coupes.get(i).getUUID() == uuids.get(0) || coupes.get(i).getUUID() == uuids.get(1))
-                                   && (coupes.get(j).getUUID() == uuids.get(0) || coupes.get(j).getUUID() == uuids.get(1))*/) {
-                            System.out.println("Coupe rectangulaire valide.");
-                               return true;
-                           }
-                        else {
-                            System.out.println("el ASBAAA");
-                        }
-                            System.out.print(uuids.size());
+                if(  IsThere(uuids, "Rect") || IsThere(uuids, "Bordure")   ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
+                    System.out.println(" references valides");
+                    return true;
+                }
+                if(panneau.surCoins(c.getReference())) return true;
             }
           
 
-            //TODO : check origine et destination seulement
+
         } else if (Objects.equals(coupe.getTypeCoupe(), "L")) {
             CoupeL c = (CoupeL) coupe;
             // Extraire les coordonnées des points
-            float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
-            float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
-            float destinationX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
-            float destinationY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
-            Point origine = /*c.getPointOrigine();*/   new Point((int) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x),
-                                     (int) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y));
-            // Calculer les points adjacents pour une coupe en L
-            float adj1X = destinationX;
-            float adj1Y = origineY; // Coin horizontal adjacent
-            float adj2X = origineX;
-            float adj2Y = destinationY; // Coin vertical adjacent
-            // Vérifier que origine est sur le panneau, et les autres points sont dans le panneau
-            if (/*panneau.surPanneau(origine) && */ panneau.inPanneau(origineX, origineY) &&
-                panneau.inPanneau(destinationX, destinationY) &&
-                panneau.inPanneau(adj1X, adj1Y) &&
-                panneau.inPanneau(adj2X, adj2Y)) {
-                System.out.println("Coupe en L valide.");
-                return true;
+            float destinationX = Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
+            float destinationY = Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
+            Vector<UUID> uuids = surCoupes(c.getPointOrigine());
+            if (panneau.inPanneau(destinationX, destinationY))
+            {
+                if(  IsThere(uuids, "Rect")   || IsThere(uuids, "Bordure")   ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
+                    System.out.println(" references valides");
+                    return true;
+                }
+                if(panneau.surCoins(c.getPointOrigine())) return true;
             }
+
         }
         return false;
     } 
-    //amen
-    // TODO: changer en ajoutant les uuid
+
     public void AjouterCoupe(Coupe coupe) {
         
         assert coupe != null : "La coupe ne doit pas être null.";
@@ -342,76 +324,92 @@ public class CNC {
 
         coupes.add(coupe);
         System.out.print("coupe enregistrée\n");
-        //System.out.print(coupes.size());
+
 
     }
  
 
-    public Vector<UUID> surCoupes(Point reference){
-        if (panneau.inPanneau((float) Repere.getInstance().convertirEnMmDepuisPixels(reference.x), (float) Repere.getInstance().convertirEnMmDepuisPixels(reference.y)))
-        {
-        float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
-        float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
+    public Vector<UUID> surCoupes(Point reference) {
         Vector<UUID> uuids = new Vector<>();
-       for(Coupe c: coupes){
-           switch (c.getTypeCoupe()){
-               case "V":
-                   CoupeAxe axiale = (CoupeAxe) c;
-                   if((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= x) &&
-                           (x <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
-                       uuids.add(c.getUUID());
-                       System.out.println("le uuid est " + uuids);
-                   }
-                   break;
-               case "H":
-                   axiale = (CoupeAxe) c;
-                   if((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= y) &&
-                           (y <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)){
-                       uuids.add(c.getUUID());
-                   }
-                   break;
-                case "Rect":
-                CoupeRec coupeRect = (CoupeRec) c;
-                Point origineRect = coupeRect.getPointOrigine();
-                Point destinationRect = coupeRect.getPointDestination();
-                // Le point doit correspondre à un des 4 coins du rectangle
-                boolean BordGauche = (x >= origineRect.x - 50 && x <= origineRect.x + 50) && (y >= origineRect.y - 50 && y <= origineRect.y + 50);
-                boolean BordDroit = (x >= origineRect.x - 50 && x <= origineRect.x + 50) && (y >= destinationRect.y - 50 && y <= destinationRect.y + 50);
-                boolean BordBas = (x >= destinationRect.x - 50 && x <= destinationRect.x + 50) && (y >= origineRect.y - 50 && y <= origineRect.y + 50);
-                boolean BordHaut = (x >= destinationRect.x - 50 && x <= destinationRect.x + 50) && (y >= destinationRect.y - 50 && y <= destinationRect.y + 50);
-                if (BordGauche || BordDroit || BordHaut || BordBas)
-                {
-                    System.out.println("sayeb ZEBI");
-                    uuids.add(c.getUUID());
-                }
-                break;
-                case "L":
-                CoupeL coupeL = (CoupeL) c;
-                Point destinationL = coupeL.getPointDestination();
-                Point OrigineL = coupeL.getPointOrigine();
-                Point adjacent1 = new Point(destinationL.x, OrigineL.y); // Coin horizontal adjacent
-                Point adjacent2 = new Point(OrigineL.x, destinationL.y); // Coin vertical adjacent
-                // Vérifie si le point de référence est le point destination ou un des coins adjacents
-                if ((((OrigineL.x - outil_courant.getLargeur_coupe() / 2 <= x && OrigineL.x + outil_courant.getLargeur_coupe() / 2 >= x) || 
-                        (destinationL.x - outil_courant.getLargeur_coupe() / 2 <= x && destinationL.x + outil_courant.getLargeur_coupe() / 2 >= x)) &&
-                        (y >= Math.min(destinationL.y, OrigineL.y) && y <= Math.max(destinationL.y, OrigineL.y))) || (((OrigineL.y - outil_courant.getLargeur_coupe() / 2 <= y && OrigineL.y + outil_courant.getLargeur_coupe() / 2 >= y) || 
-                        (destinationL.y - outil_courant.getLargeur_coupe() / 2 <= y && destinationL.y + outil_courant.getLargeur_coupe() / 2 >= y)) &&
-                        (x >= Math.min(destinationL.x, OrigineL.x) && y <= Math.max(destinationL.x, OrigineL.x)))) {
-                    uuids.add(c.getUUID());
-                }
-                break;
-                default:
-                    System.out.println("Type de coupe non pris en charge : " + c.getTypeCoupe());
-                    break;
+        if (panneau.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(reference.x), Repere.getInstance().convertirEnMmDepuisPixels(reference.y))) {
+            float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+            float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
 
-           }
-       }
-       return uuids;
+            for (Coupe c : coupes) {
+                switch (c.getTypeCoupe()) {
+                    case "V":
+                        CoupeAxe axiale = (CoupeAxe) c;
+                        if ((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= x) &&
+                                (x <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)) {
+                            uuids.add(c.getUUID());
+                            System.out.println("click sur coupe verticale");
+                        }
+                        break;
+                    case "H":
+                        axiale = (CoupeAxe) c;
+                        if ((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= y) &&
+                                (y <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)) {
+                            uuids.add(c.getUUID());
+                            System.out.println("click sur coupe Horizontale");
+                        }
+                        break;
+                    case "Rect", "Bordure":
+                        CoupeRec coupeRect = (CoupeRec) c;
+                        Point origineRect = coupeRect.getPointOrigine();
+                        Point destinationRect = coupeRect.getPointDestination();
+                        // Le point doit correspondre à un des 4 coins du rectangle
+                        boolean Coin1 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(origineRect.x)) <= 100
+                                && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(origineRect.y)) <= 100;
+
+                        boolean Coin2 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(origineRect.x)) <= 100
+                                && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.y)) <= 100;
+
+                        boolean Coin3 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.x)) <= 100
+                                && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(origineRect.y)) <= 100;
+
+                        boolean Coin4 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.x)) <= 100
+                                && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.y)) <= 100;
+
+                        if (Coin1 || Coin2 || Coin3 || Coin4) {
+                            System.out.println("click sur coupe rectangulaire");
+                            uuids.add(c.getUUID());
+                        }
+                        break;
+                    case "L":
+                        CoupeL coupeL = (CoupeL) c;
+                        Point origineL = coupeL.getPointOrigine();
+                        Point destinationL = coupeL.getPointDestination();
+                        // Le point doit correspondre à un des 4 coins du rectangle
+                        boolean CoinL1 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(origineL.x)) <= 100
+                            && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(origineL.y)) <= 100;
+
+                         boolean CoinL2 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(origineL.x)) <= 100
+                            && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y)) <= 100;
+
+                        boolean CoinL3 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(destinationL.x)) <= 100
+                            && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(origineL.y)) <= 100;
+
+                        boolean CoinL4 = Math.abs(x - Repere.getInstance().convertirEnMmDepuisPixels(destinationL.x)) <= 100
+                            && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y)) <= 100;
+
+                        if (CoinL1 || CoinL2 || CoinL3 || CoinL4) {
+                        System.out.println("click sur coupe rectangulaire");
+                        uuids.add(c.getUUID());
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Type de coupe non pris en charge : " + c.getTypeCoupe());
+                        break;
+
+                }
+            }
+
         }
-        else {
-            return null;
-        }
+        return uuids;
     }
+
+
     
    public void supprimerCoupe(Point point) {
     try {

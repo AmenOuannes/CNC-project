@@ -73,25 +73,9 @@ public class PanneauVue extends JPanel {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR){
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered) {
                     captureRectanglePoints(evt);
                     }
-                if (deleteTriggered) {
-                    
-                    // Convertir les coordonnées en millimètres
-                    float xMm = Repere.getInstance().convertirEnMmDepuisPixels(
-                        ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor)
-                    );
-                    float yMm = Repere.getInstance().convertirEnMmDepuisPixels(
-                        ajusterCoordonneePourVue(evt.getY(), offsetX, zoomFactor)
-                    );
-                    // Créer un point avec les coordonnées en millimètres
-                    Point clicMm = new Point((int) xMm, (int) yMm);
-                    // Transmettre le point au contrôleur
-                    controleur.supprimerCoupeSurClic(clicMm);
-                    repaint();
-                    deleteTriggered = false;
-                }
             }
         });
 
@@ -147,16 +131,35 @@ public class PanneauVue extends JPanel {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH || deleteTriggered)) {
+        if (rectX1 == -1 && rectY1 == -1 ) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
             if (deleteTriggered) {
                 Point p = new Point(rectX1, rectY1);
                 controleur.supprimerCoupeSurClic(p);
                 System.out.print("Point pour supprimer\n");
-
                 deleteTriggered = false;
                 repaint();
+                rectX1 = -1;
+                rectY1 = -1;
+            }
+            else if(modifyTriggeredR){
+                Point Ref = new Point(rectX1, rectY1);
+                System.out.print("Point pour modifier carre\n");
+                controleur.modifierCoupeCarre(longueur_modify, largeur_modify, Ref);
+                repaint();
+                modifyTriggeredR = false;
+                rectX1 = -1;
+                rectY1 = -1;
+            }
+            else if(modifyTriggeredA){
+                Point Ref = new Point(rectX1, rectY1);
+                System.out.print("Point pour modifier un axe\n");
+                controleur.modifierCoupeAxiale(AxeRelatif, Ref);
+                repaint();
+                modifyTriggeredA = false;
+                rectX1 = -1;
+                rectY1 = -1;
             }
             System.out.print("Point 1\n");
 
@@ -168,7 +171,6 @@ public class PanneauVue extends JPanel {
             Point Ref = new Point(rectX1, rectY1);
             Point Axe = new Point(rectX2, rectY2);
             if (peutCreerCoupeV) {
-
                 controleur.CreerCoupeAxiale(Axe, true, Ref);
                 repaint();
                 System.out.print("Coupe créé avec succès!\n");
@@ -178,7 +180,7 @@ public class PanneauVue extends JPanel {
                 rectX2 = -1;
                 rectY2 = -1;
             }
-            if (peutCreerCoupeH) {
+            else if (peutCreerCoupeH) {
                 controleur.CreerCoupeAxiale(Axe, false, Ref);
                 repaint();
                 peutCreerCoupeH = false;
@@ -188,26 +190,8 @@ public class PanneauVue extends JPanel {
                 rectX2 = -1;
                 rectY2 = -1;
             }
-        } else if (peutCreerCoupeRect || peutCreerCoupeL) {
-            rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.print("Point 3\n");
-
-            Point Ref = new Point(rectX1, rectY1);
-            Point Origin = new Point(rectX2, rectY2);
-            Point Dest = new Point(rectX3, rectY3);
-            if (peutCreerCoupeRect) {
-                controleur.CreerCoupeRect(Origin, Dest, BordureX, BordureY, Ref);
-                repaint();
-                peutCreerCoupeRect = false;
-                rectX1 = -1;
-                rectY1 = -1;
-                rectX2 = -1;
-                rectY2 = -1;
-                rectX3 = -1;
-                rectY3 = -1;
-            } else if (peutCreerCoupeL) {
-                controleur.CreerCoupeL(Ref, Dest);
+            else if (peutCreerCoupeL) {
+                controleur.CreerCoupeL(Ref, Axe);
                 repaint();
                 peutCreerCoupeL = false;
                 rectX1 = -1;
@@ -215,7 +199,30 @@ public class PanneauVue extends JPanel {
                 rectX2 = -1;
                 rectY2 = -1;
             }
-        } else {
+
+        }
+        else if (peutCreerCoupeRect) {
+            rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+            rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.print("Point 3\n");
+
+            Point Ref = new Point(rectX1, rectY1);
+            Point Origin = new Point(rectX2, rectY2);
+            Point Dest = new Point(rectX3, rectY3);
+
+            controleur.CreerCoupeRect(Origin, Dest, Ref);
+            System.out.println("coupe créé avec succès \n");
+            repaint();
+            peutCreerCoupeRect = false;
+            rectX1 = -1;
+            rectY1 = -1;
+            rectX2 = -1;
+            rectY2 = -1;
+            rectX3 = -1;
+            rectY3 = -1;
+
+        }
+        else {
             System.out.print("rien\n");
         }
     }
