@@ -82,20 +82,18 @@ public class CNC {
     //TODO: mettre a jour depuis la selection du outil courant depuis l'interface
     
     public void setOutil_courant(OutilDTO outil_courantDTO) {
-    if (outil_courantDTO != null) {
+
         // Recherche l'outil correspondant dans la liste des outils
-        for (Outil outil : outils) {
+        /*for (Outil outil : outils) {
             if (outil.getNom().equals(outil_courantDTO.getNomDTO())) {
                 this.outil_courant = outil;
                 System.out.println("Outil courant mis à jour : " + outil.getNom());
                 return;
             }
-        }
+        }*/
+        this.outil_courant.setLargeur_coupe(outil_courantDTO.getLargeur_coupeDTO()) ;
         System.out.println("Outil courant non trouvé dans la liste.");
-    } else {
-        this.outil_courant = null; // Réinitialise l'outil courant si aucun outil DTO n'est fourni
-        System.out.println("Outil courant réinitialisé.");
-    }
+
 }
 
     //TODO : rendre cette boucle en try catch
@@ -135,11 +133,11 @@ public class CNC {
             }
         }
     }
-    public void ModifierCoupesOutilCourant(){
+    /*public void ModifierCoupesOutilCourant(){
         for(Coupe coupe: coupes){
             coupe.setOutil(outil_courant);
         }
-    }
+    }*/
 
 
     //-------------------------------------------------COUPES--------------------------------------------------------
@@ -424,6 +422,7 @@ public class CNC {
 
             // Vérifier si le UUID de la coupe actuelle est dans les UUIDs retournés
             if (uuids.contains(currentUUID)) {
+
                 System.out.println("UUID trouvé, suppression en cours...");
                 coupes.remove(i);
                 System.out.println("Coupe supprimée avec succès.");
@@ -477,9 +476,9 @@ public class CNC {
             Point OldDestination = ma_coupe.getPointDestination();
             int x, y;
             if (ma_coupe.getPointOrigine().getX() > ma_coupe.getPointDestination().getX())
-                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
-            else
                 x = ma_coupe.getPointOrigine().x - Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            else
+                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
             if (ma_coupe.getPointOrigine().getY() > ma_coupe.getPointDestination().getY())
                 y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
             else

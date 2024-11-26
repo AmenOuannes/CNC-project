@@ -61,7 +61,7 @@ public class Controleur {
 //------------------------------------------------------COUPES----------------------------------------------------------
      public void CreerCoupeAxiale(Point p, boolean composante, Point reference) {
 
-
+        cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeAxe(Repere.getInstance().convertirEnMmDepuisPixels((int) p.getX()),
                     Repere.getInstance().convertirEnMmDepuisPixels((int) p.getY())
                 , composante, reference);
@@ -69,6 +69,7 @@ public class Controleur {
 
      
     public void SetCoupeBordure(float BordureXValue, float BordureYValue) {
+        cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeBordure(BordureXValue, BordureYValue);
     }
 
@@ -89,11 +90,13 @@ public class Controleur {
     System.out.println(" supprimer cont 2 ");
     }
     public void CreerCoupeRect(Point origin, Point dest, Point reference) {
+        cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeRect(origin, dest, reference);
        
     }
 
     public void CreerCoupeL(Point reference, Point destination) {
+        cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeL(reference, destination);
     }
 
@@ -137,6 +140,7 @@ public class Controleur {
 }
     public void setEpaisseurActuelle(float epaisseurPixels) {
     this.epaisseurActuelle = epaisseurPixels;
+
 }
 
 

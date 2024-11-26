@@ -41,8 +41,6 @@ public class Afficheur {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO()));
             // Partie Largeur outil :
-            float epaisseur = controleur.getEpaisseurActuelle();
-            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
 
             g2d.setColor(Color.BLACK);
             //controleur.mettreAJourDistanceX(x_mm);
@@ -52,8 +50,6 @@ public class Afficheur {
         else{     
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); //for now
-            float epaisseur = controleur.getEpaisseurActuelle();
-            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
             g2d.setColor(Color.BLACK);
             //controleur.mettreAJourDistanceX(x_mm);
             int ligneX1 = largeurTable; // Starting point of the line
@@ -95,8 +91,6 @@ public class Afficheur {
             Graphics2D g2d = (Graphics2D) g;
 
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
-            float epaisseur = controleur.getEpaisseurActuelle();
-            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
             if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1px)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1px)))
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))
                 g2d.setColor(Color.BLACK);
@@ -112,7 +106,6 @@ public class Afficheur {
     //TODO dessiner un L : Katia
     public void dessinerL (Graphics g, Point origine, Point destination, CoupeDTO coupe) {
         if (origine != null && destination != null) {
-        System.out.println("here");
             // Extraire les coordonnées des point
         int x1 = origine.x;
         int y1= origine.y;
@@ -121,8 +114,6 @@ public class Afficheur {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
-            float epaisseur = controleur.getEpaisseurActuelle();
-            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
             if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1)))
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2))))
                 g2d.setColor(Color.BLACK);
@@ -150,8 +141,7 @@ public class Afficheur {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO()));
-            float epaisseur = controleur.getEpaisseurActuelle();
-            g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
+
             g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
         }   
         else{

@@ -1055,7 +1055,7 @@ public void mettreAJourTableauOutils() {
         float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
        if ("Defaut".equals(outilSelectionne)) {
            float epaisseurDefaut = Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // Convertir 0,5 pouces en pixels
-           controleur.setEpaisseurActuelle(epaisseurDefaut);
+           controleur.setEpaisseurActuelle(0.5f);
        }
 
         // Convertir l'épaisseur en pixels
@@ -1091,7 +1091,7 @@ public void mettreAJourTableauOutils() {
             String nomActuel = (String) tableauOutils.getValueAt(selectedRow, 0);
 
             // Mettre à jour l'outil via le contrôleur
-            controleur.modifierOutil(nomActuel, nouveauNom, nouvelleEpaisseur);
+            controleur.modifierOutil(nomActuel, nouveauNom, Repere.getInstance().convertirEnPixelsDepuisMm(nouvelleEpaisseur));
 
             // **Mettre à jour la table et la combobox**
             mettreAJourComboBoxOutil();
