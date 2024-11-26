@@ -526,6 +526,17 @@ public class CNC {
 
 
     }
+    public void modifierCoupeAxiale(Point p, float largeur){
+        if(surCoupes(p).isEmpty()) return;
+        UUID uuid = this.surCoupes(p).firstElement();
+        Coupe ma_coupe = null ;
+        int translationX=0, translationY=0;
+        for(Coupe coupe : coupes) {
+            if(uuid==coupe.getUUID())
+                ma_coupe= coupe;
+        }
+        ma_coupe.setOutil(largeur);
+    }
     public void modifierCoupeAxiale(float a, Point p) {
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();

@@ -41,6 +41,7 @@ public class PanneauVue extends JPanel {
     private float longueur_modify;
     private float largeur_modify;
     private boolean EditRef=false;
+    private boolean ModifOutil = false;
     private Vector<Point> pointsEnregistres = new Vector<>();
 
 
@@ -74,7 +75,7 @@ public class PanneauVue extends JPanel {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef) {
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef || ModifOutil) {
                     captureRectanglePoints(evt);
                     }
             }
@@ -160,6 +161,15 @@ public class PanneauVue extends JPanel {
                 controleur.modifierCoupeAxiale(AxeRelatif, Ref);
                 repaint();
                 modifyTriggeredA = false;
+                rectX1 = -1;
+                rectY1 = -1;
+            }
+            else if(ModifOutil){
+                Point Ref = new Point(rectX1, rectY1);
+                System.out.print("Point pour modifier outil\n");
+                controleur.modifierCoupeOutil(Ref);
+                repaint();
+                ModifOutil = false;
                 rectX1 = -1;
                 rectY1 = -1;
             }
@@ -369,7 +379,10 @@ public class PanneauVue extends JPanel {
     public void activerEditRef() {
         EditRef = true;
     }
-
+    
+    public void activerModifOutil(){
+        ModifOutil = true;
+    }
 
     /*private void enregistrerPointAvantCoupe(Point point) {
         if (peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV || peutCreerCoupeH) {
