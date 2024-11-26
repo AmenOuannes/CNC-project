@@ -70,26 +70,9 @@ public class PanneauVue extends JPanel {
         // Définir la taille préférée du panneau basé sur la table CNC
         this.setPreferredSize(new Dimension(largeurPixelsTable, hauteurPixelsTable));
 
-        // Ajouter un MouseListener pour la création de coupe
-        /*this.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                drawingPanelMouseClicked(evt);
-            }
-        });*/
-
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                
-                
-                 /*lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-                 lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-                 int invertedY = hauteurPixelsTable - lastClickY;
-                 mainWindow.updateDimensions(lastClickX, invertedY); 
-                 Point point = new Point(lastClickX, lastClickY);
-                 enregistrerPointAvantCoupe(point);*/
-                
-                 
                 if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR){
                     captureRectanglePoints(evt);
                     }
@@ -158,57 +141,87 @@ public class PanneauVue extends JPanel {
         offsetY = 0.0;
         repaint(); // Redessiner la vue pour l'état initial
     }
-/*
-    public void drawingPanelMouseClicked(java.awt.event.MouseEvent evt) {
-        //if (peutCreerCoupeH) {
-            lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-        //    repaint();
-        //} else if (peutCreerCoupeV) {
-        //    lastClickX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-         //   lastClickY = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-         //   repaint();
-        //}
-         int invertedY = hauteurPixelsTable - lastClickY;
-         mainWindow.updateDimensions(lastClickX, invertedY);
-        
-        myPoint = new Point(lastClickX, lastClickY);
-        if(peutCreerCoupeV) {
 
-            controleur.CreerCoupeAxiale(myPoint, true);
-           
-            repaint();
-            peutCreerCoupeV=false;
-            System.out.print("Coupe créé avec succès!\n");
-        }
-        if(peutCreerCoupeH) {
-            
-          
-            controleur.CreerCoupeAxiale(myPoint, false);
-            repaint();
-            peutCreerCoupeH = false;
-            System.out.print("Coupe créé avec succès!\n");
-        }
-        lastClickX = -1;
-        lastClickY = -1;
-    }*/
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
-private void enregistrerPointAvantCoupe(Point point) {
-    if (peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV || peutCreerCoupeH) {
-     
-        pointsEnregistres.add(point);
-        
-        // Log immédiat pour chaque ajout
-        System.out.println("Point enregistré avec succès : (" + point.x + ", " + point.y + ")");
-        System.out.println("Total des points enregistrés : " + pointsEnregistres.size());
-    }
-}
+    private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
+        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH || deleteTriggered)) {
+            rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+            rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            if (deleteTriggered) {
+                Point p = new Point(rectX1, rectY1);
+                controleur.supprimerCoupeSurClic(p);
+                System.out.print("Point pour supprimer\n");
 
-// Houni fama mochkla , ki nzid zoom bech to5rejch ml panneau , maadech najmou 
-    //nsawrou coupe a partie mn 996 mm , fhmtch aaleh meme si limite hattha
+                deleteTriggered = false;
+                repaint();
+            }
+            System.out.print("Point 1\n");
+
+        } else if (rectX2 == -1 && rectY2 == -1) {
+            rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+            rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.print("Point 2\n");
+
+            Point Ref = new Point(rectX1, rectY1);
+            Point Axe = new Point(rectX2, rectY2);
+            if (peutCreerCoupeV) {
+
+                controleur.CreerCoupeAxiale(Axe, true, Ref);
+                repaint();
+                System.out.print("Coupe créé avec succès!\n");
+                peutCreerCoupeV = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+            if (peutCreerCoupeH) {
+                controleur.CreerCoupeAxiale(Axe, false, Ref);
+                repaint();
+                peutCreerCoupeH = false;
+                System.out.print("Coupe créé avec succès!\n");
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+        } else if (peutCreerCoupeRect || peutCreerCoupeL) {
+            rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+            rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+            System.out.print("Point 3\n");
+
+            Point Ref = new Point(rectX1, rectY1);
+            Point Origin = new Point(rectX2, rectY2);
+            Point Dest = new Point(rectX3, rectY3);
+            if (peutCreerCoupeRect) {
+                controleur.CreerCoupeRect(Origin, Dest, BordureX, BordureY, Ref);
+                repaint();
+                peutCreerCoupeRect = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+                rectX3 = -1;
+                rectY3 = -1;
+            } else if (peutCreerCoupeL) {
+                controleur.CreerCoupeL(Ref, Dest);
+                repaint();
+                peutCreerCoupeL = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+        } else {
+            System.out.print("rien\n");
+        }
+    }
+
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -250,6 +263,60 @@ private void enregistrerPointAvantCoupe(Point point) {
         }
     }
 
+
+
+    public void activerCreationCoupeL() {
+        this.peutCreerCoupeL = true;
+    }
+
+    public void activerCreationCoupeH() {
+        this.peutCreerCoupeH = true;
+    }
+
+    public void activerCreationCoupeV() {
+        this.peutCreerCoupeV = true;
+    }
+
+    public void activerCreationCoupeRect() {
+        this.peutCreerCoupeRect = true;
+    }
+
+    public boolean isAttenteClicPourCoupe() {
+        return peutCreerCoupe;
+    }
+
+
+
+
+
+
+    public void activerCreationCoupeBordure() {
+        this.peutCreerCoupeBordure = true;
+    }
+
+ /*   public void DimensionsBordure(float BordureXValue, float BordureYValue) {
+        this.BordureX = BordureXValue;
+        this.BordureY = BordureYValue;
+        this.peutCreerCoupeBordure = true;
+        repaint();
+    }*/
+    
+    public void activerSuppressionCoupe() {
+    this.deleteTriggered = true;
+    }
+
+
+    public void activerModifierCoupeAxiale(float axe) {
+        modifyTriggeredA = true;
+        AxeRelatif = axe;
+    }
+
+    public void activerModifierR(float longueur, float largeur) {
+        modifyTriggeredR = true;
+        longueur_modify = longueur;
+        largeur_modify = largeur;
+    }
+
     private void dessinerAxes(Graphics g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -281,136 +348,15 @@ private void enregistrerPointAvantCoupe(Point point) {
         }
     }
 
-    public void activerCreationCoupeL() {
-        this.peutCreerCoupeL = true;
-    }
 
-    public void activerCreationCoupeH() {
-        this.peutCreerCoupeH = true;
-    }
+    /*private void enregistrerPointAvantCoupe(Point point) {
+        if (peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV || peutCreerCoupeH) {
 
-    public void activerCreationCoupeV() {
-        this.peutCreerCoupeV = true;
-    }
+            pointsEnregistres.add(point);
 
-    public void activerCreationCoupeRect() {
-        this.peutCreerCoupeRect = true;
-    }
-
-    public boolean isAttenteClicPourCoupe() {
-        return peutCreerCoupe;
-    }
-
-   private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
-        if (rectX1 == -1 && rectY1 == -1 && (peutCreerCoupeRect || peutCreerCoupeL || peutCreerCoupeV || peutCreerCoupeH || deleteTriggered)) {
-            rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            if (deleteTriggered){
-                Point p = new Point (rectX1,rectY1);
-                controleur.supprimerCoupeSurClic(p);
-                System.out.print("Point pour supprimer\n");
-
-              deleteTriggered = false;
-              repaint();
-            }
-            System.out.print("Point 1\n");
-
+            // Log immédiat pour chaque ajout
+            System.out.println("Point enregistré avec succès : (" + point.x + ", " + point.y + ")");
+            System.out.println("Total des points enregistrés : " + pointsEnregistres.size());
         }
-        else if(rectX2 == -1 && rectY2 == -1){
-            rectX2 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            rectY2 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.print("Point 2\n");
-
-            Point Ref = new Point(rectX1, rectY1);
-            Point Axe = new Point(rectX2, rectY2);
-            if(peutCreerCoupeV) {
-
-                controleur.CreerCoupeAxiale(Axe, true, Ref);
-                repaint();
-                System.out.print("Coupe créé avec succès!\n");
-                peutCreerCoupeV=false;
-                rectX1 = -1;
-                rectY1 = -1;
-                rectX2 = -1;
-                rectY2 = -1;
-            }
-            if(peutCreerCoupeH) {
-                controleur.CreerCoupeAxiale(Axe, false, Ref);
-                repaint();
-                peutCreerCoupeH = false;
-                System.out.print("Coupe créé avec succès!\n");
-                rectX1 = -1;
-                rectY1 = -1;
-                rectX2 = -1;
-                rectY2 = -1;
-            }
-            }
-        else if (peutCreerCoupeRect || peutCreerCoupeL){
-            rectX3 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-            rectY3 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
-            System.out.print("Point 3\n");
-
-            Point Ref = new Point(rectX1, rectY1);
-            Point Origin = new Point(rectX2, rectY2);
-            Point Dest = new Point(rectX3, rectY3);
-            if(peutCreerCoupeRect) {
-                controleur.CreerCoupeRect(Origin, Dest, BordureX, BordureY, Ref);
-                repaint();
-                peutCreerCoupeRect = false;
-                rectX1 = -1;
-                rectY1 = -1;   
-                rectX2 = -1;
-                rectY2 = -1;
-                rectX3 = -1;
-                rectY3 = -1;
-            }
-            else if(peutCreerCoupeL) {
-                controleur.CreerCoupeL(Ref, Dest);
-                /*
-                Repere repere = Repere.getInstance();
-                float origineXmm = repere.convertirEnMmDepuisPixels(Origin.x);
-                float destYmm = repere.convertirEnMmDepuisPixels(Dest.y);
-                mainWindow.updateDimensions(origineXmm, destYmm ); */
-
-                repaint();
-                peutCreerCoupeL = false;
-                rectX1 = -1;
-                rectY1 = -1;
-                rectX2 = -1;
-                rectY2 = -1;
-            }
-        }
-        else {
-            System.out.print("rien\n");
-        }
-    }
-
-
-
-    public void activerCreationCoupeBordure() {
-        this.peutCreerCoupeBordure = true;
-    }
-
- /*   public void DimensionsBordure(float BordureXValue, float BordureYValue) {
-        this.BordureX = BordureXValue;
-        this.BordureY = BordureYValue;
-        this.peutCreerCoupeBordure = true;
-        repaint();
     }*/
-    
-    public void activerSuppressionCoupe() {
-    this.deleteTriggered = true;
-    }
-
-
-    public void activerModifierCoupeAxiale(float axe) {
-        modifyTriggeredA = true;
-        AxeRelatif = axe;
-    }
-
-    public void activerModifierR(Float longueur, Float largeur) {
-        modifyTriggeredR = true;
-        longueur_modify = longueur;
-        largeur_modify = largeur;
-    }
 }

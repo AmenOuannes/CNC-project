@@ -985,11 +985,12 @@ public void mettreAJourTableauOutils() {
             case "Rect":
             System.out.println("Création d'une coupe Rectangulaire");
             panneauVue.activerCreationCoupeRect();
+            panneauVue.repaint();
             break;
             case "L":
             System.out.println("Création d'une coupe en L");
             panneauVue.activerCreationCoupeL();
-            //panneauVue.repaint();
+            panneauVue.repaint();
             break;
             case "Bordure":
             System.out.println("Création d'une coupe Bordure");
