@@ -83,7 +83,7 @@ public class CoupeAxe extends Coupe {
             this.axeRelatif = a;
             float ymax = Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60));
 
-            if (reference) axe = ymax- panneau.getLargeur()+a;
+            if (!reference)  {axe = ymax- panneau.getLargeur()+a;System.out.println("le fameux if");}
             else {axe = ymax- a;System.out.println("le fameux else");}
         }
     }

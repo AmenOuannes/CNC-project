@@ -176,6 +176,10 @@ public void modifierCoupeAxiale(float a, Point Ref) {
 public void modifierCoupeCarre(float longueur, float largeur, Point Ref) {
         cnc.modifierCoupeCarre(longueur, largeur, Ref);
 }
+public boolean inPanneau(float x, float y) {
+        return cnc.inPanneau(x, y);
+    }
 }
+
     
     

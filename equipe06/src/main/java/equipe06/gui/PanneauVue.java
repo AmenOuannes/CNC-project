@@ -256,15 +256,15 @@ public class PanneauVue extends JPanel {
                 afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
             }
             else if(coupe.getTypeCoupeDTO()=="Bordure") {
-                afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable);
+                afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable, coupe);
             }
             else if(coupe.getTypeCoupeDTO().equals("Rect")){
-                afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
+                afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO(), coupe);
             }
             else if (coupe.getTypeCoupeDTO().equals("L"))  {
             Point pointOrigine = coupe.getPointOrigineDTO();
             Point pointDestino = coupe.getPointDestinoDTO();
-            afficheur.dessinerL(g, pointOrigine, pointDestino);
+            afficheur.dessinerL(g, pointOrigine, pointDestino, coupe);
              }
 
         }

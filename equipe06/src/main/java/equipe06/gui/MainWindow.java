@@ -948,7 +948,7 @@ public void mettreAJourTableauOutils() {
                         panneauVue.activerModifierCoupeAxiale(AxeRelatif);
                         panneauVue.repaint();
                     } catch (NumberFormatException e) {
-                        message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+                        message.setText("dimensions invalides.");
                     }
 
                     break;
@@ -960,7 +960,7 @@ public void mettreAJourTableauOutils() {
                         panneauVue.repaint();
                     }
                     catch (NumberFormatException e) {
-                        message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+                        message.setText("dimensions invalides.");
                           }
                     break;
 

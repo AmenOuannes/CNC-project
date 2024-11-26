@@ -106,4 +106,8 @@ public class CoupeRec extends Coupe{
         return myRef;
     }
 
+    public void setPointReference(Point point) {
+        this.reference=point;
+    }
+
 }
