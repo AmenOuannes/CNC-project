@@ -43,6 +43,7 @@ public class Afficheur {
             // Partie Largeur outil :
 
             g2d.setColor(Color.BLACK);
+            if(coupe.invalide) g2d.setColor(Color.RED);
             //controleur.mettreAJourDistanceX(x_mm);
             int ligneY1 = hauteurTable; // Starting point of the line
             g2d.drawLine(axe_pixel, ligneY1, axe_pixel, ligneY1 - repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLargeur())); // Draw the vertical line
@@ -51,6 +52,7 @@ public class Afficheur {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); //for now
             g2d.setColor(Color.BLACK);
+            if(coupe.invalide) g2d.setColor(Color.RED);
             //controleur.mettreAJourDistanceX(x_mm);
             int ligneX1 = largeurTable; // Starting point of the line
             g2d.drawLine(0, axe_pixel, repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur()), axe_pixel); // Draw the vertical line
@@ -95,6 +97,7 @@ public class Afficheur {
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))
                 g2d.setColor(Color.BLACK);
             else  g2d.setColor(Color.RED);
+            if(coupe.invalide) g2d.setColor(Color.RED);
             // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
             int x = Math.min(x1px, x2px);
             int y = Math.min(y1px, y2px);
@@ -118,6 +121,7 @@ public class Afficheur {
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2))))
                 g2d.setColor(Color.BLACK);
             else  g2d.setColor(Color.RED);
+            if(coupe.invalide) g2d.setColor(Color.RED);
         // dessiner le trait vertical
         //J 'ai essayé avec origine.x origine.y desti.x origi.y et tout ca marche pas aussi
             g2d.drawLine(x2, y2, x1 ,y2);

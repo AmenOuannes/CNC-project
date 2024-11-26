@@ -22,6 +22,7 @@ public abstract class Coupe {
     private Outil outil;
     public UUID uuid;
     private String typeCoupe;
+    public boolean invalide = false;
 
 
     public Coupe(ElementCoupe e) {

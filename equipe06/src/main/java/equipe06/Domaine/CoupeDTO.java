@@ -15,6 +15,7 @@ import java.util.UUID;
 
 public  class CoupeDTO {
 
+    public boolean invalide;
     // Attributs privés
     //private Outils outils;
     private float marge_profondeurDTO = 0.5f;
@@ -53,6 +54,7 @@ public  class CoupeDTO {
             this.pointDestinoDTO = ((CoupeL) coupe).getPointDestination();
         }
         this.TypeCoupeDTO = coupe.getTypeCoupe();
+        this.invalide = coupe.invalide;
     }
     
     public float getProfondeurDTO() {

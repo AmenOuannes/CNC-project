@@ -422,6 +422,37 @@ public class CNC {
 
             // Vérifier si le UUID de la coupe actuelle est dans les UUIDs retournés
             if (uuids.contains(currentUUID)) {
+                for(Coupe coupe :coupes) {
+                    switch (coupe.getTypeCoupe()) {
+                        case "V", "H":
+                            CoupeAxe cut =(CoupeAxe) coupe;
+                                Vector<UUID> df = surCoupes(cut.getReference());
+                                if(df.contains(currentUUID)) {
+                                    coupe.invalide = true;
+                                }
+
+                            break;
+                        case "Rect":
+                            CoupeRec cutR =(CoupeRec) coupe;
+                            Vector<UUID> dr = surCoupes(cutR.getReference());
+                            if(dr.contains(currentUUID)) {
+                                coupe.invalide = true;
+                            }
+                            break;
+                        case "L":
+                            CoupeL cutL =(CoupeL) coupe;
+                            Vector<UUID> dl = surCoupes(cutL.getPointOrigine());
+                            if(dl.contains(currentUUID)) {
+                                coupe.invalide = true;
+                            }
+                            break;
+
+                        default:
+                            System.out.println("Type de coupe non pris en charge : ");
+                            break;
+
+                    }
+                }
 
                 System.out.println("UUID trouvé, suppression en cours...");
                 coupes.remove(i);
