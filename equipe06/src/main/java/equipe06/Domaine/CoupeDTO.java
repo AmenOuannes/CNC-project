@@ -29,7 +29,8 @@ public  class CoupeDTO {
     private float BordureXDTO;
     private float BordureYDTO;
     private UUID uuidDTO;
-    private OutilDTO outilDTO; //outilDTO
+    //private OutilDTO outilDTO; //outilDTO
+    private float outil;
 
     public CoupeDTO(Coupe coupe){
         assert coupe != null;
@@ -38,7 +39,7 @@ public  class CoupeDTO {
         
         this.epaisseur = epaisseur;
          
-        this.outilDTO = new OutilDTO(coupe.getOutil());
+        this.outil = coupe.getOutil();
         if(coupe instanceof CoupeAxe){
             this.axeDTO = ((CoupeAxe) coupe).getAxe();
             this.composanteDTO = ((CoupeAxe) coupe).getComposante();
@@ -91,8 +92,8 @@ public  class CoupeDTO {
     public UUID getUuidDTO() {
         return uuidDTO;
     }
-    public OutilDTO getOutilDTO() {
-        return outilDTO;
+    public float getOutilDTO() {
+        return outil;
     }
 }
 

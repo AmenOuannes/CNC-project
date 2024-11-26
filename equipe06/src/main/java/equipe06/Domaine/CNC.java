@@ -30,7 +30,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", 2f));
+        outils.add(new Outil("defaut", 5f));
         outil_courant = outils.firstElement();
         
     }
@@ -92,7 +92,7 @@ public class CNC {
             }
         }*/
         this.outil_courant.setLargeur_coupe(outil_courantDTO.getLargeur_coupeDTO()) ;
-        System.out.println("Outil courant non trouvé dans la liste.");
+
 
 }
 
@@ -146,7 +146,7 @@ public class CNC {
         //TODO coupe en L, attribut extraits du controleur
         assert referencePoint != null;
         assert pointDestination != null;
-        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",outil_courant);
+        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(referencePoint);
         CoupeL coupe = new CoupeL(e, CoupesDeReferences);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -165,7 +165,7 @@ public class CNC {
         float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
         ElementCoupe e = new ElementCoupe(
                 Origine, Destination, 5.0f,
-                0.3f,0,false,BordureX, BordureY,"Rect",outil_courant);
+                0.3f,0,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -191,7 +191,7 @@ public class CNC {
         Point pointOrigine = new Point(xOrigine, yOrigine);
         Point pointDestination = new Point(bordureXPx, bordureYPx);
         ElementCoupe e = new ElementCoupe(
-                pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", outil_courant );
+                pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
         
@@ -213,13 +213,13 @@ public class CNC {
 
          e = new ElementCoupe(
                 reference, pointDestination, 5.0f, 0.3f,
-                 x, composante, 0.0f, 0.0f, "V", outil_courant);
+                 x, composante, 0.0f, 0.0f, "V", outil_courant.getLargeur_coupe());
         }
         else{
 
              e = new ElementCoupe(
             reference, pointDestination, 5.0f, 0.3f,
-                     y, composante, 0.0f, 0.0f, "H", outil_courant);
+                     y, composante, 0.0f, 0.0f, "H", outil_courant.getLargeur_coupe());
         }
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeAxe ma_coupe = new CoupeAxe(e, CoupesDeReferences ,reference);
@@ -280,7 +280,7 @@ public class CNC {
             if (panneau.inPanneau(origineX, origineY) && 
                     panneau.inPanneau(destinationX, destinationY))
             {
-                if(  IsThere(uuids, "Rect") || IsThere(uuids, "Bordure")   ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
+                if(  IsThere(uuids, "Rect") || IsThere(uuids, "Bordure") || IsThere(uuids, "L")  ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
                     System.out.println(" references valides");
                     return true;
                 }
@@ -297,7 +297,7 @@ public class CNC {
             Vector<UUID> uuids = surCoupes(c.getPointOrigine());
             if (panneau.inPanneau(destinationX, destinationY))
             {
-                if(  IsThere(uuids, "Rect")   || IsThere(uuids, "Bordure")   ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
+                if(  IsThere(uuids, "Rect")   || IsThere(uuids, "Bordure") || IsThere(uuids, "L")  ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
                     System.out.println(" references valides");
                     return true;
                 }
@@ -391,7 +391,7 @@ public class CNC {
                             && Math.abs(y - Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y)) <= 100;
 
                         if (CoinL1 || CoinL2 || CoinL3 || CoinL4) {
-                        System.out.println("click sur coupe rectangulaire");
+                        System.out.println("click sur coupe L");
                         uuids.add(c.getUUID());
                         }
                         break;
@@ -601,7 +601,8 @@ public class CNC {
  }
 
 
-    /*public void EditerRef(Point surCoupe, Point ref) {
+    public void EditerRef(Point surCoupe, Point ref) {
+        int X,Y;
         if(surCoupes(surCoupe).isEmpty()) return;
         UUID uuid = surCoupes(surCoupe).firstElement();
         Coupe ma_coupe = null ;
@@ -612,22 +613,40 @@ public class CNC {
         if(ma_coupe==null) return;
         switch (ma_coupe.getTypeCoupe()) {
             case "V", "H":
+
                 CoupeAxe cut = (CoupeAxe) ma_coupe;
+                X = ref.x-cut.getReference().x;
+                Y = ref.y-cut.getReference().y;
                    cut.ChangeReference(ref);
+                if(ma_coupe.getTypeCoupe()=="H") cut.setAxe(cut.getAxe()+Y);
+                else cut.setAxe(cut.getAxe()+X);
+                ma_coupe.invalide=false;
                 break;
 
             case "Rect":
                 CoupeRec cutRec = (CoupeRec) ma_coupe;
+                X = ref.x-cutRec.getReference().x;
+                Y = ref.y-cutRec.getReference().y;
                 cutRec.setPointReference(ref);
+                cutRec.setPointDestination(new Point(cutRec.getPointDestination().x + X,
+                        cutRec.getPointDestination().y + Y));
+                cutRec.setPointOrigine(new Point(cutRec.getPointOrigine().x + X,
+                        cutRec.getPointOrigine().y + Y));
+                ma_coupe.invalide=false;
 
                 break;
             case "L":
                 CoupeL cutL = (CoupeL) ma_coupe;
+                X = ref.x-cutL.getPointOrigine().x;
+                Y = ref.y-cutL.getPointOrigine().y;
                 cutL.setPointOrigine(ref);
+                cutL.setPointDestination(new Point(cutL.getPointDestination().x + X,
+                        cutL.getPointDestination().y + Y));
+                ma_coupe.invalide=false;
 
                 break;
         }
-    }*/
+    }
 }
     
 

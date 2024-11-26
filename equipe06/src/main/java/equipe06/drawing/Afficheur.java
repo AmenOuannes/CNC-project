@@ -39,7 +39,7 @@ public class Afficheur {
         if(xy) {
 
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO()));
+            g2d.setStroke(new BasicStroke(coupe.getOutilDTO()));
             // Partie Largeur outil :
 
             g2d.setColor(Color.BLACK);
@@ -50,7 +50,7 @@ public class Afficheur {
         }
         else{     
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); //for now
+            g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); //for now
             g2d.setColor(Color.BLACK);
             if(coupe.invalide) g2d.setColor(Color.RED);
             //controleur.mettreAJourDistanceX(x_mm);
@@ -92,7 +92,7 @@ public class Afficheur {
             int y2px = destination.y; 
             Graphics2D g2d = (Graphics2D) g;
 
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
+            g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); // Appliquer l'épaisseur
             if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1px)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1px)))
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))
                 g2d.setColor(Color.BLACK);
@@ -116,7 +116,7 @@ public class Afficheur {
         int y2 = destination.y; 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
+        g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); // Appliquer l'épaisseur
             if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1)))
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2))))
                 g2d.setColor(Color.BLACK);
@@ -144,7 +144,7 @@ public class Afficheur {
         if (xOrigine >= 0 && yOrigine >= 0 && bordureXPx <= longueurOriginalePx && bordureYPx <= largeurOriginalePx){
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.BLACK);
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO()));
+            g2d.setStroke(new BasicStroke(coupe.getOutilDTO()));
 
             g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
         }   

@@ -22,7 +22,7 @@ public class ElementCoupe {
     private float bordureX;
     private float bordureY;
     private String typeCoupe;
-    private Outil outil;
+    private float outil;
 
 
     //private UUID uuid;
@@ -33,7 +33,7 @@ public class ElementCoupe {
 
     // Constructeur avec paramètres pour initialiser tous les attributs
     public ElementCoupe(Point pointOrigine, Point pointDestination, float profondeur, float marge, float axe,
-                        boolean composante, float bordureX, float bordureY, String typeCoupe, Outil outil) {
+                        boolean composante, float bordureX, float bordureY, String typeCoupe, float outil) {
 
         if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
             throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
@@ -181,13 +181,10 @@ public class ElementCoupe {
         this.typeCoupe = typeCoupe;
     }
 
-    public Outil getOutil() {
+    public float getOutil() {
         return outil;
     }
-    public void setOutil(Outil outil) {
-        if (outil == null) {
-            throw new IllegalArgumentException("L'outil ne peut pas être null.");
-        } // to activate when outil is complete
+    public void setOutil(float outil) {
         
         this.outil = outil;
     }

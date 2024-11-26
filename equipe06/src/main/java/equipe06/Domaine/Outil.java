@@ -30,9 +30,9 @@ public class Outil {
         return largeur_coupe;
     }
     public void setLargeur_coupe(float largeur_coupe) {
-        if (largeur_coupe <= 0) {
+        /*if (largeur_coupe <= 0) {
             throw new IllegalArgumentException("La largeur de coupe doit etre superieure a zero.");
-        }
+        }*/
         this.largeur_coupe = largeur_coupe;
     }
     public String getNom() {

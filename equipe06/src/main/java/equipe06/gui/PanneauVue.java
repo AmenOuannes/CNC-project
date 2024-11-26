@@ -74,7 +74,7 @@ public class PanneauVue extends JPanel {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered) {
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef) {
                     captureRectanglePoints(evt);
                     }
             }

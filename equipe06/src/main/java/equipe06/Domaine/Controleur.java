@@ -20,7 +20,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // Par défaut, en pixels
+    private float epaisseurActuelle = 5; // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
     public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
@@ -136,7 +136,7 @@ public class Controleur {
         }
     }
     // Retourne une valeur par défaut si l'outil n'est pas trouvé
-    return Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // 0,5 pouces par défaut
+    return 5; // 0,5 pouces par défaut
 }
     public void setEpaisseurActuelle(float epaisseurPixels) {
     this.epaisseurActuelle = epaisseurPixels;
@@ -185,7 +185,7 @@ public boolean inPanneau(float x, float y) {
     }
 
     public void EditerRef(Point surCoupe, Point ref) {
-       // cnc.EditerRef(surCoupe, ref);
+        cnc.EditerRef(surCoupe, ref);
     }
 }
 

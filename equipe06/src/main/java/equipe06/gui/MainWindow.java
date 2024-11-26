@@ -836,7 +836,7 @@ public void mettreAJourTableauOutils() {
          Outil_Coupe.addItem(nomOutil); 
 
         // Ajouter le nouvel outil via le contrôleur
-        controleur.SetOutil(nomOutil, epaisseur);
+        controleur.SetOutil(nomOutil, Repere.getInstance().convertirEnPixelsDepuisMm(epaisseur));
         controleur.mettreAJourTableauOutils(); // Mettre à jour le `JTable`
 
         // Nettoyer les champs de texte
@@ -951,10 +951,24 @@ public void mettreAJourTableauOutils() {
     private void ModCoupeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModCoupeActionPerformed
         //try {
             String selection = (String) Type_Coupe.getSelectedItem();
+
             switch (selection) {
                 case "Vertical", "Horizontal":
                     try{
                         Float AxeRelatif = Float.parseFloat(DistanceX.getText());
+                        String unite = (String) UniteBordure.getSelectedItem();
+                        switch (unite) {
+                            case "cm":
+                               AxeRelatif *= 10; // Convertir en mm
+                                break;
+                            case "metre":
+                                AxeRelatif *= 1000; // Convertir en mm
+
+                                break;
+                            case "pouce":
+                                AxeRelatif *= 25.4f; // Convertir en mm
+
+                        }
                         panneauVue.activerModifierCoupeAxiale(AxeRelatif);
                         panneauVue.repaint();
                     } catch (NumberFormatException e) {
@@ -966,6 +980,20 @@ public void mettreAJourTableauOutils() {
                     try{
                         Float longueur = Float.parseFloat(DistanceX.getText());
                         Float largeur = Float.parseFloat(DistanceY.getText());
+                        String unite = (String) UniteBordure.getSelectedItem();
+                        switch (unite) {
+                            case "cm":
+                                longueur *= 10; // Convertir en mm
+                                largeur *= 10;
+                                break;
+                            case "metre":
+                                longueur *= 1000; // Convertir en mm
+                                largeur *= 1000;
+                                break;
+                            case "pouce":
+                                longueur *= 25.4f; // Convertir en mm
+                                largeur *= 25.4f;
+                        }
                         panneauVue.activerModifierR(longueur, largeur);
                         panneauVue.repaint();
                     }
@@ -1053,14 +1081,10 @@ public void mettreAJourTableauOutils() {
     if (outilSelectionne != null) {
         // Récupérer l'épaisseur de l'outil sélectionné
         float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
-       if ("Defaut".equals(outilSelectionne)) {
-           float epaisseurDefaut = Repere.getInstance().convertirEnPixelsDepuisPouces(0.5f); // Convertir 0,5 pouces en pixels
-           controleur.setEpaisseurActuelle(0.5f);
-       }
 
         // Convertir l'épaisseur en pixels
         Repere repere = Repere.getInstance();
-        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
+        //float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
 
         // Forcer le repaint du panneau de visualisation
         panneauVue.repaint();
