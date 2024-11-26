@@ -1,7 +1,3 @@
-Voici la version mise à jour du README :
-
----
-
 # Guide d'utilisation de l'application Panneau et Coupe CNC
 
 ## Introduction
@@ -78,7 +74,3 @@ Pour quitter l'application :
 - Chaque modification ou suppression de coupe est immédiatement visible après validation ou application.
 
 Nous espérons que cette application répondra à vos besoins pour visualiser et manipuler des panneaux CNC efficacement !
-
----
-
-Si vous avez besoin d'autres ajustements, dites-le-moi ! 😊
