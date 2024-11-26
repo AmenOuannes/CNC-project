@@ -942,23 +942,26 @@ public void mettreAJourTableauOutils() {
         //try {
             String selection = (String) Type_Coupe.getSelectedItem();
             switch (selection) {
-                case "Vertical":
-                    Float AxeRelatif = Float.parseFloat(DistanceX.getText());
-                    panneauVue.activerModifierCoupeAxiale(AxeRelatif);
+                case "Vertical", "Horizontal":
+                    try{
+                        Float AxeRelatif = Float.parseFloat(DistanceX.getText());
+                        panneauVue.activerModifierCoupeAxiale(AxeRelatif);
+                        panneauVue.repaint();
+                    } catch (NumberFormatException e) {
+                        message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+                    }
 
-                    panneauVue.repaint();
-                    break;
-                case "Horizontal":
-                    Float a = Float.parseFloat(DistanceX.getText());
-                    panneauVue.activerModifierCoupeAxiale(a);
-
-                    panneauVue.repaint();
                     break;
                 case "Rect", "L":
-                    Float longueur = Float.parseFloat(DistanceX.getText()); //TODO: change avec JText
-                    Float largeur = Float.parseFloat(DistanceY.getText()); //TODO: change avec JText
-                    panneauVue.activerModifierR(longueur, largeur);
-                    panneauVue.repaint();
+                    try{
+                        Float longueur = Float.parseFloat(DistanceX.getText());
+                        Float largeur = Float.parseFloat(DistanceY.getText());
+                        panneauVue.activerModifierR(longueur, largeur);
+                        panneauVue.repaint();
+                    }
+                    catch (NumberFormatException e) {
+                        message.setText("Format d'épaisseur invalide. Veuillez entrer un nombre.");
+                          }
                     break;
 
 
@@ -1020,8 +1023,6 @@ public void mettreAJourTableauOutils() {
             } catch (NumberFormatException ex) {
                 message.setText("format non valide.");
             }
-
-
             break;
             default:
             System.out.println("Type de coupe inconnu");

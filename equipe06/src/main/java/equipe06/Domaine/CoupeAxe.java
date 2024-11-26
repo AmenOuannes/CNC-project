@@ -18,6 +18,7 @@ public class CoupeAxe extends Coupe {
 
     // Attributs spécifiques à CoupeAxe
     private float axe;
+    private float axeRelatif;
     private boolean composante;
     private Point reference;
     private Vector<UUID> myRef;
@@ -33,6 +34,7 @@ public class CoupeAxe extends Coupe {
         this.composante = e.getComposante();
         this.reference = reference;
         this.myRef = myRef;
+        this.axeRelatif = e.getAxe();
 
     }
 
@@ -70,6 +72,20 @@ public class CoupeAxe extends Coupe {
     }
     public Vector<UUID> getMyRef() {
         return myRef;
+    }
+    public void setAxeRelatif(boolean reference, Panneau panneau, float a) {
+        if(this.getTypeCoupe()=="V") {
+            this.axeRelatif = a;
+            if (reference) axe = panneau.getLongueur()-a;
+            else axe =a;
+        }
+        else {
+            this.axeRelatif = a;
+            float ymax = Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60));
+
+            if (reference) axe = ymax- panneau.getLargeur()+a;
+            else {axe = ymax- a;System.out.println("le fameux else");}
+        }
     }
 }
 

@@ -440,7 +440,7 @@ public class CNC {
     }
    }
 
-    public void modifierCoupeCarre(Float longueur, Float largeur, Point ref) {
+    public void modifierCoupeCarre(float longueur, float largeur, Point ref) {
         UUID uuid = this.surCoupes(ref).firstElement();
         Coupe cut = null ;
         for(Coupe coupe : coupes) {
@@ -452,15 +452,16 @@ public class CNC {
         {   CoupeRec ma_coupe = (CoupeRec) cut;
             int x, y;
             if(ma_coupe.getPointOrigine().getX()>ma_coupe.getPointDestination().getX())
-                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
-            else
                 x = ma_coupe.getPointOrigine().x - Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
+            else
+                x = ma_coupe.getPointOrigine().x + Repere.getInstance().convertirEnPixelsDepuisMm(longueur);
             if(ma_coupe.getPointOrigine().getY()>ma_coupe.getPointDestination().getY())
                 y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
             else
                 y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur) ;
             ma_coupe.setBordureX(longueur);
             ma_coupe.setBordureY(largeur);
+            ma_coupe.setPointDestination(new Point(x, y));
         }
         else if (cut.getTypeCoupe()=="L") {
             CoupeL ma_coupe = (CoupeL) cut;
@@ -482,7 +483,7 @@ public class CNC {
 
 
     }
-    public void modifierCoupeAxiale(Float a, Point p) {
+    public void modifierCoupeAxiale(float a, Point p) {
         UUID uuid = this.surCoupes(p).firstElement();
         CoupeAxe ma_coupe = null ;
         for(Coupe coupe : coupes) {
@@ -491,12 +492,12 @@ public class CNC {
         }
         if(ma_coupe==null) return;
         if(ma_coupe.getTypeCoupe()=="H"){
-            //TODO: relativisme
-            ma_coupe.setAxe(a);
+            float ymax = Repere.getInstance().convertirEnMmDepuisPixels(Repere.getInstance().convertirEnPixelsDepuisPouces(60));
+            ma_coupe.setAxeRelatif(Math.abs(ma_coupe.getReference().y-ymax)<=2, panneau, a);
         }
         else if(ma_coupe.getTypeCoupe()=="V"){
-            //TODO : relativisme
-            ma_coupe.setAxe(a);
+
+            ma_coupe.setAxeRelatif(ma_coupe.getReference().x!=0, panneau, a);
         }
     }
 }

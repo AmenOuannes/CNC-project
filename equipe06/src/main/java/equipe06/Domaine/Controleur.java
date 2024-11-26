@@ -170,10 +170,10 @@ public Vector<OutilDTO> getOutils() {
 }
 
 
-public void modifierCoupeAxiale(Float a, Point Ref) {
+public void modifierCoupeAxiale(float a, Point Ref) {
         cnc.modifierCoupeAxiale(a,Ref);
     }
-public void modifierCoupeCarre(Float longueur, Float largeur, Point Ref) {
+public void modifierCoupeCarre(float longueur, float largeur, Point Ref) {
         cnc.modifierCoupeCarre(longueur, largeur, Ref);
 }
 }
