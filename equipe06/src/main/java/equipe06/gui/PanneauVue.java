@@ -40,6 +40,7 @@ public class PanneauVue extends JPanel {
     private boolean modifyTriggeredR = false;
     private float longueur_modify;
     private float largeur_modify;
+    private boolean EditRef=false;
     private Vector<Point> pointsEnregistres = new Vector<>();
 
 
@@ -134,6 +135,7 @@ public class PanneauVue extends JPanel {
         if (rectX1 == -1 && rectY1 == -1 ) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
             rectY1 = ajusterCoordonneePourVue(evt.getY(), offsetY, zoomFactor);
+
             if (deleteTriggered) {
                 Point p = new Point(rectX1, rectY1);
                 controleur.supprimerCoupeSurClic(p);
@@ -194,6 +196,15 @@ public class PanneauVue extends JPanel {
                 controleur.CreerCoupeL(Ref, Axe);
                 repaint();
                 peutCreerCoupeL = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
+            if(EditRef){
+                controleur.EditerRef(Ref, Axe);
+                repaint();
+                EditRef = false;
                 rectX1 = -1;
                 rectY1 = -1;
                 rectX2 = -1;
@@ -353,6 +364,10 @@ public class PanneauVue extends JPanel {
             int texteHauteur = metrics.getHeight();
             g.drawString(texte, xPosition - metrics.stringWidth(texte) - 10, yPos + texteHauteur / 4);
         }
+    }
+
+    public void activerEditRef() {
+        EditRef = true;
     }
 
 

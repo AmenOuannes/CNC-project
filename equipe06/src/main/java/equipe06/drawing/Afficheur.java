@@ -97,8 +97,8 @@ public class Afficheur {
             g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
             float epaisseur = controleur.getEpaisseurActuelle();
             g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
-            if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(x1px), Repere.getInstance().convertirEnMmDepuisPixels(y1px))
-                    && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(x2px),Repere.getInstance().convertirEnMmDepuisPixels(y2px)))
+            if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1px)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1px)))
+                    && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))
                 g2d.setColor(Color.BLACK);
             else  g2d.setColor(Color.RED);
             // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
@@ -123,8 +123,8 @@ public class Afficheur {
         g2d.setStroke(new BasicStroke(coupe.getOutilDTO().getLargeur_coupeDTO())); // Appliquer l'épaisseur
             float epaisseur = controleur.getEpaisseurActuelle();
             g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
-            if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(x1), Repere.getInstance().convertirEnMmDepuisPixels(y1))
-                    && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(x2),Repere.getInstance().convertirEnMmDepuisPixels(y2)))
+            if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1)))
+                    && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2))))
                 g2d.setColor(Color.BLACK);
             else  g2d.setColor(Color.RED);
         // dessiner le trait vertical

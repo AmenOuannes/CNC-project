@@ -100,7 +100,7 @@ public class Controleur {
 
 //---------------------------------------------PANNEAU & OUTILS---------------------------------------------------------
     public void SetPanneau(float longueurX, float largeurY, float profondeurZ) {
-        if (longueurX <= 0 || largeurY <= 0 || profondeurZ <= 0) {
+        if (longueurX <= 0 || largeurY <= 0 || profondeurZ < 0) {
             throw new IllegalArgumentException("Les dimensions doivent être positives.");
         }
         cnc.creerPanneau(longueurX, largeurY, profondeurZ);
@@ -178,6 +178,10 @@ public void modifierCoupeCarre(float longueur, float largeur, Point Ref) {
 }
 public boolean inPanneau(float x, float y) {
         return cnc.inPanneau(x, y);
+    }
+
+    public void EditerRef(Point surCoupe, Point ref) {
+       // cnc.EditerRef(surCoupe, ref);
     }
 }
 

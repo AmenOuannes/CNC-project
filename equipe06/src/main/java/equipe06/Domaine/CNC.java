@@ -339,16 +339,16 @@ public class CNC {
                 switch (c.getTypeCoupe()) {
                     case "V":
                         CoupeAxe axiale = (CoupeAxe) c;
-                        if ((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= x) &&
-                                (x <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)) {
+                        if ((axiale.getAxe() - 100 <= x) &&
+                                (x <= axiale.getAxe() + 100)) {
                             uuids.add(c.getUUID());
                             System.out.println("click sur coupe verticale");
                         }
                         break;
                     case "H":
                         axiale = (CoupeAxe) c;
-                        if ((axiale.getAxe() - outil_courant.getLargeur_coupe() / 2 <= y) &&
-                                (y <= axiale.getAxe() + outil_courant.getLargeur_coupe() / 2)) {
+                        if ((axiale.getAxe() - 100 <= y) &&
+                                (y <= axiale.getAxe() + 100)) {
                             uuids.add(c.getUUID());
                             System.out.println("click sur coupe Horizontale");
                         }
@@ -441,6 +441,7 @@ public class CNC {
    }
 
     public void modifierCoupeCarre(float longueur, float largeur, Point ref) {
+        if(surCoupes(ref).isEmpty()) return;
         UUID uuid = this.surCoupes(ref).firstElement();
         Coupe cut = null ;
 
@@ -496,6 +497,7 @@ public class CNC {
 
     }
     public void modifierCoupeAxiale(float a, Point p) {
+        if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
         CoupeAxe ma_coupe = null ;
         int translationX=0, translationY=0;
@@ -527,12 +529,12 @@ public class CNC {
     public void modifierEnCascade(UUID uuid, int X, int Y) {
         for (Coupe coupe : coupes) {
             switch (coupe.getTypeCoupe()) {
-                case "Vertical":
+                case "V":
                     CoupeAxe cut = (CoupeAxe) coupe;
                     if (cut.getMyRef().contains(uuid))
                         cut.setAxe(cut.getAxe() + X);
                     break;
-                case "Horizontal":
+                case "H":
                     CoupeAxe cutH = (CoupeAxe) coupe;
                     if (cutH.getMyRef().contains(uuid))
                         cutH.setAxe(cutH.getAxe() + Y);
@@ -569,13 +571,33 @@ public class CNC {
  }
 
 
+    /*public void EditerRef(Point surCoupe, Point ref) {
+        if(surCoupes(surCoupe).isEmpty()) return;
+        UUID uuid = surCoupes(surCoupe).firstElement();
+        Coupe ma_coupe = null ;
+        for(Coupe coupe : coupes) {
+            if(uuid==coupe.getUUID())
+                ma_coupe= coupe;
+        }
+        if(ma_coupe==null) return;
+        switch (ma_coupe.getTypeCoupe()) {
+            case "V", "H":
+                CoupeAxe cut = (CoupeAxe) ma_coupe;
+                   cut.ChangeReference(ref);
+                break;
 
+            case "Rect":
+                CoupeRec cutRec = (CoupeRec) ma_coupe;
+                cutRec.setPointReference(ref);
 
+                break;
+            case "L":
+                CoupeL cutL = (CoupeL) ma_coupe;
+                cutL.setPointOrigine(ref);
 
-
-
-
-
+                break;
+        }
+    }*/
 }
     
 
