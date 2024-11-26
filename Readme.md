@@ -1,32 +1,71 @@
+Voici le README mis à jour avec cette modification :
+
+---
+
 # Guide d'utilisation de l'application Panneau et Coupe CNC
 
 ## Introduction
-Cette application permet de visualiser un panneau CNC, de créer une coupe, de la modifier, et de la supprimer. Le panneau est dessiné avec des dimensions initiales de 914.4 mm par 1219.2 mm et une profondeur de 0.5 mm. Les instructions ci-dessous vous guident à travers les différentes fonctionnalités de l'application.
+Cette application permet de visualiser un panneau CNC, de créer des coupes, de modifier des outils et de gérer divers types de coupes. Elle se compose de trois onglets principaux, chacun ayant une fonction spécifique. Le panneau CNC est initialement configuré en millimètres, avec une graduation incrémentant de 100 mm par case.
 
 ## Étapes d'utilisation
 
-### 1. Lancer l'application
-Lorsque vous lancez l'application, un panneau de couleur marron clair est affiché dans la fenêtre principale. Ce panneau représente la zone sur laquelle vous pouvez travailler.
+### 1. **Lancer l'application**
+Lorsque vous ouvrez l'application, vous accédez à trois onglets principaux :
 
-### 2. Créer une coupe
-- Cliquez sur le bouton **"Créer une Coupe"**.
-- Ensuite, cliquez sur un point quelconque du panneau marron clair.
-- Une ligne verticale noire apparaîtra à l'endroit où vous avez cliqué. Cette ligne représente la coupe effectuée sur le panneau.
-- Le champ **"Dimension sur Axe des X"** affichera la position exacte de la coupe en millimètres, indiquant l'endroit où la coupe a été créée sur l'axe des X.
+### Onglet 1 : **Dessin du panneau**
+- Cet onglet est dédié au dessin du panneau.
+- Vous pouvez spécifier les dimensions du panneau et choisir l'unité (par exemple, millimètres, pouces).
+- Cependant, la table de la CNC fonctionne en millimètres par défaut, avec des graduations de 100 mm pour chaque case.
+- Une fois les dimensions renseignées, cliquez sur le bouton **"Dessiner le panneau"** pour afficher le panneau dans la zone de travail.
 
-### 3. Modifier une coupe
-- Pour modifier la position de la coupe, entrez une nouvelle valeur dans le champ **"Dimension sur Axe des X"** (par exemple, changer la valeur de 400 mm à 800 mm).
-- Cliquez sur le bouton **"Modifier une Coupe"** pour appliquer la modification.
+### Onglet 2 : **Création et modification des outils**
+- Cet onglet permet de créer et de gérer des outils utilisés pour les coupes. 
+- Un outil par défaut, nommé **"défaut"**, est disponible avec une épaisseur fixe de **½ pouce**. Cet outil apparaît dans la table dès que vous créez votre premier outil personnalisé.
+- **Remarque :** L'outil par défaut ne peut pas être modifié.
 
-### 4. Supprimer une coupe
-- Si vous souhaitez supprimer une coupe existante et recommencer, cliquez sur le bouton **"Supprimer une Coupe"**.
-- Ensuite, vous pouvez recréer une nouvelle coupe en répétant la procédure décrite précédemment.
+#### Création d'un outil personnalisé
+1. Renseignez un nom et une épaisseur dans les champs correspondants.
+2. Cliquez sur le bouton **"Créer un outil"**.
 
-### 5. Quitter l'application
-- Pour quitter l'application, cliquez simplement sur le bouton **"Quitter"** en bas de l'interface.
+#### Modification d'un outil existant
+1. Sélectionnez un outil dans la table.
+2. Cliquez sur le bouton **"Modifier un outil"**.
+3. Modifiez le nom et/ou l'épaisseur de l'outil dans les champs appropriés.
+4. Cliquez sur le bouton **"Valider modification"**.
+
+### Onglet 3 : **Création et gestion des coupes**
+- Cet onglet vous permet de gérer les coupes en sélectionnant un outil dans le menu déroulant. 
+- Si vous souhaitez appliquer un nouvel outil à toutes les coupes existantes :
+  1. Sélectionnez l'outil dans la liste.
+  2. Cliquez sur le bouton **"Actualiser le panneau"** pour redessiner les coupes avec l'épaisseur de l'outil choisi.
+
+#### Types de coupes disponibles
+1. **Horizontale**
+2. **Verticale**
+3. **En L**
+4. **Rectangulaire**
+5. **De bordure**
+
+#### Création d'une coupe
+1. Cliquez sur le panneau pour définir un point de référence.
+2. Cliquez à nouveau pour tracer la coupe. 
+   - Pour les coupes de bordure, entrez les dimensions sur les axes X et Y, puis cliquez sur **"Créer une coupe"**.
+
+#### Modification d'une coupe
+- Entrez les nouvelles coordonnées d'une coupe donnée dans les champs correspondants.
+- Cliquez sur le bouton **"Modifier une coupe"**.
+
+#### Suppression d'une coupe
+- Sélectionnez une coupe directement sur le panneau.
+- Cliquez sur le bouton **"Supprimer une coupe"**.
+
+### 4. Quitter l'application
+Pour quitter l'application :
+1. Cliquez sur **"Fichier"** dans le menu situé en haut de la fenêtre.
+2. Sélectionnez l'option **"Quitter"**.
 
 ## Remarques
-- Assurez-vous de bien cliquer dans la zone marron clair pour créer ou modifier une coupe.
-- L'application vous permettra de visualiser les dimensions en millimètres et de gérer facilement les coupes sur le panneau CNC.
+- Assurez-vous de bien sélectionner ou cliquer dans la zone marron clair pour effectuer des actions sur le panneau.
+- Chaque modification ou suppression de coupe est immédiatement visible après validation ou application.
 
-Nous espérons que cette application vous permettra de mieux comprendre et manipuler le processus de création et de gestion des coupes sur un panneau CNC.
+Nous espérons que cette application répondra à vos besoins pour visualiser et manipuler des panneaux CNC efficacement !
