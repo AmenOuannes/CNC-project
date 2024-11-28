@@ -215,10 +215,9 @@ public void mettreAJourTableauOutils() {
         jMenu2 = new javax.swing.JMenu();
         Undo = new javax.swing.JMenuItem();
         Redo = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        PAN = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -754,12 +753,6 @@ public void mettreAJourTableauOutils() {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Undo");
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Redo");
-        jMenuBar1.add(jMenu4);
-
         jMenu5.setText("Export");
 
         jMenuItem2.setText("Cnc");
@@ -769,6 +762,14 @@ public void mettreAJourTableauOutils() {
             }
         });
         jMenu5.add(jMenuItem2);
+
+        PAN.setText("PAN");
+        PAN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PANActionPerformed(evt);
+            }
+        });
+        jMenu5.add(PAN);
 
         jMenuBar1.add(jMenu5);
 
@@ -1179,6 +1180,10 @@ public void mettreAJourTableauOutils() {
 
     }//GEN-LAST:event_RedoActionPerformed
 
+    private void PANActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PANActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1229,6 +1234,7 @@ public void mettreAJourTableauOutils() {
     private javax.swing.JButton ModifOutil;
     private javax.swing.JTextField Nom_Outil;
     private javax.swing.JComboBox<String> Outil_Coupe;
+    private javax.swing.JMenuItem PAN;
     private javax.swing.JTextField PANlargeurY;
     private javax.swing.JTextField PANlongueurX;
     private javax.swing.JTextField PANprofondeurZ;
@@ -1268,8 +1274,6 @@ public void mettreAJourTableauOutils() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
