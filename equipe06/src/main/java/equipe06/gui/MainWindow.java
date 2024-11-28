@@ -40,8 +40,11 @@ public class MainWindow extends javax.swing.JFrame {
   
         // Obtenir l'instance de Controleur et établir la communication
         controleur = Controleur.getInstance();
+        
         controleur.setMainWindow(this); // lien etablie ici pour la mise a jour distance x
         // Configurer `PanneauVisualisation`
+        mettreAJourComboBoxOutil(); // Pour le comboBox
+        controleur.mettreAJourTableauOutils(); // Pour le JTable
         PanneauVisualisation.setLayout(new BorderLayout());
          
         //System.out.println("Width: " + PanneauVisualisation.getWidth());
