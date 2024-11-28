@@ -21,7 +21,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(1f); // Par défaut, en pixels
+    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(3f); // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
     private Stack<Coupe> undoStack = new Stack<>();
@@ -146,7 +146,6 @@ public class Controleur {
 
 }
 
-
 public float getEpaisseurActuelle() {
     return epaisseurActuelle;
 }
@@ -168,7 +167,10 @@ public void modifierOutil(String nomActuel, String nouveauNom, float nouvelleEpa
     }
     System.out.println("Outil non trouvé : " + nomActuel);
 }
-
+ public void reset() {
+     cnc.reset();
+     
+ }
 
 
 // Méthode pour retourner tous les outils

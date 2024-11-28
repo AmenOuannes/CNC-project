@@ -29,7 +29,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(1f)));
+        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(3f)));
         outil_courant = outils.firstElement();
         
     }
@@ -39,6 +39,11 @@ public class CNC {
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
         // Création de l'objet Panneau avec les attributs donnés
         this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
+    }
+     public void reset() {
+        coupes.clear();  // Vider toutes les coupes
+        outils.clear();  // Vider tous les outils
+       outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(3f)));
     }
     
     public PanneauDTO getPanneau() {
