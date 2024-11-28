@@ -9,6 +9,7 @@ import equipe06.gui.MainWindow;
 import java.awt.Point;
 import java.util.UUID;
 import java.util.Vector;
+import java.util.Stack;
 
 import equipe06.Domaine.Utils.ElementCoupe;
 
@@ -20,9 +21,12 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = 5; // Par défaut, en pixels
+    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(2f); // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
+    private Stack<Coupe> undoStack = new Stack<>();
+    private Stack<Coupe> redoStack = new Stack<>();  
+    
     public static double scaleFactor = 0.25; // Réduit la taille à 25% les dimensions elli hab alihom ell prof kbar donc hatit ell facteur hedha juste tempo bech tawwa matkallaknech
     // Constructeur privé pour empêcher la création directe
     private Controleur() {
@@ -99,7 +103,6 @@ public class Controleur {
         cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeL(reference, destination);
     }
-
 
 //---------------------------------------------PANNEAU & OUTILS---------------------------------------------------------
     public void SetPanneau(float longueurX, float largeurY, float profondeurZ) {

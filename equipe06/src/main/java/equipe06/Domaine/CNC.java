@@ -6,7 +6,6 @@ import equipe06.Domaine.Coupe;
 import equipe06.Domaine.*;
 import equipe06.Domaine.Utils.ElementCoupe;
 import org.w3c.dom.css.Rect;
-
 import java.awt.Point;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", 5f));
+        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(2f)));
         outil_courant = outils.firstElement();
         
     }
@@ -457,7 +456,7 @@ public class CNC {
                 System.out.println("UUID trouvé, suppression en cours...");
                 coupes.remove(i);
                 System.out.println("Coupe supprimée avec succès.");
-                return; // Quitter après suppression
+                 return; 
             }
         }
 
@@ -469,7 +468,6 @@ public class CNC {
         System.out.println("Erreur inattendue : " + e.getMessage());
     }
    }
-
     public void modifierCoupeCarre(float longueur, float largeur, Point ref) {
         if(surCoupes(ref).isEmpty()) return;
         UUID uuid = this.surCoupes(ref).firstElement();

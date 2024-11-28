@@ -16,8 +16,10 @@ import equipe06.Domaine.CoupeDTO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import equipe06.Domaine.OutilDTO;
+import java.util.Stack;
 
 public class MainWindow extends javax.swing.JFrame {
+
     public Controleur controleur;
     private PanneauVue panneauVue;
     private boolean messageAffiche = false;
@@ -88,7 +90,7 @@ public class MainWindow extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{outil.getNomDTO(), outil.getLargeur_coupeDTO()});
         }
     } 
-    
+   
     //////////////////////////////////////////////////
 public void updateDimensions(float x, float y) {
     Repere repere = Repere.getInstance();
@@ -200,7 +202,6 @@ public void mettreAJourTableauOutils() {
         DimY = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        Actualiser = new javax.swing.JButton();
         DistanceY = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -209,6 +210,13 @@ public void mettreAJourTableauOutils() {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        Undo = new javax.swing.JMenuItem();
+        Redo = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -251,11 +259,11 @@ public void mettreAJourTableauOutils() {
 
         jLabel4.setText("1.Choisissez l'unité");
 
-        jLabel5.setText("2.Entrez la longueur : X");
+        jLabel5.setText("2.Entrez la longueur :");
 
-        jLabel6.setText("3.Entrez la largeur : Y");
+        jLabel6.setText("3.Entrez la largeur :");
 
-        jLabel7.setText("4.Entrez la profondeur : Z");
+        jLabel7.setText("4.Entrez la profondeur :");
 
         DessinerPanneau.setText("Dessiner Panneau");
         DessinerPanneau.addActionListener(new java.awt.event.ActionListener() {
@@ -362,7 +370,7 @@ public void mettreAJourTableauOutils() {
 
             },
             new String [] {
-                "Nom", "Largeur Lame"
+                "Nom", "Epaisseur"
             }
         ));
         jScrollPane2.setViewportView(tableauOutils);
@@ -392,29 +400,30 @@ public void mettreAJourTableauOutils() {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                            .addComponent(Nom_Outil))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(Epaisseur_Outil))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(Supprimer_Outil, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                                    .addComponent(Nom_Outil))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ValidModifOutil)
-                                    .addComponent(ModifOutil, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(Epaisseur_Outil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(Supprimer_Outil, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(ModifOutil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(ValidModifOutil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addContainerGap())))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jSeparator6)
                 .addContainerGap())
@@ -525,13 +534,6 @@ public void mettreAJourTableauOutils() {
 
         jLabel23.setText("y:");
 
-        Actualiser.setText("Actualiser Panneau");
-        Actualiser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualiserActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Modif ref");
         jButton1.setActionCommand("ModifRef");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -580,12 +582,24 @@ public void mettreAJourTableauOutils() {
                                             .addComponent(jLabel19)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(BordureX, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DefCoupe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
-                        .addGap(0, 236, Short.MAX_VALUE)
+                        .addGap(0, 230, Short.MAX_VALUE)
                         .addComponent(Type_Coupe, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addComponent(jSeparator4)
+            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SuppCoupe)
+                .addGap(21, 21, 21))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
@@ -595,42 +609,27 @@ public void mettreAJourTableauOutils() {
                             .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel14)))
+                        .addComponent(jLabel14))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel21)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel23))
-                        .addGap(18, 18, 18)
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DimY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DimX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(41, 41, 41))
-            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SuppCoupe)
-                        .addGap(21, 21, 21))
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Actualiser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel23))
+                                .addGap(18, 18, 18)
+                                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DimY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DimX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(41, 41, 41))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -666,9 +665,8 @@ public void mettreAJourTableauOutils() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Actualiser)))
+                        .addGap(13, 13, 13)
+                        .addComponent(jButton2)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -742,7 +740,45 @@ public void mettreAJourTableauOutils() {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        Undo.setText("Undo");
+        Undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UndoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Undo);
+
+        Redo.setText("Redo");
+        Redo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RedoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Redo);
+
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Undo");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Redo");
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Export");
+
+        jMenuItem2.setText("Cnc");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Import");
+        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -750,30 +786,31 @@ public void mettreAJourTableauOutils() {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(346, 346, 346)
+                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(30, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -846,7 +883,7 @@ public void mettreAJourTableauOutils() {
          Outil_Coupe.addItem(nomOutil); 
 
         // Ajouter le nouvel outil via le contrôleur
-        controleur.SetOutil(nomOutil, Repere.getInstance().convertirEnPixelsDepuisMm(epaisseur));
+        controleur.SetOutil(nomOutil, Float.parseFloat(epaisseurStr));
         controleur.mettreAJourTableauOutils(); // Mettre à jour le `JTable`
 
         // Nettoyer les champs de texte
@@ -1086,26 +1123,6 @@ public void mettreAJourTableauOutils() {
         // TODO add your handling code here:
     }//GEN-LAST:event_Type_CoupeActionPerformed
 
-    private void ActualiserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualiserActionPerformed
-         String outilSelectionne = (String) Outil_Coupe.getSelectedItem(); // Outil sélectionné
-    if (outilSelectionne != null) {
-        // Récupérer l'épaisseur de l'outil sélectionné
-        float epaisseurMm = controleur.getEpaisseurOutil(outilSelectionne);
-
-        // Convertir l'épaisseur en pixels
-        Repere repere = Repere.getInstance();
-        //float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
-
-        // Forcer le repaint du panneau de visualisation
-        panneauVue.repaint();
-
-        // Message de confirmation
-        message.setText("Les coupes ont été redessinées avec le nouvel outil.");
-    } else {
-        message.setText("Veuillez sélectionner un outil avant de redessiner.");
-    }
-    }//GEN-LAST:event_ActualiserActionPerformed
-
     private void ValidModifOutilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValidModifOutilActionPerformed
        int selectedRow = tableauOutils.getSelectedRow(); // Récupérer la ligne sélectionnée
 
@@ -1155,6 +1172,18 @@ public void mettreAJourTableauOutils() {
         panneauVue.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void UndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoActionPerformed
+
+    }//GEN-LAST:event_UndoActionPerformed
+
+    private void RedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoActionPerformed
+
+    }//GEN-LAST:event_RedoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1191,7 +1220,6 @@ public void mettreAJourTableauOutils() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Actualiser;
     private javax.swing.JTextField BordureX;
     private javax.swing.JTextField BordureY;
     private javax.swing.JButton Creer_Outil;
@@ -1211,9 +1239,11 @@ public void mettreAJourTableauOutils() {
     private javax.swing.JTextField PANprofondeurZ;
     private javax.swing.JPanel PanneauContrôle;
     private javax.swing.JPanel PanneauVisualisation;
+    private javax.swing.JMenuItem Redo;
     private javax.swing.JButton SuppCoupe;
     private javax.swing.JButton Supprimer_Outil;
     private javax.swing.JComboBox<String> Type_Coupe;
+    private javax.swing.JMenuItem Undo;
     private javax.swing.JComboBox<String> UniteBordure;
     private javax.swing.JButton ValidModifOutil;
     private javax.swing.JComboBox<String> comboBoxUnite;
@@ -1243,8 +1273,13 @@ public void mettreAJourTableauOutils() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
