@@ -233,7 +233,7 @@ public void mettreAJourTableauOutils() {
             .addGap(0, 308, Short.MAX_VALUE)
         );
 
-        jLabel3.setText("Commençons par la création de votre panneau");
+        jLabel3.setText("1.Commençons par la création de votre panneau");
 
         PANlongueurX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,7 +326,7 @@ public void mettreAJourTableauOutils() {
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
 
-        jLabel9.setText("1. Créer un Outil");
+        jLabel9.setText("2. Personalisez votre Outil");
 
         Creer_Outil.setText("Créer Outil");
         Creer_Outil.addActionListener(new java.awt.event.ActionListener() {
@@ -335,7 +335,7 @@ public void mettreAJourTableauOutils() {
             }
         });
 
-        jLabel10.setText("Entrez le nom de l'outil");
+        jLabel10.setText("1.Entrez le nom de l'outil");
 
         Nom_Outil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -343,7 +343,7 @@ public void mettreAJourTableauOutils() {
             }
         });
 
-        jLabel12.setText("Entrez la largeur (mm)");
+        jLabel12.setText("2.Entrez la largeur (mm)");
 
         Epaisseur_Outil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -406,12 +406,12 @@ public void mettreAJourTableauOutils() {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Nom_Outil))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Epaisseur_Outil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Epaisseur_Outil)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -697,7 +697,7 @@ public void mettreAJourTableauOutils() {
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        jLabel8.setText("1.Créer une coupe");
+        jLabel8.setText("3.Créer une coupe");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

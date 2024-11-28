@@ -222,7 +222,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Commen&#xe7;ons par la cr&#xe9;ation de votre panneau"/>
+                <Property name="text" type="java.lang.String" value="1.Commen&#xe7;ons par la cr&#xe9;ation de votre panneau"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
@@ -319,13 +319,13 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabel10" pref="139" max="32767" attributes="0"/>
+                                          <Component id="jLabel10" max="32767" attributes="0"/>
                                           <Component id="Nom_Outil" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="Epaisseur_Outil" alignment="1" min="-2" pref="125" max="-2" attributes="0"/>
-                                          <Component id="jLabel12" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel12" max="32767" attributes="0"/>
+                                          <Component id="Epaisseur_Outil" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -402,7 +402,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
-                <Property name="text" type="java.lang.String" value="1. Cr&#xe9;er un Outil"/>
+                <Property name="text" type="java.lang.String" value="2. Personalisez votre Outil"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Creer_Outil">
@@ -415,7 +415,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Entrez le nom de l&apos;outil"/>
+                <Property name="text" type="java.lang.String" value="1.Entrez le nom de l&apos;outil"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="Nom_Outil">
@@ -425,7 +425,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Entrez la largeur (mm)"/>
+                <Property name="text" type="java.lang.String" value="2.Entrez la largeur (mm)"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="Epaisseur_Outil">
@@ -907,7 +907,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel8">
               <Properties>
-                <Property name="text" type="java.lang.String" value="1.Cr&#xe9;er une coupe"/>
+                <Property name="text" type="java.lang.String" value="3.Cr&#xe9;er une coupe"/>
               </Properties>
             </Component>
           </SubComponents>
