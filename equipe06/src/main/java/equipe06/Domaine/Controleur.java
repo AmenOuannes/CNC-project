@@ -21,7 +21,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(2f); // Par défaut, en pixels
+    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(1f); // Par défaut, en pixels
     private MainWindow mainWindow;
     public boolean suprim = false;
     private Stack<Coupe> undoStack = new Stack<>();

@@ -29,7 +29,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(2f)));
+        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(1f)));
         outil_courant = outils.firstElement();
         
     }
