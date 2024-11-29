@@ -22,6 +22,7 @@ public class CNC {
     private Vector<Point> points_de_reference;
     private Vector<Outil> outils;
     private Outil outil_courant;
+    private final UndoRedoManager undoRedoManager = new UndoRedoManager();
 
 
     public CNC() {
@@ -29,7 +30,7 @@ public class CNC {
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
-        outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(3f)));
+        outils.add(new Outil("defaut", 12.7f));
         outil_courant = outils.firstElement();
         
     }
@@ -42,8 +43,7 @@ public class CNC {
     }
      public void reset() {
         coupes.clear();  // Vider toutes les coupes
-        outils.clear();  // Vider tous les outils
-       outils.add(new Outil("defaut", Repere.getInstance().convertirEnMmDepuisPixels(3f)));
+       
     }
     
     public PanneauDTO getPanneau() {
@@ -95,7 +95,10 @@ public class CNC {
                 return;
             }
         }*/
+         System.out.println("Avant modification : " + this.outil_courant);
         this.outil_courant.setLargeur_coupe(outil_courantDTO.getLargeur_coupeDTO()) ;
+        System.out.println("Après modification : " + this.outil_courant);
+
 
 
 }
@@ -198,6 +201,9 @@ public class CNC {
                 pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
+        undoRedoManager.saveState(new Vector<>(coupes));
+
+        System.out.println("Coupe bordure enregistrée.");
         
     }
 
@@ -325,6 +331,7 @@ public class CNC {
         }while(uuids.contains(coupe.getUUID()));
 
         coupes.add(coupe);
+        undoRedoManager.saveState(coupes); // Sauvegarder avant l'ajout
         System.out.print("coupe enregistrée\n");
 
 
@@ -462,6 +469,15 @@ public class CNC {
                 coupes.remove(i);
                 System.out.println("Coupe supprimée avec succès.");
                  return; 
+            }
+        }
+         for (Iterator<Coupe> iterator = coupes.iterator(); iterator.hasNext();) {
+            Coupe coupe = iterator.next();
+            if (uuids.contains(coupe.getUUID())) {
+                undoRedoManager.saveState(coupes); // Sauvegarder avant suppression
+                iterator.remove();
+                System.out.println("Coupe supprimée : " + coupe.getUUID());
+                return;
             }
         }
 
@@ -661,6 +677,33 @@ public class CNC {
                 break;
         }
     }
+    public void redo() {
+        Vector<Coupe> nextState = undoRedoManager.redo();
+        if (nextState != null) {
+            coupes = nextState; // Restaurer l'état suivant
+            System.out.println("Redo effectué.");
+        }
+    }
+    public void undo() {
+        Vector<Coupe> previousState = undoRedoManager.undo();
+        if (previousState != null) {
+            coupes = previousState; // Restaurer l'état précédent
+            System.out.println("Undo effectué.");
+        }
+    }
+
+
+    public boolean isUndoAvailable() {
+        return undoRedoManager.canUndo();
+    }
+
+    public boolean isRedoAvailable() {
+        return undoRedoManager.canRedo();
+    }
 }
+
+
+
+
     
 

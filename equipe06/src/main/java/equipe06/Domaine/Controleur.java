@@ -21,7 +21,7 @@ public class Controleur {
     
     private static Controleur instance; // Instance unique de Controleur
     private CNC cnc;
-    private float epaisseurActuelle = Repere.getInstance().convertirEnMmDepuisPixels(3f); // Par défaut, en pixels
+    private float epaisseurActuelle = 12.7f; 
     private MainWindow mainWindow;
     public boolean suprim = false;
     private Stack<Coupe> undoStack = new Stack<>();
@@ -139,7 +139,7 @@ public class Controleur {
         }
     }
     // Retourne une valeur par défaut si l'outil n'est pas trouvé
-    return 5; // 0,5 pouces par défaut
+    return 12.7f; // 0,5 pouces par défaut
 }
     public void setEpaisseurActuelle(float epaisseurPixels) {
     this.epaisseurActuelle = epaisseurPixels;
@@ -197,7 +197,23 @@ public boolean inPanneau(float x, float y) {
     public void EditerRef(Point surCoupe, Point ref) {
         cnc.EditerRef(surCoupe, ref);
     }
+     public void undo() {
+        cnc.undo();
+    }
+
+    public void redo() {
+        cnc.redo();
+    }
+
+    public boolean isUndoAvailable() {
+        return cnc.isUndoAvailable();
+    }
+
+    public boolean isRedoAvailable() {
+        return cnc.isRedoAvailable();
+    }
 }
+
 
     
     

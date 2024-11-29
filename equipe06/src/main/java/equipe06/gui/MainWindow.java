@@ -775,7 +775,7 @@ public void mettreAJourTableauOutils() {
 
         jMenu5.setText("Export");
 
-        jMenuItem2.setText("Cnc");
+        jMenuItem2.setText("CNC");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -1193,11 +1193,23 @@ public void mettreAJourTableauOutils() {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void UndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoActionPerformed
-
+if (controleur.isUndoAvailable()) {
+        controleur.undo();
+        panneauVue.repaint(); // Met à jour l'affichage
+        System.out.println("Action annulée (Undo).");
+    } else {
+        System.out.println("Aucune action à annuler.");
+    }
     }//GEN-LAST:event_UndoActionPerformed
 
     private void RedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoActionPerformed
-
+if (controleur.isRedoAvailable()) {
+        controleur.redo();
+        panneauVue.repaint(); // Met à jour l'affichage
+        System.out.println("Action rétablie (Redo).");
+    } else {
+        System.out.println("Aucune action à rétablir.");
+    }
     }//GEN-LAST:event_RedoActionPerformed
 
     private void PANActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANActionPerformed

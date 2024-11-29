@@ -21,6 +21,7 @@ public class OutilDTO {
         this.largeur_coupeDTO = outil.getLargeur_coupe();
     }
     public float getLargeur_coupeDTO(){
+        System.out.println("Largeur d'outil dans OutilDTO : " + largeur_coupeDTO);
         return largeur_coupeDTO;
     }
     public String getNomDTO(){
