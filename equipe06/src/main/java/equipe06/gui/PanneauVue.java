@@ -49,6 +49,8 @@ public class PanneauVue extends JPanel {
     private double offsetX = 0.0;
     private double offsetY = 0.0;
     public Point myPoint;
+    private int currentMouseX = -1;
+    private int currentMouseY = -1;
     // Variable pour la coupe rect (clic)
     private int rectX1 = -1;
     private int rectY1 = -1;
@@ -78,6 +80,20 @@ public class PanneauVue extends JPanel {
                 if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef || ModifOutil) {
                     captureRectanglePoints(evt);
                     }
+            }
+        });
+        
+        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                // Ajuster les coordonnées en fonction du zoom et des offsets
+                 currentMouseY = ajusterCoordonneePourVueY(evt.getY(), offsetY, zoomFactor); // Utiliser la méthode ajustée pour 
+       
+                currentMouseX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+                
+
+                // Envoyer les coordonnées à la MainWindow pour mise à jour
+                mainWindow.updateCoord(currentMouseX, currentMouseY);
             }
         });
 
@@ -127,11 +143,18 @@ public class PanneauVue extends JPanel {
         offsetY = 0.0;
         repaint(); // Redessiner la vue pour l'état initial
     }
+    
 
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
+    private int ajusterCoordonneePourVueY(int coordonnee, double offset, double zoomFactor) {
+    // Inverser les coordonnées Y
+    return (int) ((hauteurPixelsTable - coordonnee - offset) / zoomFactor);
+}
+    
+    
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
         if (rectX1 == -1 && rectY1 == -1 ) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
