@@ -38,6 +38,7 @@ public class PanneauVue extends JPanel {
     private float AxeRelatif;
     private boolean modifyTriggeredA = false;
     private boolean modifyTriggeredR = false;
+    private boolean afficherGrille = false;
     private float longueur_modify;
     private float largeur_modify;
     private boolean EditRef=false;
@@ -153,6 +154,11 @@ public class PanneauVue extends JPanel {
     // Inverser les coordonnées Y
     return (int) ((hauteurPixelsTable - coordonnee - offset) / zoomFactor);
 }
+     public void setAfficherGrille(boolean afficher) {
+        this.afficherGrille = afficher;
+        repaint(); // Redessiner le panneau après la mise à jour
+    }
+
     
     
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
@@ -281,7 +287,7 @@ public class PanneauVue extends JPanel {
         g2d.translate(offsetX, offsetY);
         g2d.scale(zoomFactor, zoomFactor);
         // Dessiner la table CNC en gris clair avec une bordure noire
-        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, largeurPixelsTable, hauteurPixelsTable);
         g2d.setColor(Color.BLACK);
         g2d.drawRect(0, 0, largeurPixelsTable - 1, hauteurPixelsTable - 1);
@@ -289,7 +295,13 @@ public class PanneauVue extends JPanel {
         Afficheur afficheur = new Afficheur(mainWindow.controleur);
         afficheur.DessinerPanneau(g, hauteurPixelsTable);
         // Dessiner les axes X et Y
-        dessinerAxes(g2d);
+        //dessinerAxes(g2d);
+        if (afficherGrille) {
+        dessinerGrille(g2d);
+    }
+
+ 
+     
         Vector<CoupeDTO> Coupes = controleur.getCoupes();
         for(CoupeDTO coupe: Coupes)
         {
@@ -313,6 +325,25 @@ public class PanneauVue extends JPanel {
 
         }
     }
+  private void dessinerGrille(Graphics g) {
+    g.setColor(Color.BLACK);
+    int intervalle = 200; // Intervalle de 200 mm entre les lignes
+    Repere repere = Repere.getInstance();
+    int intervallePixels = repere.convertirEnPixelsDepuisMm(intervalle);
+
+    // Dessiner les lignes verticales (X)
+    for (int i = 0; i <= largeurPixelsTable / intervallePixels; i++) {
+        int x = i * intervallePixels;
+        g.drawLine(x, 0, x, hauteurPixelsTable);
+    }
+
+    // Dessiner les lignes horizontales (Y)
+    for (int i = 0; i <= hauteurPixelsTable / intervallePixels; i++) {
+        int y = hauteurPixelsTable - i * intervallePixels; // Ajustement pour inverser les coordonnées Y
+        g.drawLine(0, y, largeurPixelsTable, y);
+    }
+}
+
 
 
 
@@ -367,7 +398,8 @@ public class PanneauVue extends JPanel {
         longueur_modify = longueur;
         largeur_modify = largeur;
     }
-
+    //Zeyda ki walla fama grille + mechekl fl conversion decallage sghir fl ekher maa l grille
+/*
     private void dessinerAxes(Graphics g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -397,7 +429,7 @@ public class PanneauVue extends JPanel {
             int texteHauteur = metrics.getHeight();
             g.drawString(texte, xPosition - metrics.stringWidth(texte) - 10, yPos + texteHauteur / 4);
         }
-    }
+    }*/
 
     public void activerEditRef() {
         EditRef = true;

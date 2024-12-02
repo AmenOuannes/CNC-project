@@ -177,6 +177,8 @@ public void mettreAJourTableauOutils() {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         DessinerPanneau = new javax.swing.JButton();
+        AfficherGrille = new javax.swing.JButton();
+        SuppGrille = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         Creer_Outil = new javax.swing.JButton();
@@ -296,6 +298,20 @@ public void mettreAJourTableauOutils() {
             }
         });
 
+        AfficherGrille.setText("Activer Grille");
+        AfficherGrille.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AfficherGrilleActionPerformed(evt);
+            }
+        });
+
+        SuppGrille.setText("Désactiver Grille");
+        SuppGrille.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SuppGrilleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -315,8 +331,10 @@ public void mettreAJourTableauOutils() {
                     .addComponent(jLabel7)
                     .addComponent(DessinerPanneau, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(178, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AfficherGrille, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SuppGrille, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,7 +361,11 @@ public void mettreAJourTableauOutils() {
                 .addComponent(PANprofondeurZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DessinerPanneau)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(AfficherGrille)
+                .addGap(18, 18, 18)
+                .addComponent(SuppGrille)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -875,11 +897,11 @@ public void mettreAJourTableauOutils() {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(102, 102, 102)
                         .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(30, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
         );
@@ -1295,6 +1317,15 @@ if (controleur.isRedoAvailable()) {
         // TODO add your handling code here:
     }//GEN-LAST:event_DimXActionPerformed
 
+    private void AfficherGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AfficherGrilleActionPerformed
+        // TODO add your handling code here:
+        panneauVue.setAfficherGrille(true);
+    }//GEN-LAST:event_AfficherGrilleActionPerformed
+
+    private void SuppGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppGrilleActionPerformed
+       panneauVue.setAfficherGrille(false);
+    }//GEN-LAST:event_SuppGrilleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1331,6 +1362,7 @@ if (controleur.isRedoAvailable()) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AfficherGrille;
     private javax.swing.JTextField BordureX;
     private javax.swing.JTextField BordureY;
     private javax.swing.JTextField CoordX;
@@ -1357,6 +1389,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JPanel PanneauVisualisation;
     private javax.swing.JMenuItem Redo;
     private javax.swing.JButton SuppCoupe;
+    private javax.swing.JButton SuppGrille;
     private javax.swing.JButton Supprimer_Outil;
     private javax.swing.JComboBox<String> Type_Coupe;
     private javax.swing.JMenuItem Undo;
