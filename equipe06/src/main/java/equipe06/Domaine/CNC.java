@@ -427,6 +427,7 @@ public class CNC {
         // Récupérer les UUIDs associés au point
         Vector<UUID> uuids = surCoupes(point);
         System.out.println("UUIDs retournés par surCoupes : " + uuids);
+        undoRedoManager.saveState(coupes, panneau); // Sauvegarder avant suppression
 
         // Parcourir la liste des coupes
         for (int i = 0; i < coupes.size(); i++) {
@@ -476,7 +477,7 @@ public class CNC {
          for (Iterator<Coupe> iterator = coupes.iterator(); iterator.hasNext();) {
             Coupe coupe = iterator.next();
             if (uuids.contains(coupe.getUUID())) {
-                 undoRedoManager.saveState(coupes, panneau); // Sauvegarder avant suppression
+              
                 iterator.remove();
                 System.out.println("Coupe supprimée : " + coupe.getUUID());
                 return;
