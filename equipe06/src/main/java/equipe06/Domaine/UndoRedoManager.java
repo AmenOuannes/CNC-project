@@ -11,7 +11,7 @@ import java.util.Vector;
  *
  * @author faresmajdoub
  */
-import java.util.Vector;
+
 
 public class UndoRedoManager {
     private final Stack<Snapshot> undos = new Stack<>();
@@ -21,11 +21,14 @@ public class UndoRedoManager {
     public static class Snapshot {
         Vector<Coupe> coupes;
         Panneau panneau;
+        Vector<Outil> outils;
+        Outil outilCourant;
 
-        Snapshot(Vector<Coupe> coupes, Panneau panneau) {
+        Snapshot(Vector<Coupe> coupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant) {
             this.coupes = deepCopyCoupes(coupes); // Copie profonde des coupes
             this.panneau = panneau.clone();       // Clone du panneau
-          
+            this.outils = deepCopyOutils(outils); // Copie profonde des outils
+            this.outilCourant = outilCourant != null ? cloneOutil(outilCourant) : null; // Clone de l'outil courant
         }
 
         // Méthode pour faire une copie profonde des coupes
@@ -36,11 +39,29 @@ public class UndoRedoManager {
             }
             return copie;
         }
-    }
+        
 
-    // Sauvegarde l'état actuel du panneau et des coupes
-    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau) {
-        undos.push(new Snapshot(currentCoupes, panneau));
+        // Méthode pour faire une copie profonde des outils
+        private Vector<Outil> deepCopyOutils(Vector<Outil> originalOutils) {
+            Vector<Outil> copie = new Vector<>();
+            for (Outil outil : originalOutils) {
+                copie.add(cloneOutil(outil)); // Clone chaque outil
+            }
+            return copie;
+        }
+        
+
+        // Méthode pour cloner un outil
+        private Outil cloneOutil(Outil original) {
+            return new Outil(original.getNom(), original.getLargeur_coupe());
+        }
+    }
+    
+
+    // Sauvegarde l'état actuel du panneau, des coupes, des outils et de l'outil courant
+    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau, Vector<Outil> currentOutils, Outil outilCourant) {
+           System.out.println("État sauvegardé - outils : " + currentOutils);
+        undos.push(new Snapshot(currentCoupes, panneau, currentOutils, outilCourant));
         redos.clear();
     }
 
@@ -49,6 +70,7 @@ public class UndoRedoManager {
         if (!undos.isEmpty()) {
             Snapshot currentState = undos.pop();
             redos.push(currentState);
+               System.out.println("État restauré après Undo - outils : " + currentState.outils);
             return !undos.isEmpty() ? undos.peek() : null;
         }
         System.out.println("Aucune action à annuler (Undo).");

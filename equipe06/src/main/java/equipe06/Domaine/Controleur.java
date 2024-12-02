@@ -197,6 +197,15 @@ public boolean inPanneau(float x, float y) {
     public void EditerRef(Point surCoupe, Point ref) {
         cnc.EditerRef(surCoupe, ref);
     }
+    
+    public void mettreAJourVue() {
+          System.out.println("Liste des outils dans la vue : " + cnc.getOutils());
+    if (mainWindow != null) {
+        mainWindow.mettreAJourComboBoxOutil();
+        mainWindow.mettreAJourTableauOutils();
+    }
+}
+
      public void undo() {
         cnc.undo();
     }
