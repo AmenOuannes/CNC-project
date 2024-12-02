@@ -11,33 +11,55 @@ import java.util.Vector;
  *
  * @author faresmajdoub
  */
+import java.util.Vector;
 
 public class UndoRedoManager {
-    private final Stack<Vector<Coupe>> undos = new Stack<>();
-    private final Stack<Vector<Coupe>> redos = new Stack<>();
+    private final Stack<Snapshot> undos = new Stack<>();
+    private final Stack<Snapshot> redos = new Stack<>();
 
-    // Sauvegarde l'état actuel avant toute modification
-    public void saveState(Vector<Coupe> currentState) {
-        undos.push(new Vector<>(currentState)); // Sauvegarde une copie de l'état
-        redos.clear(); // Vide la pile Redo après une nouvelle action
+    // Classe interne pour capturer un instantané
+    public static class Snapshot {
+        Vector<Coupe> coupes;
+        Panneau panneau;
+
+        Snapshot(Vector<Coupe> coupes, Panneau panneau) {
+            this.coupes = deepCopyCoupes(coupes); // Copie profonde des coupes
+            this.panneau = panneau.clone();       // Clone du panneau
+          
+        }
+
+        // Méthode pour faire une copie profonde des coupes
+        private Vector<Coupe> deepCopyCoupes(Vector<Coupe> originalCoupes) {
+            Vector<Coupe> copie = new Vector<>();
+            for (Coupe coupe : originalCoupes) {
+                copie.add(coupe.clone()); // Assurez-vous que la classe Coupe implémente Cloneable correctement
+            }
+            return copie;
+        }
     }
 
-    // Annule la dernière action en restaurant l'état précédent
-    public Vector<Coupe> undo() {
+    // Sauvegarde l'état actuel du panneau et des coupes
+    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau) {
+        undos.push(new Snapshot(currentCoupes, panneau));
+        redos.clear();
+    }
+
+    // Restaure l'état précédent
+    public Snapshot undo() {
         if (!undos.isEmpty()) {
-            Vector<Coupe> currentState = undos.pop();
-            redos.push(new Vector<>(currentState)); // Sauvegarder pour Redo
-            return !undos.isEmpty() ? undos.peek() : new Vector<>();
+            Snapshot currentState = undos.pop();
+            redos.push(currentState);
+            return !undos.isEmpty() ? undos.peek() : null;
         }
         System.out.println("Aucune action à annuler (Undo).");
         return null;
     }
 
-    // Rétablit l'action annulée
-    public Vector<Coupe> redo() {
+    // Rétablit l'état suivant
+    public Snapshot redo() {
         if (!redos.isEmpty()) {
-            Vector<Coupe> redoState = redos.pop();
-            undos.push(new Vector<>(redoState)); // Restaurer dans Undo
+            Snapshot redoState = redos.pop();
+            undos.push(redoState);
             return redoState;
         }
         System.out.println("Aucune action à rétablir (Redo).");
@@ -52,4 +74,3 @@ public class UndoRedoManager {
         return !redos.isEmpty();
     }
 }
-

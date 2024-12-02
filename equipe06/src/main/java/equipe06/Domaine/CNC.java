@@ -32,6 +32,7 @@ public class CNC {
         outils = new Vector<Outil>(12);
         outils.add(new Outil("defaut", 12.7f));
         outil_courant = outils.firstElement();
+         undoRedoManager.saveState(coupes, panneau);
         
     }
 
@@ -40,6 +41,7 @@ public class CNC {
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
         // Création de l'objet Panneau avec les attributs donnés
         this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
+         undoRedoManager.saveState(coupes, panneau);
     }
      public void reset() {
         coupes.clear();  // Vider toutes les coupes
@@ -201,7 +203,7 @@ public class CNC {
                 pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
-        undoRedoManager.saveState(new Vector<>(coupes));
+         undoRedoManager.saveState(coupes, panneau);
 
         System.out.println("Coupe bordure enregistrée.");
         
@@ -331,7 +333,7 @@ public class CNC {
         }while(uuids.contains(coupe.getUUID()));
 
         coupes.add(coupe);
-        undoRedoManager.saveState(coupes); // Sauvegarder avant l'ajout
+        undoRedoManager.saveState(coupes, panneau);; // Sauvegarder avant l'ajout
         System.out.print("coupe enregistrée\n");
 
 
@@ -474,7 +476,7 @@ public class CNC {
          for (Iterator<Coupe> iterator = coupes.iterator(); iterator.hasNext();) {
             Coupe coupe = iterator.next();
             if (uuids.contains(coupe.getUUID())) {
-                undoRedoManager.saveState(coupes); // Sauvegarder avant suppression
+                 undoRedoManager.saveState(coupes, panneau); // Sauvegarder avant suppression
                 iterator.remove();
                 System.out.println("Coupe supprimée : " + coupe.getUUID());
                 return;
@@ -677,21 +679,23 @@ public class CNC {
                 break;
         }
     }
-    public void redo() {
-        Vector<Coupe> nextState = undoRedoManager.redo();
-        if (nextState != null) {
-            coupes = nextState; // Restaurer l'état suivant
-            System.out.println("Redo effectué.");
-        }
-    }
     public void undo() {
-        Vector<Coupe> previousState = undoRedoManager.undo();
+        UndoRedoManager.Snapshot previousState = undoRedoManager.undo();
         if (previousState != null) {
-            coupes = previousState; // Restaurer l'état précédent
+            this.coupes = previousState.coupes;
+            this.panneau = previousState.panneau;
             System.out.println("Undo effectué.");
         }
     }
 
+    public void redo() {
+        UndoRedoManager.Snapshot nextState = undoRedoManager.redo();
+        if (nextState != null) {
+            this.coupes = nextState.coupes;
+            this.panneau = nextState.panneau;
+            System.out.println("Redo effectué.");
+        }
+    }
 
     public boolean isUndoAvailable() {
         return undoRedoManager.canUndo();

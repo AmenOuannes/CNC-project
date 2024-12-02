@@ -13,7 +13,7 @@ import java.util.Vector;
  *
  * @author katia
  */
-public abstract class Coupe {
+public abstract class Coupe implements Cloneable{
 
     // Attributs privés
     //private Outils outils;
@@ -39,6 +39,14 @@ public abstract class Coupe {
         this.uuid = UUID.randomUUID();
         this.typeCoupe = e.getTypeCoupe();
 
+    }
+     @Override
+    public Coupe clone() {
+        try {
+            return (Coupe) super.clone(); // Assurez-vous que tous les attributs sont clonés proprement
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Erreur de clonage de la coupe", e);
+        }
     }
     
 

@@ -99,5 +99,13 @@ public class ZoneInterdite {
         this.distanceToX = distanceToX;
         this.distanceToY = distanceToY;
     }
+      @Override
+    public ZoneInterdite clone() {
+        try {
+            return (ZoneInterdite) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Erreur de clonage de ZoneInterdite", e);
+        }
+    }
     
 }
