@@ -181,7 +181,6 @@ public void mettreAJourTableauOutils() {
         SuppGrille = new javax.swing.JButton();
         GrilleX = new javax.swing.JTextField();
         GrilleY = new javax.swing.JTextField();
-        ModifGrille = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
@@ -318,13 +317,6 @@ public void mettreAJourTableauOutils() {
             }
         });
 
-        ModifGrille.setText("Modifier Grille");
-        ModifGrille.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModifGrilleActionPerformed(evt);
-            }
-        });
-
         jLabel27.setText("5.Gestion Grille");
 
         jLabel28.setText("x:");
@@ -368,7 +360,6 @@ public void mettreAJourTableauOutils() {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(AfficherGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ModifGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(SuppGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
@@ -397,24 +388,19 @@ public void mettreAJourTableauOutils() {
                     .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PANlargeurY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ModifGrille))
+                    .addComponent(AfficherGrille))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(13, 13, 13)
-                        .addComponent(PANprofondeurZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(AfficherGrille)
-                        .addGap(32, 32, 32)))
+                .addComponent(jLabel7)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DessinerPanneau)
+                    .addComponent(PANprofondeurZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SuppGrille))
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(DessinerPanneau)
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -1367,21 +1353,25 @@ if (controleur.isRedoAvailable()) {
     }//GEN-LAST:event_DimXActionPerformed
 
     private void AfficherGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AfficherGrilleActionPerformed
-        // TODO add your handling code here:
-        panneauVue.setAfficherGrille(true);
+      try {
+    // Vérification si GrilleX ou GrilleY sont null ou vides
+    if (GrilleX.getText() == null || GrilleX.getText().trim().isEmpty() || 
+        GrilleY.getText() == null || GrilleY.getText().trim().isEmpty()) {
+        panneauVue.setIntervalleGrille(200, 200); // Valeurs par défaut
+    } else {
+        int grille_x = Integer.parseInt(GrilleX.getText());
+        int grille_y = Integer.parseInt(GrilleY.getText());
+        panneauVue.setIntervalleGrille(grille_x, grille_y); // Valeurs saisies
+    }
+    panneauVue.setAfficherGrille(true); // Afficher la grille
+} catch (NumberFormatException ex) {
+    message.setText("Format non valide."); // Message d'erreur pour l'utilisateur
+}
     }//GEN-LAST:event_AfficherGrilleActionPerformed
 
     private void SuppGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppGrilleActionPerformed
        panneauVue.setAfficherGrille(false);
     }//GEN-LAST:event_SuppGrilleActionPerformed
-
-    private void ModifGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifGrilleActionPerformed
-        int grille_x = Integer.parseInt(GrilleX.getText());
-        int grille_y = Integer.parseInt(GrilleY.getText());
-        panneauVue.setIntervalleGrille(grille_x, grille_y);
-        panneauVue.setAfficherGrille(true);
-       
-    }//GEN-LAST:event_ModifGrilleActionPerformed
 
     /*
      * @param args the command line arguments
@@ -1435,7 +1425,6 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JTextField GrilleX;
     private javax.swing.JTextField GrilleY;
     private javax.swing.JButton ModCoupe;
-    private javax.swing.JButton ModifGrille;
     private javax.swing.JButton ModifOutil;
     private javax.swing.JButton ModifRef;
     private javax.swing.JTextField Nom_Outil;
