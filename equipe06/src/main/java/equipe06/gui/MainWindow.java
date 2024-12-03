@@ -184,6 +184,7 @@ public void mettreAJourTableauOutils() {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         Creer_Outil = new javax.swing.JButton();
@@ -323,6 +324,8 @@ public void mettreAJourTableauOutils() {
 
         jLabel29.setText("y:");
 
+        jLabel30.setText("200mm par défaut");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -344,23 +347,26 @@ public void mettreAJourTableauOutils() {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel29)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(GrilleY))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel28)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(GrilleX))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(AfficherGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(SuppGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(SuppGrille, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel30)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel29)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(GrilleY))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel28)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(GrilleX)))))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -374,13 +380,19 @@ public void mettreAJourTableauOutils() {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel27))
-                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(comboBoxUnite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxUnite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GrilleX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28))
-                .addGap(4, 4, 4)
-                .addComponent(jLabel5)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel28)
+                    .addComponent(GrilleX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PANlongueurX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -400,7 +412,7 @@ public void mettreAJourTableauOutils() {
                     .addComponent(SuppGrille))
                 .addGap(18, 18, 18)
                 .addComponent(DessinerPanneau)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -1353,20 +1365,44 @@ if (controleur.isRedoAvailable()) {
     }//GEN-LAST:event_DimXActionPerformed
 
     private void AfficherGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AfficherGrilleActionPerformed
-      try {
-    // Vérification si GrilleX ou GrilleY sont null ou vides
-    if (GrilleX.getText() == null || GrilleX.getText().trim().isEmpty() || 
-        GrilleY.getText() == null || GrilleY.getText().trim().isEmpty()) {
-        panneauVue.setIntervalleGrille(200, 200); // Valeurs par défaut
-    } else {
-        int grille_x = Integer.parseInt(GrilleX.getText());
-        int grille_y = Integer.parseInt(GrilleY.getText());
-        panneauVue.setIntervalleGrille(grille_x, grille_y); // Valeurs saisies
+       try {
+        // Vérification si GrilleX ou GrilleY sont null ou vides
+        if (GrilleX.getText() == null || GrilleX.getText().trim().isEmpty() || 
+            GrilleY.getText() == null || GrilleY.getText().trim().isEmpty()) {
+            panneauVue.setIntervalleGrille(200, 200); // Valeurs par défaut
+        } else {
+            String unite = (String) comboBoxUnite.getSelectedItem();
+            int grille_x = Integer.parseInt(GrilleX.getText());
+            int grille_y = Integer.parseInt(GrilleY.getText());
+
+            // Conversion selon l'unité sélectionnée
+            switch (unite) {
+                case "cm":
+                    grille_x *= 10; // Convertir en mm
+                    grille_y *= 10;
+                    break;
+                case "metre":
+                    grille_x *= 1000; // Convertir en mm
+                    grille_y *= 1000;
+                    break;
+                case "pouce":
+                    grille_x *= 25.4; // Convertir en mm
+                    grille_y *= 25.4;
+                    break;
+                default:
+                    
+            }
+
+            // Appliquer les nouvelles dimensions à la grille
+            panneauVue.setIntervalleGrille(grille_x, grille_y);
+        }
+
+        panneauVue.setAfficherGrille(true); // Afficher la grille
+    } catch (NumberFormatException ex) {
+        message.setText("Format non valide. Veuillez entrer des nombres."); // Message d'erreur pour l'utilisateur
+    } catch (IllegalArgumentException ex) {
+        message.setText("Unité invalide. Veuillez choisir une unité correcte."); // Message pour unité incorrecte
     }
-    panneauVue.setAfficherGrille(true); // Afficher la grille
-} catch (NumberFormatException ex) {
-    message.setText("Format non valide."); // Message d'erreur pour l'utilisateur
-}
     }//GEN-LAST:event_AfficherGrilleActionPerformed
 
     private void SuppGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppGrilleActionPerformed
@@ -1469,6 +1505,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
