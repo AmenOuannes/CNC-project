@@ -929,26 +929,26 @@ public void mettreAJourTableauOutils() {
             .addGroup(layout.createSequentialGroup()
                 .addGap(346, 346, 346)
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                .addGap(90, 90, 90))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(30, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
         );
@@ -1365,44 +1365,29 @@ if (controleur.isRedoAvailable()) {
     }//GEN-LAST:event_DimXActionPerformed
 
     private void AfficherGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AfficherGrilleActionPerformed
-       try {
-        // Vérification si GrilleX ou GrilleY sont null ou vides
-        if (GrilleX.getText() == null || GrilleX.getText().trim().isEmpty() || 
-            GrilleY.getText() == null || GrilleY.getText().trim().isEmpty()) {
-            panneauVue.setIntervalleGrille(200, 200); // Valeurs par défaut
-        } else {
+        try {
+            float cote = Float.parseFloat(GrilleX.getText());
+            //}
             String unite = (String) comboBoxUnite.getSelectedItem();
-            int grille_x = Integer.parseInt(GrilleX.getText());
-            int grille_y = Integer.parseInt(GrilleY.getText());
-
-            // Conversion selon l'unité sélectionnée
             switch (unite) {
                 case "cm":
-                    grille_x *= 10; // Convertir en mm
-                    grille_y *= 10;
+                    cote *= 10; // Convertir en mm
                     break;
                 case "metre":
-                    grille_x *= 1000; // Convertir en mm
-                    grille_y *= 1000;
+                    cote *= 1000; // Convertir en mm
                     break;
                 case "pouce":
-                    grille_x *= 25.4; // Convertir en mm
-                    grille_y *= 25.4;
-                    break;
-                default:
-                    
+                    cote *= 25.4; // Convertir en mm       
             }
-
-            // Appliquer les nouvelles dimensions à la grille
-            panneauVue.setIntervalleGrille(grille_x, grille_y);
-        }
-
-        panneauVue.setAfficherGrille(true); // Afficher la grille
-    } catch (NumberFormatException ex) {
-        message.setText("Format non valide. Veuillez entrer des nombres."); // Message d'erreur pour l'utilisateur
-    } catch (IllegalArgumentException ex) {
-        message.setText("Unité invalide. Veuillez choisir une unité correcte."); // Message pour unité incorrecte
-    }
+            panneauVue.setIntervalleGrille(cote);
+            panneauVue.setAfficherGrille(true);
+            panneauVue.repaint();
+        } catch (NumberFormatException ex) {
+            message.setText("grille avec 200mm.");
+            panneauVue.setIntervalleGrille(200);
+            panneauVue.setAfficherGrille(true);
+            panneauVue.repaint();
+            }
     }//GEN-LAST:event_AfficherGrilleActionPerformed
 
     private void SuppGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppGrilleActionPerformed

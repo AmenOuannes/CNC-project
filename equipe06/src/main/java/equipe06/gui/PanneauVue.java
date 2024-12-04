@@ -44,8 +44,7 @@ public class PanneauVue extends JPanel {
     private boolean EditRef=false;
     private boolean ModifOutil = false;
     private Vector<Point> pointsEnregistres = new Vector<>();
-    private int intervalleGrilleX = 200; // Valeur par défaut en mm
-private int intervalleGrilleY = 200;
+    private float intervalleGrilleX;
 
 
     // Variables pour gérer le décalage de la vue lors du zoom
@@ -327,31 +326,27 @@ private int intervalleGrilleY = 200;
 
         }
     }
-    public void setIntervalleGrille(int intervalleX, int intervalleY) {
+    public void setIntervalleGrille(float intervalleX) {
     this.intervalleGrilleX = intervalleX;
-    this.intervalleGrilleY = intervalleY;
-    repaint(); // Redessiner la grille
-}
-  private void dessinerGrille(Graphics g) {
-    g.setColor(Color.BLACK);
-    int intervalle = 200; // Intervalle de 200 mm entre les lignes
-    Repere repere = Repere.getInstance();
-       int intervallePixelsX = repere.convertirEnPixelsDepuisMm(intervalleGrilleX);
-    int intervallePixelsY = repere.convertirEnPixelsDepuisMm(intervalleGrilleY);
- 
-
-    // Dessiner les lignes verticales (X)
-    for (int i = 0; i <= largeurPixelsTable / intervallePixelsX; i++) {
-        int x = i * intervallePixelsX;
-        g.drawLine(x, 0, x, hauteurPixelsTable);
     }
+    
+    public void dessinerGrille(Graphics g) {
+        g.setColor(Color.BLACK);
+        Repere repere = Repere.getInstance();
+        int intervallePixelsX = repere.convertirEnPixelsDepuisMm(intervalleGrilleX);
 
-    // Dessiner les lignes horizontales (Y)
-    for (int i = 0; i <= hauteurPixelsTable / intervallePixelsY; i++) {
-        int y = hauteurPixelsTable - i * intervallePixelsY; // Ajustement pour inverser les coordonnées Y
-        g.drawLine(0, y, largeurPixelsTable, y);
+        // Dessiner les lignes verticales (X)
+        for (int i = 0; i <= largeurPixelsTable / intervallePixelsX; i++) {
+            int x = i * intervallePixelsX;
+            g.drawLine(x, 0, x, hauteurPixelsTable);
+        }
+
+        // Dessiner les lignes horizontales (Y)
+        for (int i = 0; i <= hauteurPixelsTable / intervallePixelsX; i++) {
+            int y = hauteurPixelsTable - i * intervallePixelsX;
+            g.drawLine(0, y, largeurPixelsTable, y);
+        }
     }
-}
 
 
 
