@@ -104,8 +104,34 @@ public class Afficheur {
             int largeur = Math.abs(x2px - x1px);
             int hauteur = Math.abs(y2px - y1px);
             g2d.drawRect(x, y, largeur, hauteur);
+    } 
     }
+    
+    
+    public void dessinerZoneInterdite (Graphics g, Point origine, Point destination) {
+        if (origine != null && destination != null) {
+            // Extraire les coordonnées des points
+            int x1px = origine.x;
+            int y1px = origine.y;
+            int x2px = destination.x;
+            int y2px = destination.y; 
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setColor(Color.BLACK);
+            if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1px)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1px)))
+                    && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))
+                g2d.setColor(Color.BLACK);
+            else  g2d.setColor(Color.RED);
+            // Calculer la position (coin supérieur gauche) et les dimensions du rectangle
+            int x = Math.min(x1px, x2px);
+            int y = Math.min(y1px, y2px);
+            int largeur = Math.abs(x2px - x1px);
+            int hauteur = Math.abs(y2px - y1px);
+            g2d.drawRect(x, y, largeur, hauteur);
+        } 
     }
+        
+        
+        
     //TODO dessiner un L : Katia
     public void dessinerL (Graphics g, Point origine, Point destination, CoupeDTO coupe) {
         if (origine != null && destination != null) {
@@ -153,4 +179,22 @@ public class Afficheur {
         }
     }
 } 
+    
+    public void dessinerGrille(Graphics g, int hauteurPixelsTable, int largeurPixelsTable, float cote ) {
+        g.setColor(Color.BLACK);
+        Repere repere = Repere.getInstance();
+        int intervallePixelsX = repere.convertirEnPixelsDepuisMm(cote);
+
+        // Dessiner les lignes verticales (X)
+        for (int i = 0; i <= largeurPixelsTable / intervallePixelsX; i++) {
+            int x = i * intervallePixelsX;
+            g.drawLine(x, 0, x, hauteurPixelsTable);
+        }
+
+        // Dessiner les lignes horizontales (Y)
+        for (int i = 0; i <= hauteurPixelsTable / intervallePixelsX; i++) {
+            int y = hauteurPixelsTable - i * intervallePixelsX;
+            g.drawLine(0, y, largeurPixelsTable, y);
+        }
+    }
 }

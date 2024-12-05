@@ -103,6 +103,10 @@ public class Controleur {
         cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
         cnc.CreerCoupeL(reference, destination);
     }
+    
+    public void CreerZoneInterdite(Point origin, Point dest) {
+        cnc.CreerZoneInterdite(origin, dest);  
+    }
 
 //---------------------------------------------PANNEAU & OUTILS---------------------------------------------------------
     public void SetPanneau(float longueurX, float largeurY, float profondeurZ) {

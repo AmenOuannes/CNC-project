@@ -35,6 +35,7 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerCoupeL = false;
     private boolean peutCreerCoupeH = false;
     private boolean peutCreerCoupeV = false;
+    private boolean peutCreerZoneInterdite = false;
     private float AxeRelatif;
     private boolean modifyTriggeredA = false;
     private boolean modifyTriggeredR = false;
@@ -79,7 +80,8 @@ public class PanneauVue extends JPanel {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef || ModifOutil) {
+                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef || ModifOutil
+                        || peutCreerZoneInterdite ) {
                     captureRectanglePoints(evt);
                     }
             }
@@ -241,6 +243,15 @@ public class PanneauVue extends JPanel {
                 rectX2 = -1;
                 rectY2 = -1;
             }
+            else if (peutCreerZoneInterdite) {
+                controleur.CreerZoneInterdite(Ref, Axe);
+                repaint();
+                peutCreerZoneInterdite = false;
+                rectX1 = -1;
+                rectY1 = -1;
+                rectX2 = -1;
+                rectY2 = -1;
+            }
             if(EditRef){
                 controleur.EditerRef(Ref, Axe);
                 repaint();
@@ -298,7 +309,7 @@ public class PanneauVue extends JPanel {
         // Dessiner les axes X et Y
         //dessinerAxes(g2d);
         if (afficherGrille) {
-        dessinerGrille(g2d);
+        afficheur.dessinerGrille(g, hauteurPixelsTable, largeurPixelsTable, intervalleGrilleX);
     }
 
  
@@ -323,6 +334,9 @@ public class PanneauVue extends JPanel {
             Point pointDestino = coupe.getPointDestinoDTO();
             afficheur.dessinerL(g, pointOrigine, pointDestino, coupe);
              }
+            else if(coupe.getTypeCoupeDTO().equals("ZoneInterdite")){
+                afficheur.dessinerZoneInterdite(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
+            }
 
         }
     }
@@ -330,6 +344,7 @@ public class PanneauVue extends JPanel {
     this.intervalleGrilleX = intervalleX;
     }
     
+    /* A SUPP
     public void dessinerGrille(Graphics g) {
         g.setColor(Color.BLACK);
         Repere repere = Repere.getInstance();
@@ -347,6 +362,7 @@ public class PanneauVue extends JPanel {
             g.drawLine(0, y, largeurPixelsTable, y);
         }
     }
+    */
 
 
 
@@ -365,6 +381,10 @@ public class PanneauVue extends JPanel {
 
     public void activerCreationCoupeRect() {
         this.peutCreerCoupeRect = true;
+    }
+    
+    public void activerCreationZoneInterdite() {
+        this.peutCreerZoneInterdite = true;
     }
 
     public boolean isAttenteClicPourCoupe() {

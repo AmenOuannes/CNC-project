@@ -221,8 +221,21 @@ public class CNC {
         System.out.println("Coupe bordure enregistrée.");
         
     }
+    
+    public void CreerZoneInterdite(Point Origine, Point Destination){
+        
+        assert (Origine != null);
+        assert (Destination != null);
+        float BordureX = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.x-Destination.x)));
+        float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
+        ElementCoupe e = new ElementCoupe(
+                Origine, Destination, 0f,
+                0f,0,false,BordureX, BordureY,"ZoneInterdite",0);
+        CoupeRec ZI = new CoupeRec(e);
+        AjouterCoupe(ZI);
 
-
+    }
+    
     public void CreerCoupeAxe(float x,  float y, boolean composante, Point reference) {
         
         assert reference != null : "Le point de référence ne doit pas être null.";

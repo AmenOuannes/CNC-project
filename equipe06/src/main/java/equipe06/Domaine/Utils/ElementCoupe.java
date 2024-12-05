@@ -38,7 +38,7 @@ public class ElementCoupe {
         if (typeCoupe == null || typeCoupe.trim().isEmpty()) {
             throw new IllegalArgumentException("Le type de coupe ne peut pas etre null ou vide.");
         }
-        if (profondeur <= 0) {
+        if (profondeur < 0) {
             throw new IllegalArgumentException("La profondeur doit etre superieure a zero.");
         }
         if (marge < 0) {

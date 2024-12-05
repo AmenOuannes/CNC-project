@@ -240,6 +240,7 @@ public void mettreAJourPanneau(){
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         CoordY = new javax.swing.JTextField();
+        AjouterZI = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -413,7 +414,7 @@ public void mettreAJourPanneau(){
                     .addComponent(SuppGrille))
                 .addGap(18, 18, 18)
                 .addComponent(DessinerPanneau)
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -558,7 +559,7 @@ public void mettreAJourPanneau(){
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2.Outil", jPanel2);
@@ -671,6 +672,13 @@ public void mettreAJourPanneau(){
             }
         });
 
+        AjouterZI.setText("Ajouter Zone Interdite");
+        AjouterZI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AjouterZIActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
@@ -756,6 +764,10 @@ public void mettreAJourPanneau(){
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jSeparator7))
                 .addContainerGap())
+            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AjouterZI)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -831,7 +843,9 @@ public void mettreAJourPanneau(){
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(SuppCoupe))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(AjouterZI)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jLabel8.setText("3.Personalisez vos coupes");
@@ -930,13 +944,13 @@ public void mettreAJourPanneau(){
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(30, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
         );
@@ -1372,6 +1386,13 @@ if (controleur.isRedoAvailable()) {
        panneauVue.setAfficherGrille(false);
     }//GEN-LAST:event_SuppGrilleActionPerformed
 
+    private void AjouterZIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterZIActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Création d'une Zone Interdite");
+        panneauVue.activerCreationZoneInterdite();
+        panneauVue.repaint();
+    }//GEN-LAST:event_AjouterZIActionPerformed
+
     /*
      * @param args the command line arguments
      */
@@ -1409,6 +1430,7 @@ if (controleur.isRedoAvailable()) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AfficherGrille;
+    private javax.swing.JButton AjouterZI;
     private javax.swing.JTextField BordureX;
     private javax.swing.JTextField BordureY;
     private javax.swing.JTextField CoordX;
