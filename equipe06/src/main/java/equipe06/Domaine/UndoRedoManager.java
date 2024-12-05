@@ -22,14 +22,16 @@ public class UndoRedoManager {
         Panneau panneau;
         Vector<Outil> outils;
         Outil outilCourant;
+          float coteGrille;
 
-        State(Vector<Coupe> coupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant) {
-            this.coupes = coupes;
-            this.panneau = panneau;
-            this.outils = outils;
-            this.outilCourant = outilCourant;
-        }
+       State(Vector<Coupe> coupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant, float coteGrille) {
+        this.coupes = coupes;
+        this.panneau = panneau;
+        this.outils = outils;
+        this.outilCourant = outilCourant;
+        this.coteGrille = coteGrille;
     }
+}
 
     
     private Vector<Coupe> deepCopyCoupes(Vector<Coupe> originalCoupes) {
@@ -54,7 +56,7 @@ public class UndoRedoManager {
     }
 
    
-    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau, Vector<Outil> currentOutils, Outil outilCourant) {
+    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau, Vector<Outil> currentOutils, Outil outilCourant, float coteGrille) {
         // Créer une copie profonde de tous les éléments
         Vector<Coupe> copiedCoupes = deepCopyCoupes(currentCoupes);
         Panneau copiedPanneau = deepCopyPanneau(panneau);
@@ -62,7 +64,7 @@ public class UndoRedoManager {
         Outil copiedOutilCourant = outilCourant != null ? new Outil(outilCourant.getNom(), outilCourant.getLargeur_coupe()) : null;
 
        
-        undos.push(new State(copiedCoupes, copiedPanneau, copiedOutils, copiedOutilCourant));
+         undos.push(new State(copiedCoupes, copiedPanneau, copiedOutils, copiedOutilCourant, coteGrille));
         redos.clear();
         System.out.println("État sauvegardé.");
     }

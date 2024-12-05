@@ -208,9 +208,16 @@ public boolean inPanneau(float x, float y) {
         mainWindow.mettreAJourComboBoxOutil();
         mainWindow.mettreAJourTableauOutils();
         mainWindow.mettreAJourPanneau();
+         float coteGrille = cnc.getCoteGrille();
+        mainWindow.mettreAJourGrille(coteGrille);
      
     }
 }
+      public void setCoteGrille(float cote) {
+        cnc.setCoteGrille(cote);
+        // Vous pouvez mettre à jour la vue si nécessaire
+        mettreAJourVue();
+    }
 
      public void undo() {
         cnc.undo();
