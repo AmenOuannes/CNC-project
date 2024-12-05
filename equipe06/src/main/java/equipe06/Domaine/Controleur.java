@@ -122,9 +122,10 @@ public class Controleur {
  public void mettreAJourTableauOutils() {
     Vector<OutilDTO> outils = this.getOutils(); 
     System.out.println("Nombre d'outils après mise à jour : " + outils.size());
+    /*
     for (OutilDTO outil : outils) {
         System.out.println("Outil : " + outil.getNomDTO() + ", Largeur : " + outil.getLargeur_coupeDTO());
-    }
+    }*/
     mainWindow.afficherOutilsDansTable(outils);
 }
 
@@ -199,10 +200,11 @@ public boolean inPanneau(float x, float y) {
     }
     
     public void mettreAJourVue() {
-          System.out.println("Liste des outils dans la vue : " + cnc.getOutils());
     if (mainWindow != null) {
         mainWindow.mettreAJourComboBoxOutil();
         mainWindow.mettreAJourTableauOutils();
+        mainWindow.mettreAJourPanneau();
+     
     }
 }
 

@@ -23,6 +23,8 @@ public class CNC {
     private Vector<Outil> outils;
     private Outil outil_courant;
     private final UndoRedoManager undoRedoManager = new UndoRedoManager();
+    private Point pointDeReferenceEnCours = null;
+      
 
 
     public CNC() {
@@ -34,7 +36,6 @@ public class CNC {
         outil_courant = outils.firstElement();
         undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
 
-        
     }
 
 
@@ -71,9 +72,10 @@ public class CNC {
     public void ajouterOutil(String nom, float largeurCoupe){
         Outil outil = new Outil(nom, largeurCoupe);
         if (outils.size() < 12  && !outils.contains(outil)){
-            undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
+            
             outils.add(outil);
             System.out.println("Outil ajouté avec succès : " + outil); //remove @zied
+            undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
         } else {
             System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil."); //remove @zied
         }
@@ -89,7 +91,9 @@ public class CNC {
         return new OutilDTO(outil_courant);
     }
     //TODO: mettre a jour depuis la selection du outil courant depuis l'interface
-    
+    // Mochkla houni lezemch nhot feha save state sinon ywali
+    //undo redo b deux clicks khater kol ma naaytou l coupe naaytou set outil
+    //ywali aana 2 etats ala kol ocupe
     public void setOutil_courant(OutilDTO outil_courantDTO) {
 
         // Recherche l'outil correspondant dans la liste des outils
@@ -101,10 +105,11 @@ public class CNC {
             }
         }*/
          System.out.println("Avant modification : " + this.outil_courant);
-         undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
+       
 
         this.outil_courant.setLargeur_coupe(outil_courantDTO.getLargeur_coupeDTO()) ;
         System.out.println("Après modification : " + this.outil_courant);
+      
 
 
 
@@ -126,6 +131,7 @@ public class CNC {
 
         System.out.println("Outil supprimé avec succès.");
         Controleur.getInstance().mettreAJourVue(); // Mise à jour de la vue
+        undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
     } else {
         System.out.println("Index invalide. Impossible de supprimer l'outil.");
     }
@@ -134,7 +140,7 @@ public class CNC {
 
     //amen
     public void ModifierOutil(UUID uuid, String NewName, float NewLargeur){
-          undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
+         
 
         for(Outil outil : outils){
             if(outil.getId() == uuid){
@@ -144,6 +150,7 @@ public class CNC {
                     outil.setLargeur_coupe(NewLargeur);
             }
         }
+         undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
       
 
     }
@@ -327,7 +334,7 @@ public class CNC {
     } 
 
     public void AjouterCoupe(Coupe coupe) {
-        
+       
         assert coupe != null : "La coupe ne doit pas être null.";
         // vector of uuids
         Vector<UUID> uuids = new Vector<UUID>();
@@ -340,6 +347,7 @@ public class CNC {
 
         coupes.add(coupe);
         undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
+        getCoupes();
         System.out.print("coupe enregistrée\n");
 
 
@@ -433,7 +441,7 @@ public class CNC {
         // Récupérer les UUIDs associés au point
         Vector<UUID> uuids = surCoupes(point);
         System.out.println("UUIDs retournés par surCoupes : " + uuids);
-         undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
+         
 
         // Parcourir la liste des coupes
         for (int i = 0; i < coupes.size(); i++) {
@@ -488,6 +496,7 @@ public class CNC {
                 System.out.println("Coupe supprimée : " + coupe.getUUID());
                 return;
             }
+            undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
         }
 
         // Si aucune coupe n'a été supprimée
@@ -687,32 +696,38 @@ public class CNC {
         }
     }
 public void undo() {
-    UndoRedoManager.Snapshot previousState = undoRedoManager.undo();
+    UndoRedoManager.State previousState = undoRedoManager.undo();
     if (previousState != null) {
-        // Restaurer les états précédents
         this.coupes = previousState.coupes;
         this.panneau = previousState.panneau;
         this.outils = previousState.outils;
         this.outil_courant = previousState.outilCourant;
-
-        Controleur.getInstance().mettreAJourVue(); // Mise à jour via le contrôleur
+        Controleur.getInstance().mettreAJourVue(); 
         System.out.println("Undo effectué.");
+       
+        getCoupes();
+       
+        
+        ; // Appel à une méthode pour afficher les UUID
     } else {
         System.out.println("Aucune action à annuler (Undo).");
     }
 }
 
 public void redo() {
-    UndoRedoManager.Snapshot nextState = undoRedoManager.redo();
+    UndoRedoManager.State nextState = undoRedoManager.redo();
     if (nextState != null) {
+        // Restaurer les états suivants
         this.coupes = nextState.coupes;
         this.panneau = nextState.panneau;
         this.outils = nextState.outils;
         this.outil_courant = nextState.outilCourant;
-        Controleur.getInstance().mettreAJourVue(); // Mise à jour via le contrôleur
-        System.out.println("État des outils après redo : " + outils);
-
+         Controleur.getInstance().mettreAJourVue(); 
         System.out.println("Redo effectué.");
+          getCoupes();
+        System.out.println("État des outils après redo : " + outils);
+    } else {
+        System.out.println("Aucune action à rétablir (Redo).");
     }
 }
 

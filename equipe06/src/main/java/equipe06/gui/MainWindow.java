@@ -33,6 +33,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
    public MainWindow() {
         initComponents();
+  
 
         // Initialiser `PanneauVue` et l'ajouter à l'endroit de `PanneauVisualisation`
         panneauVue = new PanneauVue(this);
@@ -148,7 +149,9 @@ public void mettreAJourTableauOutils() {
         model.addRow(new Object[]{outil.getNomDTO(), outil.getLargeur_coupeDTO()});
     }
 }
-
+public void mettreAJourPanneau(){
+    panneauVue.repaint();
+}
 
 
 
@@ -246,8 +249,6 @@ public void mettreAJourTableauOutils() {
         Undo = new javax.swing.JMenuItem();
         Redo = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        PAN = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -859,6 +860,7 @@ public void mettreAJourTableauOutils() {
 
         jMenu1.setText("Fichier");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setText("Quitter");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -867,6 +869,7 @@ public void mettreAJourTableauOutils() {
         });
         jMenu1.add(jMenuItem1);
 
+        Nouveau_Menu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         Nouveau_Menu.setText("Nouveau");
         Nouveau_Menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -879,6 +882,7 @@ public void mettreAJourTableauOutils() {
 
         jMenu2.setText("Edit");
 
+        Undo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         Undo.setText("Undo");
         Undo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -887,6 +891,7 @@ public void mettreAJourTableauOutils() {
         });
         jMenu2.add(Undo);
 
+        Redo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         Redo.setText("Redo");
         Redo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -898,23 +903,6 @@ public void mettreAJourTableauOutils() {
         jMenuBar1.add(jMenu2);
 
         jMenu5.setText("Export");
-
-        jMenuItem2.setText("CNC");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem2);
-
-        PAN.setText("PAN");
-        PAN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PANActionPerformed(evt);
-            }
-        });
-        jMenu5.add(PAN);
-
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Import");
@@ -1312,14 +1300,9 @@ public void mettreAJourTableauOutils() {
         panneauVue.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void UndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoActionPerformed
 if (controleur.isUndoAvailable()) {
         controleur.undo();
-        panneauVue.repaint(); // Met à jour l'affichage
         System.out.println("Action annulée (Undo).");
     } else {
         System.out.println("Aucune action à annuler.");
@@ -1329,16 +1312,11 @@ if (controleur.isUndoAvailable()) {
     private void RedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoActionPerformed
 if (controleur.isRedoAvailable()) {
         controleur.redo();
-        panneauVue.repaint(); // Met à jour l'affichage
         System.out.println("Action rétablie (Redo).");
     } else {
         System.out.println("Aucune action à rétablir.");
     }
     }//GEN-LAST:event_RedoActionPerformed
-
-    private void PANActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PANActionPerformed
 
     private void Nouveau_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Nouveau_MenuActionPerformed
         // TODO add your handling code here:
@@ -1451,7 +1429,6 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JTextField Nom_Outil;
     private javax.swing.JMenuItem Nouveau_Menu;
     private javax.swing.JComboBox<String> Outil_Coupe;
-    private javax.swing.JMenuItem PAN;
     private javax.swing.JTextField PANlargeurY;
     private javax.swing.JTextField PANlongueurX;
     private javax.swing.JTextField PANprofondeurZ;
@@ -1503,7 +1480,6 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

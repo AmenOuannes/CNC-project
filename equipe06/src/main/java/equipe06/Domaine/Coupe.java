@@ -43,7 +43,7 @@ public abstract class Coupe implements Cloneable{
      @Override
     public Coupe clone() {
         try {
-            return (Coupe) super.clone(); // Assurez-vous que tous les attributs sont clonés proprement
+            return (Coupe) super.clone(); 
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("Erreur de clonage de la coupe", e);
         }
@@ -89,9 +89,3 @@ public String getTypeCoupe() {
         return typeCoupe;
     }
 }
-
-
-
-
-
-
