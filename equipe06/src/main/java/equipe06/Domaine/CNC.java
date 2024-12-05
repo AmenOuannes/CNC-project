@@ -263,12 +263,14 @@ public class CNC {
     public void ModifierCoupe(float axe) {
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
+            undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
 
 
     }
     
     public void ModifierCoupeRectL() {
         //verifier si ma coupe est modifiée lors de la modification d'un axe
+           undoRedoManager.saveState(coupes, panneau, outils, outil_courant); // si jamais
     }
     public boolean IsThere(Vector<UUID> uuids, String s){
 
@@ -538,6 +540,7 @@ public class CNC {
             System.out.println("TranslationX : " + TranslationX);
             System.out.println("TranslationY : " + TranslationY);
             modifierEnCascade(ma_coupe.getUUID(), TranslationX,TranslationY);
+            undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
         }
         else if (cut.getTypeCoupe()=="L") {
             CoupeL ma_coupe = (CoupeL) cut;
@@ -600,6 +603,7 @@ public class CNC {
         }
         System.out.println("went here");
         modifierEnCascade(ma_coupe.getUUID(), translationX, translationY);
+           undoRedoManager.saveState(coupes, panneau, outils, outil_courant);
         System.out.println("arrived");
     }
 

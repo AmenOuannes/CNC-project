@@ -69,7 +69,7 @@ public class UndoRedoManager {
 
    
    public State undo() {
-    if (undos.size() == 0) {
+    if (undos.size() <= 1) {
         System.out.println("Aucune action à annuler (Undo).");
         return null;
     }
@@ -84,7 +84,7 @@ public class UndoRedoManager {
     return previousState;
 }
 
-public State redo() {
+    public State redo() {
     if (!canRedo()) {
         System.out.println("Aucune action à rétablir (Redo).");
         return null;
