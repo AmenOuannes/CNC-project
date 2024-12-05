@@ -143,7 +143,7 @@ public class CNC {
          
 
         for(Outil outil : outils){
-            if(outil.getId() == uuid){
+            if(outil.getId().equals(uuid)){
                 if(outil.getNom()!= NewName)
                     outil.setNom(NewName);
                 if(outil.getLargeur_coupe() != NewLargeur)
@@ -516,8 +516,9 @@ public class CNC {
 
         int TranslationX=0, TranslationY=0;
         for(Coupe coupe : coupes) {
-            if(uuid==coupe.getUUID())
-                cut= coupe;
+          if(uuid.equals(coupe.getUUID()))
+              cut = coupe;
+
         }
         if(cut==null) return;
         if(cut.getTypeCoupe()=="Rect")
@@ -572,9 +573,8 @@ public class CNC {
         Coupe ma_coupe = null ;
         int translationX=0, translationY=0;
         for(Coupe coupe : coupes) {
-            if(uuid==coupe.getUUID())
-                ma_coupe= coupe;
-        }
+          if(uuid.equals(coupe.getUUID()))
+       ma_coupe = (CoupeAxe) coupe;}
         ma_coupe.setOutil(largeur);
     }
     public void modifierCoupeAxiale(float a, Point p) {
@@ -583,7 +583,7 @@ public class CNC {
         CoupeAxe ma_coupe = null ;
         int translationX=0, translationY=0;
         for(Coupe coupe : coupes) {
-            if(uuid==coupe.getUUID())
+          if(uuid.equals(coupe.getUUID()))
                 ma_coupe=(CoupeAxe) coupe;
         }
         if(ma_coupe==null) return;
@@ -659,7 +659,7 @@ public class CNC {
         UUID uuid = surCoupes(surCoupe).firstElement();
         Coupe ma_coupe = null ;
         for(Coupe coupe : coupes) {
-            if(uuid==coupe.getUUID())
+          if(uuid.equals(coupe.getUUID()))
                 ma_coupe= coupe;
         }
         if(ma_coupe==null) return;
