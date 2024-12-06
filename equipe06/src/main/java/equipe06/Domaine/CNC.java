@@ -304,12 +304,24 @@ public class CNC {
 
         if(Objects.equals(coupe.getTypeCoupe(), "H") || Objects.equals(coupe.getTypeCoupe(), "V")){
             CoupeAxe c = (CoupeAxe) coupe;
-            if(!c.getMyRef().isEmpty())
-                return true;
-            else if (panneau.surPanneau(c.getReference())) {
-                System.out.println(" click sur Panneau");
+            Vector<UUID> uuids = surCoupes(c.getReference());
+            Vector<UUID> uuids_coin = surCoin(c.getReference());
+            System.out.print(uuids);
+            System.out.print(uuids_coin);
+
+
+            if(uuids.size() >= 2 || panneau.surPanneau(c.getReference()) || 
+                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
+                System.out.println("parfait");
                 return true;
             }
+            //if(!c.getMyRef().isEmpty())
+                
+                //return true;
+            //else if (panneau.surPanneau(c.getReference())) {
+                //System.out.println(" click sur Panneau");
+                //return true;
+            //}
         }else if (Objects.equals(coupe.getTypeCoupe(), "Rect")) {
             CoupeRec c = (CoupeRec) coupe;
             float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
@@ -319,14 +331,16 @@ public class CNC {
 
             // Vérifier que origine et destination sont dans le panneau, et que la référence est sur le panneau
             Vector<UUID> uuids = surCoupes(c.getReference());
+            Vector<UUID> uuids_coin = surCoin(c.getReference());
+
             if (panneau.inPanneau(origineX, origineY) && 
                     panneau.inPanneau(destinationX, destinationY))
             {
-                if(  IsThere(uuids, "Rect") || IsThere(uuids, "Bordure") || IsThere(uuids, "L")  ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
-                    System.out.println(" references valides");
-                    return true;
-                }
-                if(panneau.surCoins(c.getReference())) return true;
+                if(uuids.size() >= 2 || panneau.surCoins(c.getReference()) || 
+                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
+                System.out.println("parfait");
+                return true;
+            }
             }
           
 
@@ -337,13 +351,15 @@ public class CNC {
             float destinationX = Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().x);
             float destinationY = Repere.getInstance().convertirEnMmDepuisPixels(c.getPointDestination().y);
             Vector<UUID> uuids = surCoupes(c.getPointOrigine());
+            Vector<UUID> uuids_coin = surCoin(c.getPointOrigine());
+
             if (panneau.inPanneau(destinationX, destinationY))
             {
-                if(  IsThere(uuids, "Rect")   || IsThere(uuids, "Bordure") || IsThere(uuids, "L")  ||    (  IsThere(uuids, "H") && IsThere(uuids, "V")  )   ){
-                    System.out.println(" references valides");
-                    return true;
-                }
-                if(panneau.surCoins(c.getPointOrigine())) return true;
+                if(uuids.size() >= 2 || panneau.surCoins(c.getPointOrigine()) || 
+                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
+                System.out.println("parfait");
+                return true;
+            }
             }
 
         }
@@ -395,6 +411,64 @@ public class CNC {
                             System.out.println("click sur coupe Horizontale");
                         }
                         break;
+                    case "Rect", "Bordure":
+                        CoupeRec coupeRect = (CoupeRec) c;
+                        Point origineRect = coupeRect.getPointOrigine();
+                        Point destinationRect = coupeRect.getPointDestination();
+                        // Le point doit correspondre à un des 4 coins du rectangle
+                        boolean ligne1 = ((x >= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.x) - 100) &&(x <= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.x) + 100))
+                                && (((y >= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.y) - 100) && (y <= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.y) + 100)) || 
+                                ((y >= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.y) - 100) && (y <= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.y) + 100)));
+
+                        boolean ligne2 = ((y >= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.y) - 100) &&(y <= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.y) + 100))
+                                && (((x >= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.x) - 100) && (x <= Repere.getInstance().convertirEnMmDepuisPixels(origineRect.x) + 100)) || 
+                                ((x >= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.x) - 100) && (x <= Repere.getInstance().convertirEnMmDepuisPixels(destinationRect.x) + 100)));
+
+                        
+                        if (ligne1 || ligne2) {
+                            System.out.println("click sur coupe rectangulaire");
+                            uuids.add(c.getUUID());
+                        }
+                        break;
+                    case "L":
+                        CoupeL coupeL = (CoupeL) c;
+                        Point origineL = coupeL.getPointOrigine();
+                        Point destinationL = coupeL.getPointDestination();
+                        // Le point doit correspondre à un des 4 coins du rectangle
+                        boolean lignee1 = ((x >= Repere.getInstance().convertirEnMmDepuisPixels(origineL.x) - 100) &&(x <= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.x) + 100))
+                                && (((y >= Repere.getInstance().convertirEnMmDepuisPixels(origineL.y) - 100) && (y <= Repere.getInstance().convertirEnMmDepuisPixels(origineL.y) + 100)) || 
+                                ((y >= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y) - 100) && (y <= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y) + 100)));
+
+                        boolean lignee2 = ((y >= Repere.getInstance().convertirEnMmDepuisPixels(origineL.y) - 100) &&(y <= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.y) + 100))
+                                && (((x >= Repere.getInstance().convertirEnMmDepuisPixels(origineL.x) - 100) && (x <= Repere.getInstance().convertirEnMmDepuisPixels(origineL.x) + 100)) || 
+                                ((x >= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.x) - 100) && (x <= Repere.getInstance().convertirEnMmDepuisPixels(destinationL.x) + 100)));
+
+                        
+                        if (lignee1 || lignee2) {
+                            System.out.println("click sur coupe rectangulaire");
+                            uuids.add(c.getUUID());
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Type de coupe non pris en charge : " + c.getTypeCoupe());
+                        break;
+
+                }
+            }
+
+        }
+        return uuids;
+    }
+    
+    public Vector<UUID> surCoin(Point reference) {
+        Vector<UUID> uuids = new Vector<>();
+        if (panneau.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(reference.x), Repere.getInstance().convertirEnMmDepuisPixels(reference.y))) {
+            float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
+            float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
+
+            for (Coupe c : coupes) {
+                switch (c.getTypeCoupe()) {
                     case "Rect", "Bordure":
                         CoupeRec coupeRect = (CoupeRec) c;
                         Point origineRect = coupeRect.getPointOrigine();
