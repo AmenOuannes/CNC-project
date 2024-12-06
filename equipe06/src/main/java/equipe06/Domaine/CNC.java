@@ -322,7 +322,7 @@ public class CNC {
                 //System.out.println(" click sur Panneau");
                 //return true;
             //}
-        }else if (Objects.equals(coupe.getTypeCoupe(), "Rect")) {
+        }else if (Objects.equals(coupe.getTypeCoupe(), "Rect") || Objects.equals(coupe.getTypeCoupe(), "Bordure")) {
             CoupeRec c = (CoupeRec) coupe;
             float origineX = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().x);
             float origineY = (float) Repere.getInstance().convertirEnMmDepuisPixels(c.getPointOrigine().y);
@@ -336,8 +336,11 @@ public class CNC {
             if (panneau.inPanneau(origineX, origineY) && 
                     panneau.inPanneau(destinationX, destinationY))
             {
+                System.out.print(uuids);
+                System.out.print(panneau.surPanneau(c.getReference()));
                 if(uuids.size() >= 2 || panneau.surCoins(c.getReference()) || 
-                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
+                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ||
+                        (panneau.surPanneau(c.getReference()) && uuids.size() >= 1)){
                 System.out.println("parfait");
                 return true;
             }
@@ -356,7 +359,8 @@ public class CNC {
             if (panneau.inPanneau(destinationX, destinationY))
             {
                 if(uuids.size() >= 2 || panneau.surCoins(c.getPointOrigine()) || 
-                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
+                    (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ||
+                        (panneau.surPanneau(c.getPointOrigine()) && uuids.size() >= 1)){
                 System.out.println("parfait");
                 return true;
             }
