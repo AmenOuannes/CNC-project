@@ -770,9 +770,15 @@ public class CNC {
                 X = ref.x-cut.getReference().x;
                 Y = ref.y-cut.getReference().y;
                    cut.ChangeReference(ref);
-                if(ma_coupe.getTypeCoupe()=="H") cut.setAxe(cut.getAxe()+Y);
-                else cut.setAxe(cut.getAxe()+X);
-                ma_coupe.invalide=false;
+                if(ma_coupe.getTypeCoupe()=="H") {
+                    cut.setAxe(cut.getAxe()+Y);
+                    modifierEnCascade(cut.getUUID(), X, Y);
+                }
+                else {
+                    cut.setAxe(cut.getAxe()+X);
+                    modifierEnCascade(cut.getUUID(), X, Y);
+                }
+                ma_coupe.invalide=false; //TODO: cas où trajaa bel ghalet , pas trop important
                 break;
 
             case "Rect":
@@ -784,6 +790,7 @@ public class CNC {
                         cutRec.getPointDestination().y + Y));
                 cutRec.setPointOrigine(new Point(cutRec.getPointOrigine().x + X,
                         cutRec.getPointOrigine().y + Y));
+                modifierEnCascade(cutRec.getUUID(), X, Y);
                 ma_coupe.invalide=false;
 
                 break;
@@ -794,6 +801,7 @@ public class CNC {
                 cutL.setPointOrigine(ref);
                 cutL.setPointDestination(new Point(cutL.getPointDestination().x + X,
                         cutL.getPointDestination().y + Y));
+                modifierEnCascade(cutL.getUUID(), X, Y);
                 ma_coupe.invalide=false;
 
                 break;
