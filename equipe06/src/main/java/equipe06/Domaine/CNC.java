@@ -706,13 +706,18 @@ public class CNC {
             switch (coupe.getTypeCoupe()) {
                 case "V":
                     CoupeAxe cut = (CoupeAxe) coupe;
-                    if (cut.getMyRef().contains(uuid))
+                    if (cut.getMyRef().contains(uuid)) {
                         cut.setAxe(cut.getAxe() + X);
+                        modifierEnCascade(cut.getUUID(), X, Y);
+                    }
                     break;
                 case "H":
                     CoupeAxe cutH = (CoupeAxe) coupe;
-                    if (cutH.getMyRef().contains(uuid))
+                    if (cutH.getMyRef().contains(uuid)) {
                         cutH.setAxe(cutH.getAxe() + Y);
+
+                        modifierEnCascade(cutH.getUUID(), X, Y);
+                    }
                     break;
                 case "Rect":
                     CoupeRec cutRec = (CoupeRec) coupe;
@@ -723,6 +728,7 @@ public class CNC {
                                 cutRec.getPointOrigine().y + Y));
                         cutRec.setPointReference(new Point(cutRec.getReference().x + X,
                                 cutRec.getReference().y + Y));
+                        modifierEnCascade(cutRec.getUUID(), X, Y);
                     }
 
                     break;
@@ -734,6 +740,7 @@ public class CNC {
                         cutL.setPointOrigine(new Point(cutL.getPointOrigine().x + X,
                                 cutL.getPointOrigine().y + Y));
 
+                        modifierEnCascade(cutL.getUUID(), X, Y);
                     }
 
                     break;
