@@ -22,6 +22,7 @@ public class CoupeAxe extends Coupe {
     private boolean composante;
     private Point reference;
     private Vector<UUID> myRef;
+    private ElementCoupe element;
 
 
     // Implémentation de la méthode abstraite coupe
@@ -86,6 +87,11 @@ public class CoupeAxe extends Coupe {
             if (!reference)  {axe = ymax- panneau.getLargeur()+a;System.out.println("le fameux if");}
             else {axe = ymax- a;System.out.println("le fameux else");}
         }
+    }
+    
+    
+    public ElementCoupe getElement() {
+        return element;
     }
 }
 

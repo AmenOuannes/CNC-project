@@ -13,6 +13,8 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.Iterator;
 import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 
 public class CNC {
@@ -170,7 +172,7 @@ public class CNC {
         //TODO coupe en L, attribut extraits du controleur
         assert referencePoint != null;
         assert pointDestination != null;
-        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,5.0f,0.3f,0,false,0.0f,0.0f,"L",outil_courant.getLargeur_coupe());
+        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,panneau.getProfondeur(),0.5f,0,false,0.0f,0.0f,"L",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(referencePoint);
         CoupeL coupe = new CoupeL(e, CoupesDeReferences);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -189,7 +191,7 @@ public class CNC {
         float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
         ElementCoupe e = new ElementCoupe(
                 Origine, Destination, 5.0f,
-                0.3f,0,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
+                panneau.getProfondeur(),0.5f,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -206,16 +208,26 @@ public class CNC {
 
         float bordureX = x;
         float bordureY = y;
+        
         int bordureXPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureX);
         int bordureYPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureY);
+        
         int longueurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLongueur());
         int largeurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLargeur());
+        
         int xOrigine = (longueurOriginalePx - bordureXPx) / 2;
         int yOrigine = (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60) - largeurOriginalePx + (largeurOriginalePx - bordureYPx) / 2;
+        
+        // Calcul du point de destination basé sur l'origine et les dimensions
+        int xDestination = xOrigine + bordureXPx; // Point à l'extrémité droite
+        int yDestination = yOrigine + bordureYPx; // Point à l'extrémité basse
+        
         Point pointOrigine = new Point(xOrigine, yOrigine);
-        Point pointDestination = new Point(bordureXPx, bordureYPx);
+        Point pointDestination = new Point(xDestination, yDestination);
+        
         ElementCoupe e = new ElementCoupe(
-                pointOrigine, pointDestination, 5.0f, 0.3f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
+                pointOrigine, pointDestination, panneau.getProfondeur(),0.5f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
+        
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
         undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
@@ -252,13 +264,13 @@ public class CNC {
         {
 
          e = new ElementCoupe(
-                reference, pointDestination, 5.0f, 0.3f,
+                reference, pointDestination, panneau.getProfondeur(),0.5f,
                  x, composante, 0.0f, 0.0f, "V", outil_courant.getLargeur_coupe());
         }
         else{
 
              e = new ElementCoupe(
-            reference, pointDestination, 5.0f, 0.3f,
+            reference, pointDestination, panneau.getProfondeur(),0.5f,
                      y, composante, 0.0f, 0.0f, "H", outil_courant.getLargeur_coupe());
         }
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
@@ -856,10 +868,92 @@ public void redo() {
     public boolean isRedoAvailable() {
         return undoRedoManager.canRedo();
     }
+    
+    
+public void exporterGCode(String cheminFichier) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))) {
+        // Initialisation du G-code
+        writer.write("G21 ; Utiliser des unités en millimètres\n");
+        writer.write("G90 ; Mode de positionnement absolu\n");
+        writer.write("M03 S1500 ; Démarrer la broche à 1500 RPM\n");
+        // Parcourir les coupes et écrire les instructions
+        for (Coupe coupe : coupes) {
+            switch (coupe.getTypeCoupe()) {
+                case "H": // Coupe axiale horizontale
+                    writer.write(String.format(
+                        "G01 Y%.2f F500 ; Tracé de coupe horizontale\n",
+                        ((CoupeAxe) coupe).getAxe()
+                    ));
+                    break;
+                case "V": // Coupe axiale verticale
+                    writer.write(String.format(
+                        "G01 X%.2f F500 ; Tracé de coupe verticale\n",
+                        ((CoupeAxe) coupe).getAxe()
+                    ));
+                    break;
+                case "Rect":// Coupe rectangulaire
+                    ElementCoupe rect = (ElementCoupe) coupe.getElement();
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Début rectangle\n",
+                        rect.getPointOrigine().getX(),
+                        rect.getPointOrigine().getY()
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f ; Fin rectangle\n",
+                        rect.getPointDestination().getX(),
+                        rect.getPointDestination().getY()
+                    ));
+                    break;
+                case "Bordure": // Coupe rectangulaire
+                    ElementCoupe Bordure = (ElementCoupe) coupe.getElement();
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Début rectangle\n",
+                        Bordure.getPointOrigine().getX(),
+                        Bordure.getPointOrigine().getY()
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f ; Fin rectangle\n",
+                        Bordure.getPointDestination().getX(),
+                        Bordure.getPointDestination().getY()
+                    ));
+                    break;
+                case "L": // Coupe en L
+                    ElementCoupe coupeL = (ElementCoupe) coupe.getElement();
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Début L\n",
+                        coupeL.getPointOrigine().getX(),
+                        coupeL.getPointOrigine().getY()
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f ; Coin L\n",
+                        coupeL.getPointOrigine().getX(),
+                        coupeL.getPointDestination().getY()
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f ; Fin L\n",
+                        coupeL.getPointDestination().getX(),
+                        coupeL.getPointDestination().getY()
+                    ));
+                    break;
+                case "ZoneInterdite": // Zone interdite, exclue de l'exportation
+                    System.out.println("Zone interdite détectée, non incluse dans le G-code.");
+                    break;
+
+                default:
+                    System.out.println("Type de coupe non pris en charge : " + coupe.getTypeCoupe());
+                    break;
+            }
+        }
+
+        // Commandes de fin
+        writer.write("M05 ; Arrêt de la broche\n");
+        writer.write("G00 X0 Y0 ; Retour à l'origine\n");
+        writer.write("M30 ; Fin du programme\n");
+        System.out.println("G-code exporté avec succès dans : " + cheminFichier);
+    } catch (IOException e) {
+        System.err.println("Erreur lors de l'exportation du G-code : " + e.getMessage());
+    }
+}   
 }
 
-
-
-
-    
 

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import equipe06.Domaine.OutilDTO;
 import java.util.Stack;
+import java.io.File;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -158,6 +159,23 @@ public void mettreAJourGrille(float coteGrille) {
 }
 
 
+private void genererGCode() {
+    try {
+        // Obtenir le chemin du bureau dynamiquement
+        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
+        String fichierGCode = bureauPath + File.separator + "programme.gcode";
+
+        // Appeler l'exportation via le contrôleur
+        controleur.exporterGCode(fichierGCode);
+
+        // Afficher un message de confirmation
+        javax.swing.JOptionPane.showMessageDialog(this, "G-code généré avec succès sur le bureau !");
+    } catch (Exception ex) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de la génération du G-code : " + ex.getMessage());
+    }
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -242,6 +260,7 @@ public void mettreAJourGrille(float coteGrille) {
         jLabel26 = new javax.swing.JLabel();
         CoordY = new javax.swing.JTextField();
         AjouterZI = new javax.swing.JButton();
+        GCODE = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -329,7 +348,7 @@ public void mettreAJourGrille(float coteGrille) {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
@@ -392,7 +411,7 @@ public void mettreAJourGrille(float coteGrille) {
                     .addComponent(SuppGrille))
                 .addGap(18, 18, 18)
                 .addComponent(DessinerPanneau)
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("1.Panneau", jPanel1);
@@ -537,7 +556,7 @@ public void mettreAJourGrille(float coteGrille) {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2.Outil", jPanel2);
@@ -657,6 +676,13 @@ public void mettreAJourGrille(float coteGrille) {
             }
         });
 
+        GCODE.setText("GCODE");
+        GCODE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GCODEActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
@@ -675,7 +701,7 @@ public void mettreAJourGrille(float coteGrille) {
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21)
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
@@ -745,7 +771,9 @@ public void mettreAJourGrille(float coteGrille) {
             .addGroup(PanneauContrôleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(AjouterZI)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(GCODE)
+                .addGap(32, 32, 32))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -821,9 +849,15 @@ public void mettreAJourGrille(float coteGrille) {
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(SuppCoupe))
-                .addGap(18, 18, 18)
-                .addComponent(AjouterZI)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(AjouterZI)
+                        .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(GCODE)
+                        .addGap(18, 18, 18))))
         );
 
         jLabel8.setText("3.Personalisez vos coupes");
@@ -844,8 +878,8 @@ public void mettreAJourGrille(float coteGrille) {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanneauContrôle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PanneauContrôle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("3.Coupe", jPanel3);
@@ -907,30 +941,30 @@ public void mettreAJourGrille(float coteGrille) {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(346, 346, 346)
-                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(197, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(161, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(90, 90, 90))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGap(100, 100, 100)
+                .addComponent(PanneauVisualisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1373,6 +1407,11 @@ if (controleur.isRedoAvailable()) {
         panneauVue.repaint();
     }//GEN-LAST:event_AjouterZIActionPerformed
 
+    private void GCODEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GCODEActionPerformed
+        // TODO add your handling code here:
+        genererGCode();
+    }//GEN-LAST:event_GCODEActionPerformed
+
     /*
      * @param args the command line arguments
      */
@@ -1423,6 +1462,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JTextField DistanceX;
     private javax.swing.JTextField DistanceY;
     private javax.swing.JTextField Epaisseur_Outil;
+    private javax.swing.JButton GCODE;
     private javax.swing.JTextField GrilleX;
     private javax.swing.JButton ModCoupe;
     private javax.swing.JButton ModifOutil;

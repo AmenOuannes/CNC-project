@@ -234,6 +234,10 @@ public boolean inPanneau(float x, float y) {
     public boolean isRedoAvailable() {
         return cnc.isRedoAvailable();
     }
+    
+    public void exporterGCode(String cheminFichier) {
+        cnc.exporterGCode(cheminFichier);
+    }
 }
 
 

@@ -88,4 +88,7 @@ public void setUUID(UUID uuid) {
 public String getTypeCoupe() {
         return typeCoupe;
     }
+
+public abstract ElementCoupe getElement();
+
 }

@@ -14,6 +14,7 @@ public class CoupeRec extends Coupe{
     private float BordureY;
     private Point reference;
     private Vector<UUID> myRef;
+    private ElementCoupe element;
 
     //create new subclass Bordure
     public CoupeRec(ElementCoupe e, Vector<UUID> myRef, Point reference) {
@@ -110,4 +111,8 @@ public class CoupeRec extends Coupe{
         this.reference=point;
     }
 
+    
+    public ElementCoupe getElement() {
+        return element;
+    }
 }

@@ -11,6 +11,7 @@ public class CoupeL extends Coupe{
   private Point pointReference ;
   private Point pointDestination ;
   private Vector<UUID> myRefs;
+  private ElementCoupe element;
 
     // Implémentation de la méthode abstraite coupe
     //@Override
@@ -46,7 +47,9 @@ public class CoupeL extends Coupe{
     }
   
   
-  
+public ElementCoupe getElement() {
+        return element;
+    }
   
   
 }
