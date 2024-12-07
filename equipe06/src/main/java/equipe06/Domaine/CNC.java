@@ -190,8 +190,8 @@ public class CNC {
         float BordureX = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.x-Destination.x)));
         float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
         ElementCoupe e = new ElementCoupe(
-                Origine, Destination, 5.0f,
-                panneau.getProfondeur(),0.5f,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
+                Origine, Destination, panneau.getProfondeur(),
+                0.5f,0,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -878,62 +878,99 @@ public void exporterGCode(String cheminFichier) {
         writer.write("M03 S1500 ; Démarrer la broche à 1500 RPM\n");
         // Parcourir les coupes et écrire les instructions
         for (Coupe coupe : coupes) {
+            ElementCoupe element = (ElementCoupe) coupe.getElement();
             switch (coupe.getTypeCoupe()) {
                 case "H": // Coupe axiale horizontale
-                    writer.write(String.format(
-                        "G01 Y%.2f F500 ; Tracé de coupe horizontale\n",
-                        ((CoupeAxe) coupe).getAxe()
-                    ));
-                    break;
                 case "V": // Coupe axiale verticale
+                    double x0, y0, x1, y1;
+                    double profondeur = element.getProfondeur();
+
+                    // Déterminer la coupe en fonction de "composante"
+                    if (element.getComposante()) { // Coupe verticale
+                        double x = element.getPointDestination().getX();
+                        x0 = x;
+                        y0 = 0; // Départ (en haut)
+                        x1 = x;
+                        y1 = panneau.getLongueur(); // Arrivée (en bas)
+                    } else { // Coupe horizontale
+                        double y = element.getPointDestination().getY();
+                        x0 = 0; y0 = y;    // Départ (à gauche)
+                        x1 = panneau.getLargeur(); y1 = y; // Arrivée (à droite)
+                    }
+
+                    // Écrire les instructions pour la coupe
                     writer.write(String.format(
-                        "G01 X%.2f F500 ; Tracé de coupe verticale\n",
-                        ((CoupeAxe) coupe).getAxe()
+                        "G00 X%.2f Y%.2f ; Déplacement rapide au début de la coupe\n",
+                        x0, y0
                     ));
+                    
+                    writer.write(String.format(
+                        "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
+                        profondeur
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Tracé de la coupe\n",
+                        x1, y1
+                    ));
+                    writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
                     break;
+                    
                 case "Rect":// Coupe rectangulaire
-                    ElementCoupe rect = (ElementCoupe) coupe.getElement();
+                case "Bordure": // Même logique que Rect
+
+                    // Récupérer les coordonnées des coins du rectangle
+                    double x00 = element.getPointOrigine().getX();
+                    double y00 = element.getPointOrigine().getY();
+                    double x11 = element.getPointDestination().getX();
+                    double y11 = element.getPointDestination().getY();
+
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f F500 ; Début rectangle\n",
-                        rect.getPointOrigine().getX(),
-                        rect.getPointOrigine().getY()
+                        "G00 X%.2f Y%.2f ; Déplacement rapide au point d'origine\n",
+                        x00, y00
                     ));
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f ; Fin rectangle\n",
-                        rect.getPointDestination().getX(),
-                        rect.getPointDestination().getY()
+                        "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
+                        element.getProfondeur()
                     ));
+
+                    // Suivre le contour du rectangle
+                    writer.write(String.format("G01 X%.2f Y%.2f F500 ; Aller au coin supérieur droit\n", x11, y00));
+                    writer.write(String.format("G01 X%.2f Y%.2f ; Aller au coin inférieur droit\n", x11, y11));
+                    writer.write(String.format("G01 X%.2f Y%.2f ; Aller au coin inférieur gauche\n", x00, y11));
+                    writer.write(String.format("G01 X%.2f Y%.2f ; Revenir au point d'origine\n", x00, y00));
+
+                    writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
                     break;
-                case "Bordure": // Coupe rectangulaire
-                    ElementCoupe Bordure = (ElementCoupe) coupe.getElement();
+                case "L":// Coupe en L
+                    
+                    // Récupérer les coordonnées
+                    double lx0 = element.getPointOrigine().getX();
+                    double ly0 = element.getPointOrigine().getY();
+                    double lx1 = element.getPointDestination().getX();
+                    double ly1 = element.getPointDestination().getY();
+
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f F500 ; Début rectangle\n",
-                        Bordure.getPointOrigine().getX(),
-                        Bordure.getPointOrigine().getY()
+                        "G00 X%.2f Y%.2f ; Déplacement rapide au point d'origine\n",
+                        lx0, ly0
                     ));
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f ; Fin rectangle\n",
-                        Bordure.getPointDestination().getX(),
-                        Bordure.getPointDestination().getY()
+                        "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
+                        element.getProfondeur()
                     ));
-                    break;
-                case "L": // Coupe en L
-                    ElementCoupe coupeL = (ElementCoupe) coupe.getElement();
+
+                    // Tracer le premier segment horizontal ou vertical jusqu'au point de croisement
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f F500 ; Début L\n",
-                        coupeL.getPointOrigine().getX(),
-                        coupeL.getPointOrigine().getY()
+                        "G01 X%.2f Y%.2f F500 ; Aller au point de croisement\n",
+                        lx1, ly0
                     ));
+
+                    // Tracer le second segment horizontal ou vertical depuis le croisement
                     writer.write(String.format(
-                        "G01 X%.2f Y%.2f ; Coin L\n",
-                        coupeL.getPointOrigine().getX(),
-                        coupeL.getPointDestination().getY()
+                        "G01 X%.2f Y%.2f ; Aller à la fin de la coupe L\n",
+                        lx1, ly1
                     ));
-                    writer.write(String.format(
-                        "G01 X%.2f Y%.2f ; Fin L\n",
-                        coupeL.getPointDestination().getX(),
-                        coupeL.getPointDestination().getY()
-                    ));
+
+                    writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
                     break;
                 case "ZoneInterdite": // Zone interdite, exclue de l'exportation
                     System.out.println("Zone interdite détectée, non incluse dans le G-code.");
