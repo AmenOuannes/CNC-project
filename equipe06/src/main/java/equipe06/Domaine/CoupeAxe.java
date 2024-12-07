@@ -36,6 +36,7 @@ public class CoupeAxe extends Coupe {
         this.reference = reference;
         this.myRef = myRef;
         this.axeRelatif = e.getAxe();
+        this.element = e;
 
     }
 

@@ -24,6 +24,7 @@ public class CoupeL extends Coupe{
         this.pointDestination = e.getPointDestination();
 
         this.myRefs = myRefs;
+        this.element = e;
 
     }
   public Point getPointOrigine() {

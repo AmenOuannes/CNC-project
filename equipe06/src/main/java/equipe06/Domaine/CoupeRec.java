@@ -28,6 +28,7 @@ public class CoupeRec extends Coupe{
         PointDestination = e.getPointDestination();
         this.reference = reference;
         this.myRef = myRef;
+        this.element = e;
 
         // Validation avec des affichages
         //System.out.println("Dans le constructeur de CoupeRec - BordureX après transfert : " + this.BordureX);
@@ -65,6 +66,7 @@ public class CoupeRec extends Coupe{
         // Valeurs par défaut pour myRef et reference
         this.reference = null; // Pas de référence
         this.myRef = new Vector<>(); // Vecteur vide
+        this.element = e;
     }
     
     
