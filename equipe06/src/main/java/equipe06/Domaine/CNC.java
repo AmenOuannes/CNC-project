@@ -951,23 +951,25 @@ public void exporterGCode(String cheminFichier) {
 
                     writer.write(String.format(
                         "G00 X%.2f Y%.2f ; Déplacement rapide au point d'origine\n",
-                        lx0, ly0
+                        lx0, ly1    
                     ));
                     writer.write(String.format(
                         "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
                         element.getProfondeur()
                     ));
 
-                    // Tracer le premier segment horizontal ou vertical jusqu'au point de croisement
-                    writer.write(String.format(
-                        "G01 X%.2f Y%.2f F500 ; Aller au point de croisement\n",
-                        lx1, ly0
-                    ));
+                    
 
                     // Tracer le second segment horizontal ou vertical depuis le croisement
                     writer.write(String.format(
                         "G01 X%.2f Y%.2f ; Aller à la fin de la coupe L\n",
                         lx1, ly1
+                    ));
+                    
+                    // Tracer le premier segment horizontal ou vertical jusqu'au point de croisement
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Aller au point de croisement\n",
+                        lx1, ly0
                     ));
 
                     writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
