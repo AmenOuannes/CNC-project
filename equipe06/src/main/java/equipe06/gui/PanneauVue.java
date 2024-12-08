@@ -5,8 +5,7 @@ import equipe06.gui.MainWindow;
 import equipe06.Domaine.Repere;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import equipe06.drawing.Afficheur;
 import equipe06.Domaine.Controleur;
 import equipe06.Domaine.PanneauDTO;
@@ -42,11 +41,10 @@ public class PanneauVue extends JPanel {
     private boolean afficherGrille = false;
     private float longueur_modify;
     private float largeur_modify;
-    private boolean EditRef=false;
+    private boolean EditRef = false;
     private boolean ModifOutil = false;
     private Vector<Point> pointsEnregistres = new Vector<>();
     private float intervalleGrilleX;
-
 
     // Variables pour gérer le décalage de la vue lors du zoom
     private double offsetX = 0.0;
@@ -59,6 +57,9 @@ public class PanneauVue extends JPanel {
     private int rectY1 = -1;
     private int rectX2 = -1;
     private int rectY2 = -1;
+
+    // **Ajout du JLabel pour afficher les coordonnées**
+    private JLabel coordLabel;
 
     public PanneauVue(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -74,30 +75,78 @@ public class PanneauVue extends JPanel {
         this.largeurPixelsPanneau = (int) (repere.convertirEnPixelsDepuisMm(panneauDTO.getLargeur()));
         this.hauteurPixelsPanneau = (int) (repere.convertirEnPixelsDepuisMm(panneauDTO.getLongueur()));
 
-        // Définir la taille préférée du panneau basé sur la table CNC
+        
         this.setPreferredSize(new Dimension(largeurPixelsTable, hauteurPixelsTable));
 
+       
+        this.setLayout(null);
+
+       
+        coordLabel = new JLabel();
+        coordLabel.setOpaque(true);
+        coordLabel.setBackground(Color.WHITE); // Fond blanc
+        coordLabel.setForeground(Color.BLACK); // Texte en noir pour contraste
+        coordLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        coordLabel.setVisible(false); // Caché par défaut
+        coordLabel.setFont(new Font("Arial", Font.PLAIN, 10)); // Police plus petite
+        this.add(coordLabel);
+
+      
         this.addMouseListener(new java.awt.event.MouseAdapter() {
-            
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(peutCreerCoupeL||peutCreerCoupeRect||peutCreerCoupeV||peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || deleteTriggered ||EditRef || ModifOutil
-                        || peutCreerZoneInterdite ) {
+                if(peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV ||
+                   peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || 
+                   deleteTriggered || EditRef || ModifOutil || peutCreerZoneInterdite ) {
                     captureRectanglePoints(evt);
-                    }
+                }
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                coordLabel.setVisible(false); 
             }
         });
-        
-        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                // Ajuster les coordonnées en fonction du zoom et des offsets
-                 currentMouseY = ajusterCoordonneePourVueY(evt.getY(), offsetY, zoomFactor); // Utiliser la méthode ajustée pour 
-       
-                currentMouseX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
-                
 
-                // Envoyer les coordonnées à la MainWindow pour mise à jour
+      
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent evt) {
+              
+                currentMouseY = ajusterCoordonneePourVueY(evt.getY(), offsetY, zoomFactor);
+                currentMouseX = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
+
+               
                 mainWindow.updateCoord(currentMouseX, currentMouseY);
+
+                // Convertir les coordonnées en mm
+                float xMm = repere.convertirEnMmDepuisPixels(currentMouseX);
+                float yMm = repere.convertirEnMmDepuisPixels(currentMouseY);
+
+              
+                coordLabel.setText(String.format("(%.2f mm, %.2f mm)", xMm, yMm));
+
+              
+                coordLabel.setSize(coordLabel.getPreferredSize());
+
+               
+                int labelX = evt.getX() + 10; // 10 pixels à droite du curseur
+                int labelY = evt.getY() - coordLabel.getHeight() - 10; // 10 pixels au-dessus du curseur
+
+                
+                if (labelY < 0) {
+                    labelY = evt.getY() + 10; 
+                }
+
+              
+                if (labelX + coordLabel.getWidth() > PanneauVue.this.getWidth()) {
+                    labelX = evt.getX() - coordLabel.getWidth() - 10; 
+                }
+
+                // Appliquer la nouvelle position au label
+                coordLabel.setLocation(labelX, labelY);
+                coordLabel.setVisible(true);
+                repaint();
             }
         });
 
@@ -147,23 +196,21 @@ public class PanneauVue extends JPanel {
         offsetY = 0.0;
         repaint(); // Redessiner la vue pour l'état initial
     }
-    
-
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
         return (int) ((coordonnee - offset) / zoomFactor);
     }
+
     private int ajusterCoordonneePourVueY(int coordonnee, double offset, double zoomFactor) {
-    // Inverser les coordonnées Y
-    return (int) ((hauteurPixelsTable - coordonnee - offset) / zoomFactor);
-}
-     public void setAfficherGrille(boolean afficher) {
+        // Inverser les coordonnées Y
+        return (int) ((hauteurPixelsTable - coordonnee - offset) / zoomFactor);
+    }
+
+    public void setAfficherGrille(boolean afficher) {
         this.afficherGrille = afficher;
         repaint(); // Redessiner le panneau après la mise à jour
     }
 
-    
-    
     private void captureRectanglePoints(java.awt.event.MouseEvent evt) {
         if (rectX1 == -1 && rectY1 == -1 ) {
             rectX1 = ajusterCoordonneePourVue(evt.getX(), offsetX, zoomFactor);
@@ -273,7 +320,7 @@ public class PanneauVue extends JPanel {
             Point Dest = new Point(rectX3, rectY3);
 
             controleur.CreerCoupeRect(Origin, Dest, Ref);
-            System.out.println("coupe créé avec succès \n");
+            System.out.println("Coupe créé avec succès \n");
             repaint();
             peutCreerCoupeRect = false;
             rectX1 = -1;
@@ -285,11 +332,9 @@ public class PanneauVue extends JPanel {
 
         }
         else {
-            System.out.print("rien\n");
+            System.out.print("Rien\n");
         }
     }
-
-
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -298,7 +343,7 @@ public class PanneauVue extends JPanel {
         // Appliquer le facteur de zoom et le décalage
         g2d.translate(offsetX, offsetY);
         g2d.scale(zoomFactor, zoomFactor);
-        // Dessiner la table CNC en gris clair avec une bordure noire
+        // Dessiner la table CNC en blanc avec une bordure noire
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, largeurPixelsTable, hauteurPixelsTable);
         g2d.setColor(Color.BLACK);
@@ -309,41 +354,38 @@ public class PanneauVue extends JPanel {
         // Dessiner les axes X et Y
         //dessinerAxes(g2d);
         if (afficherGrille) {
-        afficheur.dessinerGrille(g, hauteurPixelsTable, largeurPixelsTable, intervalleGrilleX);
-    }
+            afficheur.dessinerGrille(g, hauteurPixelsTable, largeurPixelsTable, intervalleGrilleX);
+        }
 
- 
-     
         Vector<CoupeDTO> Coupes = controleur.getCoupes();
-        for(CoupeDTO coupe: Coupes)
-        {
-            if(coupe.getTypeCoupeDTO()=="V" && coupe.isComposanteDTO()) {
+        for(CoupeDTO coupe: Coupes) {
+            if(coupe.getTypeCoupeDTO().equals("V") && coupe.isComposanteDTO()) {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
             }
-            else if(coupe.getTypeCoupeDTO()=="H" && !coupe.isComposanteDTO())  {
-                afficheur.dessinerCoupeAxiale(g,coupe, hauteurPixelsTable, largeurPixelsTable, false);
+            else if(coupe.getTypeCoupeDTO().equals("H") && !coupe.isComposanteDTO())  {
+                afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, false);
             }
-            else if(coupe.getTypeCoupeDTO()=="Bordure") {
+            else if(coupe.getTypeCoupeDTO().equals("Bordure")) {
                 afficheur.dessinerBordure(g, coupe.getBordureXDTO(), coupe.getBordureYDTO(), hauteurPixelsTable, coupe);
             }
             else if(coupe.getTypeCoupeDTO().equals("Rect")){
                 afficheur.dessinerRectangleAVdeuxpoints(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO(), coupe);
             }
             else if (coupe.getTypeCoupeDTO().equals("L"))  {
-            Point pointOrigine = coupe.getPointOrigineDTO();
-            Point pointDestino = coupe.getPointDestinoDTO();
-            afficheur.dessinerL(g, pointOrigine, pointDestino, coupe);
-             }
+                Point pointOrigine = coupe.getPointOrigineDTO();
+                Point pointDestino = coupe.getPointDestinoDTO();
+                afficheur.dessinerL(g, pointOrigine, pointDestino, coupe);
+            }
             else if(coupe.getTypeCoupeDTO().equals("ZoneInterdite")){
                 afficheur.dessinerZoneInterdite(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
-
         }
     }
+
     public void setIntervalleGrille(float intervalleX) {
-    this.intervalleGrilleX = intervalleX;
+        this.intervalleGrilleX = intervalleX;
     }
-    
+
     /* A SUPP
     public void dessinerGrille(Graphics g) {
         g.setColor(Color.BLACK);
@@ -363,9 +405,6 @@ public class PanneauVue extends JPanel {
         }
     }
     */
-
-
-
 
     public void activerCreationCoupeL() {
         this.peutCreerCoupeL = true;
@@ -391,26 +430,22 @@ public class PanneauVue extends JPanel {
         return peutCreerCoupe;
     }
 
-
-
-
-
-
     public void activerCreationCoupeBordure() {
         this.peutCreerCoupeBordure = true;
     }
 
- /*   public void DimensionsBordure(float BordureXValue, float BordureYValue) {
+    /*   
+    public void DimensionsBordure(float BordureXValue, float BordureYValue) {
         this.BordureX = BordureXValue;
         this.BordureY = BordureYValue;
         this.peutCreerCoupeBordure = true;
         repaint();
-    }*/
+    }
+    */
     
     public void activerSuppressionCoupe() {
-    this.deleteTriggered = true;
+        this.deleteTriggered = true;
     }
-
 
     public void activerModifierCoupeAxiale(float axe) {
         modifyTriggeredA = true;
@@ -422,8 +457,9 @@ public class PanneauVue extends JPanel {
         longueur_modify = longueur;
         largeur_modify = largeur;
     }
-    //Zeyda ki walla fama grille + mechekl fl conversion decallage sghir fl ekher maa l grille
-/*
+    
+    // Zeyda ki walla fama grille + mechekl fl conversion decallage sghir fl ekher maa l grille
+    /*
     private void dessinerAxes(Graphics g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -453,7 +489,8 @@ public class PanneauVue extends JPanel {
             int texteHauteur = metrics.getHeight();
             g.drawString(texte, xPosition - metrics.stringWidth(texte) - 10, yPos + texteHauteur / 4);
         }
-    }*/
+    }
+    */
 
     public void activerEditRef() {
         EditRef = true;
@@ -463,14 +500,14 @@ public class PanneauVue extends JPanel {
         ModifOutil = true;
     }
 
-    /*private void enregistrerPointAvantCoupe(Point point) {
+ /*   
+    private void enregistrerPointAvantCoupe(Point point) {
         if (peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV || peutCreerCoupeH) {
-
             pointsEnregistres.add(point);
-
             // Log immédiat pour chaque ajout
             System.out.println("Point enregistré avec succès : (" + point.x + ", " + point.y + ")");
             System.out.println("Total des points enregistrés : " + pointsEnregistres.size());
         }
-    }*/
+    }
+    */
 }
