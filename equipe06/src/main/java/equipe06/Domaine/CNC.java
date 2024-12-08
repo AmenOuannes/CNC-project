@@ -880,37 +880,44 @@ public void exporterGCode(String cheminFichier) {
         for (Coupe coupe : coupes) {
             ElementCoupe element = (ElementCoupe) coupe.getElement();
             switch (coupe.getTypeCoupe()) {
-                case "H": // Coupe axiale horizontale
-                case "V": // Coupe axiale verticale
-                    double x0, y0, x1, y1;
-                    double profondeur = element.getProfondeur();
-
-                    // Déterminer la coupe en fonction de "composante"
-                    if (element.getComposante()) { // Coupe verticale
-                        double x = element.getPointDestination().getX();
-                        x0 = x;
-                        y0 = 0; // Départ (en haut)
-                        x1 = x;
-                        y1 = panneau.getLongueur(); // Arrivée (en bas)
-                    } else { // Coupe horizontale
-                        double y = element.getPointDestination().getY();
-                        x0 = 0; y0 = y;    // Départ (à gauche)
-                        x1 = panneau.getLargeur(); y1 = y; // Arrivée (à droite)
-                    }
-
+                case "V": // Coupe axiale horizontale
+                    double x = element.getPointDestination().getX();
+                    double valint = (double) panneau.getLargeur();
+                    double z = 0;
                     // Écrire les instructions pour la coupe
                     writer.write(String.format(
                         "G00 X%.2f Y%.2f ; Déplacement rapide au début de la coupe\n",
-                        x0, y0
+                        x,z
                     ));
                     
                     writer.write(String.format(
                         "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
-                        profondeur
+                        element.getProfondeur()
                     ));
                     writer.write(String.format(
                         "G01 X%.2f Y%.2f F500 ; Tracé de la coupe\n",
-                        x1, y1
+                        x, valint
+                    ));
+                    writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
+                    break;
+                    
+                case "H": // Coupe axiale verticale
+                    double y = element.getPointDestination().getY();
+                    double valint1 = (double) panneau.getLongueur();
+                    double z1 = 0;
+                    // Écrire les instructions pour la coupe
+                    writer.write(String.format(
+                        "G00 X%.2f Y%.2f ; Déplacement rapide au début de la coupe\n",
+                        z1,y
+                    ));
+                    
+                    writer.write(String.format(
+                        "G01 Z-%.2f F500 ; Descendre à la profondeur de coupe\n",
+                        element.getProfondeur()
+                    ));
+                    writer.write(String.format(
+                        "G01 X%.2f Y%.2f F500 ; Tracé de la coupe\n",
+                        valint1, y
                     ));
                     writer.write("G00 Z5 ; Remonter l'outil après la coupe\n");
                     break;
