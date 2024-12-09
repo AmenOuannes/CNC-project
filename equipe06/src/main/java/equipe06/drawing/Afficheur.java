@@ -127,6 +127,9 @@ public class Afficheur {
             int largeur = Math.abs(x2px - x1px);
             int hauteur = Math.abs(y2px - y1px);
             g2d.drawRect(x, y, largeur, hauteur);
+            for (int i = x; i <= x + largeur; i += 5) {
+                g2d.drawLine(i, y, i, y + hauteur); // Vertical line from top to bottom of the rectangle
+            }
         } 
     }
         
