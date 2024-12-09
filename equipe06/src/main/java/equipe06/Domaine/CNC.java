@@ -28,15 +28,20 @@ public class CNC {
     private Point pointDeReferenceEnCours = null;
      private float coteGrille = 200;
     private float marge= 0.5f;
+    private int largeurPixelsTable;
+    private int hauteurPixelsTable;
       
 
 
     public CNC() {
-        panneau = new Panneau(1200,1000,0);
+        panneau = new Panneau(1200,1000,10);
         //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
         outils.add(new Outil("defaut", 12.7f));
+        // Conversion des dimensions de la table CNC en appliquant un facteur d'échelle
+        largeurPixelsTable = (int) (Repere.getInstance().convertirEnPixelsDepuisPouces(120));
+        hauteurPixelsTable = (int) (Repere.getInstance().convertirEnPixelsDepuisPouces(60));
         
         outil_courant = outils.firstElement();
         undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
@@ -261,31 +266,31 @@ public class CNC {
 
     }
     
-    public void CreerCoupeAxe(float x,  float y, boolean composante, Point reference) {
+    public void CreerCoupeAxe(Point Destination, float x, float y, boolean composante, Point reference) {
         
         assert reference != null : "Le point de référence ne doit pas être null.";
+        assert Destination != null : "Le point de référence ne doit pas être null.";
         assert x >= 0 : "L'axe x doit être positif.";
         assert y >= 0 : "L'axe y doit être positif.";
    
         ElementCoupe e = null;
-
-        Point pointDestination = new Point();
-
+        
+        
         if (composante == true)
         {
-
+            
          e = new ElementCoupe(
-                reference, pointDestination, panneau.getProfondeur()+marge,marge,
+                reference, Destination, panneau.getProfondeur()+marge,marge,
                  x, composante, 0.0f, 0.0f, "V", outil_courant.getLargeur_coupe());
         }
         else{
-
+            
              e = new ElementCoupe(
-            reference, pointDestination, panneau.getProfondeur()+marge,marge,
+            reference, Destination, panneau.getProfondeur()+marge,marge,
                      y, composante, 0.0f, 0.0f, "H", outil_courant.getLargeur_coupe());
         }
         // Affichage des coordonnées du point de destination
-        System.out.println("Point de destination créé : " + pointDestination.toString());
+        System.out.println("Point de destination créé : " + Destination.toString());
         
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeAxe ma_coupe = new CoupeAxe(e, CoupesDeReferences ,reference);
@@ -896,7 +901,7 @@ public void exporterGCode(String cheminFichier) {
             switch (coupe.getTypeCoupe()) {
                 case "V": // Coupe axiale verticale
                     double xV = element.getPointDestination().getX(); // Point de départ en X
-                    double yV = panneau.getLongueur(); // Largeur complète du panneau
+                    double yV = panneau.getLargeur(); // Largeur complète du panneau
                     double zV = 0;
 
                     // Écrire les instructions pour la coupe verticale
@@ -917,7 +922,7 @@ public void exporterGCode(String cheminFichier) {
 
                 case "H": // Coupe axiale horizontale
                     double yH = element.getPointDestination().getY(); // Point de départ en Y
-                    double xH = panneau.getLargeur(); // Longueur complète du panneau
+                    double xH = panneau.getLongueur(); // Longueur complète du panneau
                     double zH = 0;
 
                     // Écrire les instructions pour la coupe horizontale

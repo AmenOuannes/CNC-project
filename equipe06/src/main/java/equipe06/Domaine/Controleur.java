@@ -69,7 +69,7 @@ public class Controleur {
      public void CreerCoupeAxiale(Point p, boolean composante, Point reference) {
 
         cnc.setOutil_courant(new OutilDTO(new Outil("current",getEpaisseurActuelle())));
-        cnc.CreerCoupeAxe(Repere.getInstance().convertirEnMmDepuisPixels((int) p.getX()),
+        cnc.CreerCoupeAxe(p,Repere.getInstance().convertirEnMmDepuisPixels((int) p.getX()),
                     Repere.getInstance().convertirEnMmDepuisPixels((int) p.getY())
                 , composante, reference);
     }
