@@ -1025,11 +1025,11 @@ public void exporterGCode(String cheminFichier) {
             writer.write("état de machine CNC sauvegardé\n");
             writer.write("Configurations système:\n");
             writer.write("Outils:\n");
-            writer.write("Outil courant:" + outil_courant.getNom());
+            writer.write("Outil courant:\n" + outil_courant.getNom());
             for(Outil outil: outils){
                 writer.write(outil.getNom()+":"+ outil.getLargeur_coupe()+"\n" );
             }
-            writer.write("Marge de coupes: 0.5" /*+ marge*/ + "\n");
+            writer.write("Marge de coupes:\n" + marge );
             writer.write("coupes \n");
             for(Coupe coupe: coupes){
                 switch(coupe.getTypeCoupe()){

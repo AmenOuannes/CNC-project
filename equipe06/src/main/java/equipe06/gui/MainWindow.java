@@ -275,7 +275,6 @@ private void genererGCode() {
         jMenu5 = new javax.swing.JMenu();
         Gen_Gcode = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -967,17 +966,14 @@ private void genererGCode() {
         jMenu5.add(Gen_Gcode);
 
         jMenuItem3.setText("CNC+PAN");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem3);
 
         jMenuBar1.add(jMenu5);
-
-        jMenu6.setText("Save");
-        jMenu6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu6ActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -1446,12 +1442,6 @@ if (controleur.isRedoAvailable()) {
         // TODO add your handling code here:
     }//GEN-LAST:event_PANlongueurXActionPerformed
 
-    private void jMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu6ActionPerformed
-        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
-        String fichierCNC = bureauPath + File.separator + "CNC_etat.txt";
-        controleur.saveCNC( fichierCNC);
-    }//GEN-LAST:event_jMenu6ActionPerformed
-
     private void ModMargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModMargeActionPerformed
         // TODO add your handling code here:
         try {
@@ -1486,6 +1476,13 @@ if (controleur.isRedoAvailable()) {
             }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
+        String fichierCNC = bureauPath + File.separator + "CNC_etat.txt";
+        controleur.saveCNC( fichierCNC);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /*
      * @param args the command line arguments
@@ -1594,7 +1591,6 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
