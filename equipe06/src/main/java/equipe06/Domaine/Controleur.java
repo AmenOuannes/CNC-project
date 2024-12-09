@@ -59,6 +59,9 @@ public class Controleur {
 }*/ //TODO: enlever par zied
 
     //getters
+    public CNC getCNC() {
+        return cnc;
+    }
     public Repere getRepere() {return cnc.getRepere();}
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
@@ -242,8 +245,17 @@ public boolean inPanneau(float x, float y) {
     public void saveCNC(String cheminFichier) {
         cnc.saveCNC(cheminFichier);
     }
+    
+    
+    public void setMarge(float nouvelleMarge) {
+        if (cnc != null) {
+            cnc.setMarge(nouvelleMarge);
+        } else {
+            System.out.println("CNC non initialisé.");
+        }
+    }
+    
 }
 
 
-    
     

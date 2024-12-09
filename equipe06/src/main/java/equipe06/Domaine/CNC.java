@@ -27,6 +27,7 @@ public class CNC {
     private final UndoRedoManager undoRedoManager = new UndoRedoManager();
     private Point pointDeReferenceEnCours = null;
      private float coteGrille = 200;
+    private float marge= 0.5f;
       
 
 
@@ -43,7 +44,17 @@ public class CNC {
     }
 
 
-
+    public float getMarge() {
+        return marge;
+    }
+    
+    public void setMarge(float marge) {
+        if (marge < 0) {
+            throw new IllegalArgumentException("La marge doit être un nombre positif.");
+        }
+        this.marge = marge;
+    }
+    
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
         // Création de l'objet Panneau avec les attributs donnés
         this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
@@ -172,7 +183,7 @@ public class CNC {
         //TODO coupe en L, attribut extraits du controleur
         assert referencePoint != null;
         assert pointDestination != null;
-        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,panneau.getProfondeur(),0.5f,0,false,0.0f,0.0f,"L",outil_courant.getLargeur_coupe());
+        ElementCoupe e  = new ElementCoupe( referencePoint, pointDestination,panneau.getProfondeur()+marge,marge,0,false,0.0f,0.0f,"L",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(referencePoint);
         CoupeL coupe = new CoupeL(e, CoupesDeReferences);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -190,8 +201,8 @@ public class CNC {
         float BordureX = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.x-Destination.x)));
         float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
         ElementCoupe e = new ElementCoupe(
-                Origine, Destination, panneau.getProfondeur(),
-                0.5f,0,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
+                Origine, Destination, panneau.getProfondeur()+marge,marge,
+                0,false,BordureX, BordureY,"Rect",outil_courant.getLargeur_coupe());
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeRec coupe = new CoupeRec(e, CoupesDeReferences ,reference);
         if (CoupeValide(coupe, panneau)) { // Vérifie si la coupe est valide avant l'ajout
@@ -226,7 +237,7 @@ public class CNC {
         Point pointDestination = new Point(xDestination, yDestination);
         
         ElementCoupe e = new ElementCoupe(
-                pointOrigine, pointDestination, panneau.getProfondeur(),0.5f, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
+                pointOrigine, pointDestination, panneau.getProfondeur()+marge,marge, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
         
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
@@ -264,15 +275,18 @@ public class CNC {
         {
 
          e = new ElementCoupe(
-                reference, pointDestination, panneau.getProfondeur(),0.5f,
+                reference, pointDestination, panneau.getProfondeur()+marge,marge,
                  x, composante, 0.0f, 0.0f, "V", outil_courant.getLargeur_coupe());
         }
         else{
 
              e = new ElementCoupe(
-            reference, pointDestination, panneau.getProfondeur(),0.5f,
+            reference, pointDestination, panneau.getProfondeur()+marge,marge,
                      y, composante, 0.0f, 0.0f, "H", outil_courant.getLargeur_coupe());
         }
+        // Affichage des coordonnées du point de destination
+        System.out.println("Point de destination créé : " + pointDestination.toString());
+        
         Vector<UUID> CoupesDeReferences = surCoupes(reference);
         CoupeAxe ma_coupe = new CoupeAxe(e, CoupesDeReferences ,reference);
         if (CoupeValide(ma_coupe, panneau))

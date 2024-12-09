@@ -224,6 +224,10 @@ private void genererGCode() {
         ValidModifOutil = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        marge = new javax.swing.JTextField();
+        ModMarge = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         PanneauContrôle = new javax.swing.JPanel();
         DefCoupe = new javax.swing.JButton();
@@ -479,6 +483,22 @@ private void genererGCode() {
 
         jLabel1.setText("Un outil de 12.7 mm est par défaut à votre disposition.");
 
+        jLabel29.setText("Marge profondeur coupe par def : 0.5(mm)");
+
+        ModMarge.setText("Modifier la Marge");
+        ModMarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModMargeActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Afficher la Marge Actuelle");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -513,11 +533,25 @@ private void genererGCode() {
                                     .addComponent(Supprimer_Outil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(marge, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                            .addGap(65, 65, 65)
+                                            .addComponent(ModMarge)))
+                                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(24, 24, 24))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,7 +589,15 @@ private void genererGCode() {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(marge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ModMarge)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2.Outil", jPanel2);
@@ -1410,6 +1452,41 @@ if (controleur.isRedoAvailable()) {
         controleur.saveCNC( fichierCNC);
     }//GEN-LAST:event_jMenu6ActionPerformed
 
+    private void ModMargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModMargeActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Récupérer la nouvelle valeur de marge depuis le JTextField
+            float nouvelleMarge = Float.parseFloat(marge.getText());
+
+            // Appeler la méthode du contrôleur pour mettre à jour la marge
+            controleur.setMarge(nouvelleMarge);
+
+            // Afficher un message de confirmation
+            System.out.println("La marge a été mise à jour avec succès : " + nouvelleMarge);
+        } catch (NumberFormatException ex) {
+            // Gérer les cas où l'entrée n'est pas valide
+            System.out.println("Erreur : Veuillez entrer une valeur numérique valide pour la marge.");
+        }
+    }//GEN-LAST:event_ModMargeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Récupérer la marge actuelle depuis le contrôleur
+            float margeActuelle = controleur.getCNC().getMarge();
+            
+            // Écrire la valeur de la marge actuelle dans le JTextField
+            marge.setText(String.valueOf(margeActuelle));
+
+            // Afficher un message dans la console
+            System.out.println("La marge actuelle a été affichée : " + margeActuelle);
+        } catch (Exception ex) {
+            // Gérer les cas où la marge ne peut pas être récupérée
+            System.out.println("Erreur : Impossible de récupérer la marge actuelle.");
+            }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /*
      * @param args the command line arguments
      */
@@ -1463,6 +1540,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JMenuItem Gen_Gcode;
     private javax.swing.JTextField GrilleX;
     private javax.swing.JButton ModCoupe;
+    private javax.swing.JButton ModMarge;
     private javax.swing.JButton ModifOutil;
     private javax.swing.JButton ModifRef;
     private javax.swing.JTextField Nom_Outil;
@@ -1482,6 +1560,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JComboBox<String> UniteBordure;
     private javax.swing.JButton ValidModifOutil;
     private javax.swing.JComboBox<String> comboBoxUnite;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1504,6 +1583,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1530,6 +1610,7 @@ if (controleur.isRedoAvailable()) {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextField marge;
     private javax.swing.JLabel message;
     private javax.swing.JTable tableauOutils;
     // End of variables declaration//GEN-END:variables
