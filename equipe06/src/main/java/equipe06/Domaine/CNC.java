@@ -999,7 +999,57 @@ public void exporterGCode(String cheminFichier) {
     } catch (IOException e) {
         System.err.println("Erreur lors de l'exportation du G-code : " + e.getMessage());
     }
-}   
+}
+
+    public void saveCNC(String cheminFichier) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))){
+            writer.write("état de machine CNC sauvegardé\n");
+            writer.write("Configurations système:\n");
+            writer.write("Outils:\n");
+            writer.write("Outil courant:" + outil_courant.getNom());
+            for(Outil outil: outils){
+                writer.write(outil.getNom()+":"+ outil.getLargeur_coupe()+"\n" );
+            }
+            writer.write("Marge de coupes: 0.5" /*+ marge*/ + "\n");
+            writer.write("coupes \n");
+            for(Coupe coupe: coupes){
+                switch(coupe.getTypeCoupe()){
+                    case "H":
+                        CoupeAxe c = (CoupeAxe) coupe;
+                        writer.write("Coupe Horizontale, axe = "  + c.getAxe() + "\n");
+                        break;
+                    case "V":
+                        CoupeAxe c1 = (CoupeAxe) coupe;
+                        writer.write("Coupe Verticale, axe = "  + c1.getAxe() + "\n");
+                        break;
+                    case "Rect":
+                        CoupeRec c2 = (CoupeRec) coupe;
+                        writer.write("Coupe Rectangulaire:\n");
+                        writer.write("reference : ("+ c2.getReference().getX() + "," + c2.getReference().getY() + ")\n");
+                        writer.write("origine : ("+ c2.getPointOrigine().getX() + ", " + c2.getPointOrigine().getY() + ")\n");
+                        writer.write("destination : ("+ c2.getPointDestination().getX() + ", " + c2.getPointDestination().getY() + ")\n");
+                        break;
+                    case "L":
+                        CoupeL c3 = (CoupeL) coupe;
+                        writer.write("Coupe en L:\n");
+                        writer.write("origine : ("+ c3.getPointOrigine().getX() + ", " + c3.getPointOrigine().getY() + ")\n");
+                        writer.write("destination : ("+ c3.getPointDestination().getX() + ", " + c3.getPointDestination().getY() + ")\n");
+                        break;
+                    case "Bordure":
+                        CoupeRec c4 = (CoupeRec) coupe;
+                        writer.write("Coupe Bordure:\n");
+                        writer.write("Bordure X: " + c4.getBordureX() + "\n");
+                        writer.write("Bordure Y: "+c4.getBordureY() + "\n");
+
+                }
+            }
+
+        }
+        catch (IOException e) {
+            System.err.println("Erreur de sauvegarde de l'application : " + e.getMessage());
+        }
+
+    }
 }
 
 

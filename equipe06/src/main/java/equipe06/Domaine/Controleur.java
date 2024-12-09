@@ -238,6 +238,10 @@ public boolean inPanneau(float x, float y) {
     public void exporterGCode(String cheminFichier) {
         cnc.exporterGCode(cheminFichier);
     }
+
+    public void saveCNC(String cheminFichier) {
+        cnc.saveCNC(cheminFichier);
+    }
 }
 
 

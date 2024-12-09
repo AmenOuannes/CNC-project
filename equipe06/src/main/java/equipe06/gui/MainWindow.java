@@ -930,6 +930,11 @@ private void genererGCode() {
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Save");
+        jMenu6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu6ActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
@@ -1398,6 +1403,12 @@ if (controleur.isRedoAvailable()) {
     private void PANlongueurXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PANlongueurXActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PANlongueurXActionPerformed
+
+    private void jMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu6ActionPerformed
+        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
+        String fichierCNC = bureauPath + File.separator + "CNC_etat.txt";
+        controleur.saveCNC( fichierCNC);
+    }//GEN-LAST:event_jMenu6ActionPerformed
 
     /*
      * @param args the command line arguments
