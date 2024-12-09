@@ -57,6 +57,9 @@ public class PanneauVue extends JPanel {
     private int rectY1 = -1;
     private int rectX2 = -1;
     private int rectY2 = -1;
+      // Variables pour le curseur virtuel
+    private int cursorX = -1;
+    private int cursorY = -1;
 
     // **Ajout du JLabel pour afficher les coordonnées**
     private JLabel coordLabel;
@@ -193,8 +196,13 @@ public class PanneauVue extends JPanel {
         // Réinitialiser les variables de zoom et de décalage
         zoomFactor = 1.0;
         offsetX = 0.0;
-        offsetY = 0.0;
+        offsetY = 0.0;    
         repaint(); // Redessiner la vue pour l'état initial
+    }
+    public void setCoord(int x, int y) {
+        this.cursorX = x;
+        this.cursorY = y;
+        repaint();
     }
 
     private int ajusterCoordonneePourVue(int coordonnee, double offset, double zoomFactor) {
@@ -380,7 +388,17 @@ public class PanneauVue extends JPanel {
                 afficheur.dessinerZoneInterdite(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
         }
+      // Dessiner le curseur virtuel si les coordonnées sont valides
+        if (cursorX != -1 && cursorY != -1) {
+            g2d.setColor(Color.RED);
+            int cursorSize = 10; // Taille du curseur
+            g2d.fillOval(cursorX - cursorSize / 2, cursorY - cursorSize / 2, cursorSize, cursorSize);
+            g2d.setColor(Color.BLACK);
+            g2d.drawOval(cursorX - cursorSize / 2, cursorY - cursorSize / 2, cursorSize, cursorSize);
+        }
     }
+
+    
 
     public void setIntervalleGrille(float intervalleX) {
         this.intervalleGrilleX = intervalleX;
