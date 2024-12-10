@@ -18,6 +18,9 @@ import java.awt.event.ActionEvent;
 import equipe06.Domaine.OutilDTO;
 import java.util.Stack;
 import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -161,20 +164,40 @@ public void mettreAJourGrille(float coteGrille) {
 
 private void genererGCode() {
     try {
-        // Obtenir le chemin du bureau dynamiquement
-        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
-        String fichierGCode = bureauPath + File.separator + "programme.gcode";
-
-        // Appeler l'exportation via le contrôleur
-        controleur.exporterGCode(fichierGCode);
-
-        // Afficher un message de confirmation
-        javax.swing.JOptionPane.showMessageDialog(this, "G-code généré avec succès sur le bureau !");
+        // Créer une instance de JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Enregistrer le G-code");
+        
+        // Définir le nom de fichier par défaut
+        fileChooser.setSelectedFile(new File("programme.gcode"));
+        
+        // Ouvrir la boîte de dialogue d'enregistrement
+        int userSelection = fileChooser.showSaveDialog(this);
+        
+        // Vérifier si l'utilisateur a approuvé la sélection
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String fichierGCode = fileToSave.getAbsolutePath();
+            
+            // Vérifier si le fichier a l'extension .gcode, sinon l'ajouter
+            if (!fichierGCode.toLowerCase().endsWith(".gcode")) {
+                fichierGCode += ".gcode";
+            }
+    
+            // Appeler l'exportation via le contrôleur
+            controleur.exporterGCode(fichierGCode);
+    
+            // Afficher un message de confirmation avec le chemin du fichier
+            JOptionPane.showMessageDialog(this, "G-code généré avec succès :\n" + fichierGCode);
+        } else {
+            // L'utilisateur a annulé l'opération
+            JOptionPane.showMessageDialog(this, "Enregistrement du G-code annulé.");
+        }
     } catch (Exception ex) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de la génération du G-code : " + ex.getMessage());
+        // Afficher un message d'erreur en cas d'exception
+        JOptionPane.showMessageDialog(this, "Erreur lors de la génération du G-code : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 }
-
 
 
     /**
@@ -1478,10 +1501,64 @@ if (controleur.isRedoAvailable()) {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        String bureauPath = System.getProperty("user.home") + File.separator + "Desktop";
-        String fichierCNC = bureauPath + File.separator + "CNC_etat.txt";
-        controleur.saveCNC( fichierCNC);
+         try {
+        // Créer une instance de JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Enregistrer le fichier CNC");
+
+        // Définir le nom de fichier par défaut
+        fileChooser.setSelectedFile(new File("CNC_etat.txt"));
+
+        // Ajouter un filtre pour les fichiers texte
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers texte (*.txt)", "txt");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false); // Optionnel : n'affiche que le filtre spécifié
+
+        // Ouvrir la boîte de dialogue d'enregistrement
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        // Vérifier si l'utilisateur a approuvé la sélection
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String fichierCNC = fileToSave.getAbsolutePath();
+
+            // Vérifier si le fichier a l'extension .txt, sinon l'ajouter
+            if (!fichierCNC.toLowerCase().endsWith(".txt")) {
+                fichierCNC += ".txt";
+            }
+
+            File finalFile = new File(fichierCNC);
+
+            // Vérifier si le fichier existe déjà et demander confirmation pour l'écraser
+            if (finalFile.exists()) {
+                int response = JOptionPane.showConfirmDialog(this, 
+                    "Le fichier existe déjà. Voulez-vous le remplacer ?", 
+                    "Confirmer l'écrasement", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+                
+                if (response != JOptionPane.YES_OPTION) {
+                    // L'utilisateur a choisi de ne pas écraser le fichier
+                    JOptionPane.showMessageDialog(this, "Enregistrement du fichier CNC annulé.");
+                    return;
+                }
+            }
+
+            // Appeler la méthode d'exportation via le contrôleur
+            controleur.saveCNC(fichierCNC);
+
+            // Afficher un message de confirmation avec le chemin du fichier
+            JOptionPane.showMessageDialog(this, "Fichier CNC enregistré avec succès :\n" + fichierCNC);
+        } else {
+            // L'utilisateur a annulé l'opération
+            JOptionPane.showMessageDialog(this, "Enregistrement du fichier CNC annulé.");
+        }
+    } catch (Exception ex) {
+        // Afficher un message d'erreur en cas d'exception
+        JOptionPane.showMessageDialog(this, 
+            "Erreur lors de l'enregistrement du fichier CNC : " + ex.getMessage(), 
+            "Erreur", 
+            JOptionPane.ERROR_MESSAGE);}
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /*
