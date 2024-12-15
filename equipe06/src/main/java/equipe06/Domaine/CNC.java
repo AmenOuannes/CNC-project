@@ -307,9 +307,10 @@ public class CNC {
     // TODO: Rendre modifier apte a modifier toute coupe possible
     // cette fonction fait appel au divers coupes
     public void ModifierCoupe(float axe) {
+            
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
-             undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+            undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
 
 
     }
@@ -333,19 +334,23 @@ public class CNC {
         assert panneau != null : "Le panneau ne peut pas être invalide.";
 
 
-        if(Objects.equals(coupe.getTypeCoupe(), "H") || Objects.equals(coupe.getTypeCoupe(), "V")){
+        if((Objects.equals(coupe.getTypeCoupe(), "H") || Objects.equals(coupe.getTypeCoupe(), "V")) ){
             CoupeAxe c = (CoupeAxe) coupe;
             Vector<UUID> uuids = surCoupes(c.getReference());
             Vector<UUID> uuids_coin = surCoin(c.getReference());
             System.out.print(uuids);
             System.out.print(uuids_coin);
-
-
-            if(uuids.size() >= 2 || panneau.surPanneau(c.getReference()) || 
+            System.out.print(c.getElement().getPointDestination());
+            //if (panneau.inPanneau(c.getElement().getPointDestination().x, 50))
+            //{
+                System.out.println("hethi mrgla");
+                if(uuids.size() >= 2 || panneau.surPanneau(c.getReference()) || 
                     (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
                 System.out.println("parfait");
                 return true;
+            //}
             }
+            
             //if(!c.getMyRef().isEmpty())
                 
                 //return true;
@@ -424,7 +429,7 @@ public class CNC {
 
     public Vector<UUID> surCoupes(Point reference) {
         Vector<UUID> uuids = new Vector<>();
-        if (panneau.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(reference.x), Repere.getInstance().convertirEnMmDepuisPixels(reference.y))) {
+        //if (panneau.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(reference.x), Repere.getInstance().convertirEnMmDepuisPixels(reference.y))) {
             float y = Repere.getInstance().convertirEnMmDepuisPixels(reference.y);
             float x = Repere.getInstance().convertirEnMmDepuisPixels(reference.x);
 
@@ -492,7 +497,7 @@ public class CNC {
                 }
             }
 
-        }
+        //}
         return uuids;
     }
     
@@ -582,7 +587,7 @@ public class CNC {
                             CoupeAxe cut =(CoupeAxe) coupe;
                                 Vector<UUID> df = surCoupes(cut.getReference());
                                 if(df.contains(currentUUID)) {
-                                    coupe.invalide = true;
+                                    coupe.setValide(true);
                                 }
 
                             break;
@@ -590,14 +595,14 @@ public class CNC {
                             CoupeRec cutR =(CoupeRec) coupe;
                             Vector<UUID> dr = surCoupes(cutR.getReference());
                             if(dr.contains(currentUUID)) {
-                                coupe.invalide = true;
+                                coupe.setValide(true);
                             }
                             break;
                         case "L":
                             CoupeL cutL =(CoupeL) coupe;
                             Vector<UUID> dl = surCoupes(cutL.getPointOrigine());
                             if(dl.contains(currentUUID)) {
-                                coupe.invalide = true;
+                                coupe.setValide(true);
                             }
                             break;
 
@@ -660,6 +665,13 @@ public class CNC {
             ma_coupe.setBordureX(longueur);
             ma_coupe.setBordureY(largeur);
             ma_coupe.setPointDestination(new Point(x, y));
+            if (CoupeValide(ma_coupe, panneau))
+            {
+                ma_coupe.setValide(false);
+            }
+            else{
+                ma_coupe.setValide(true);
+            }
             TranslationX = x-OldDestination.x;
             TranslationY = y-OldDestination.y;
             System.out.println("TranslationX : " + TranslationX);
@@ -679,8 +691,14 @@ public class CNC {
                 y = ma_coupe.getPointOrigine().y - Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
             else
                 y = ma_coupe.getPointOrigine().y + Repere.getInstance().convertirEnPixelsDepuisMm(largeur);
-
             ma_coupe.setPointDestination(new Point(x, y));
+            if (CoupeValide(ma_coupe, panneau))
+            {
+                ma_coupe.setValide(false);
+            }
+            else{
+                ma_coupe.setValide(true);
+            }
             TranslationX = x-OldDestination.x;
             TranslationY = y- OldDestination.y;
             modifierEnCascade(ma_coupe.getUUID(), TranslationX,TranslationY);
@@ -698,8 +716,15 @@ public class CNC {
         int translationX=0, translationY=0;
         for(Coupe coupe : coupes) {
           if(uuid.equals(coupe.getUUID()))
-       ma_coupe = (CoupeAxe) coupe;}
+        ma_coupe = (CoupeAxe) coupe;}
         ma_coupe.setOutil(largeur);
+        if (CoupeValide(ma_coupe, panneau))
+            {
+                ma_coupe.setValide(false);
+            }
+            else{
+                ma_coupe.setValide(true);
+            }
     }
     public void modifierCoupeAxiale(float a, Point p) {
         if(surCoupes(p).isEmpty()) return;
@@ -725,9 +750,16 @@ public class CNC {
             translationX = Repere.getInstance().convertirEnPixelsDepuisMm(ma_coupe.getAxe())-xInitial;
 
         }
+        if (CoupeValide(ma_coupe, panneau))
+            {
+                ma_coupe.setValide(false);
+            }
+            else{
+                ma_coupe.setValide(true);
+            }
         System.out.println("went here");
         modifierEnCascade(ma_coupe.getUUID(), translationX, translationY);
-           undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
         System.out.println("arrived");
     }
 
@@ -740,15 +772,30 @@ public class CNC {
                     if (cut.getMyRef().contains(uuid)) {
                         cut.setAxe(cut.getAxe() + X);
                         modifierEnCascade(cut.getUUID(), X, Y);
+                        
+                        if (CoupeValide(cut, panneau))
+                        {
+                            cut.setValide(false);
+                        }
+                        else{
+                            cut.setValide(true);
+                        }
                     }
                     break;
                 case "H":
                     CoupeAxe cutH = (CoupeAxe) coupe;
                     if (cutH.getMyRef().contains(uuid)) {
                         cutH.setAxe(cutH.getAxe() + Y);
-
                         modifierEnCascade(cutH.getUUID(), X, Y);
+                        if (CoupeValide(cutH, panneau))
+                        {
+                            cutH.setValide(false);
+                        }
+                        else{
+                            cutH.setValide(true);
+                        }
                     }
+                    
                     break;
                 case "Rect":
                     CoupeRec cutRec = (CoupeRec) coupe;
@@ -760,7 +807,15 @@ public class CNC {
                         cutRec.setPointReference(new Point(cutRec.getReference().x + X,
                                 cutRec.getReference().y + Y));
                         modifierEnCascade(cutRec.getUUID(), X, Y);
+                        if (CoupeValide(cutRec, panneau))
+                        {
+                            cutRec.setValide(false);
+                        }
+                        else{
+                            cutRec.setValide(true);
+                        }
                     }
+                    
 
                     break;
                 case "L":
@@ -773,6 +828,14 @@ public class CNC {
 
                         modifierEnCascade(cutL.getUUID(), X, Y);
                     }
+                    if (CoupeValide(cutL, panneau))
+                        {
+                            cutL.setValide(false);
+                        }
+                        else{
+                            cutL.setValide(true);
+                        }
+                    
 
                     break;
             }
@@ -809,7 +872,14 @@ public class CNC {
                     cut.setAxe(cut.getAxe()+X);
                     modifierEnCascade(cut.getUUID(), X, Y);
                 }
-                ma_coupe.invalide=false; //TODO: cas où trajaa bel ghalet , pas trop important
+                if (CoupeValide(cut, panneau))
+                        {
+                            cut.setValide(false);
+                        }
+                        else{
+                            cut.setValide(true);
+                        }
+                    
                 break;
 
             case "Rect":
@@ -822,7 +892,14 @@ public class CNC {
                 cutRec.setPointOrigine(new Point(cutRec.getPointOrigine().x + X,
                         cutRec.getPointOrigine().y + Y));
                 modifierEnCascade(cutRec.getUUID(), X, Y);
-                ma_coupe.invalide=false;
+                if (CoupeValide(cutRec, panneau))
+                        {
+                            cutRec.setValide(false);
+                        }
+                        else{
+                            cutRec.setValide(true);
+                        }
+                    
 
                 break;
             case "L":
@@ -833,7 +910,14 @@ public class CNC {
                 cutL.setPointDestination(new Point(cutL.getPointDestination().x + X,
                         cutL.getPointDestination().y + Y));
                 modifierEnCascade(cutL.getUUID(), X, Y);
-                ma_coupe.invalide=false;
+                if (CoupeValide(cutL, panneau))
+                        {
+                            cutL.setValide(false);
+                        }
+                        else{
+                            cutL.setValide(true);
+                        }
+                    
 
                 break;
         }

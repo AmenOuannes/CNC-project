@@ -78,6 +78,12 @@ public abstract class Coupe implements Cloneable{
     
     this.outil = outil;
 }
+    public void setValide(boolean v){
+        invalide = v;
+    }
+    public boolean getValide(){
+        return invalide;
+    }
 public UUID getUUID() {
         return uuid;
 }
