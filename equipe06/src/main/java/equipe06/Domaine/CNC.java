@@ -709,6 +709,7 @@ public class CNC {
 
 
     }
+    //TODO remove!!!!
     public void modifierCoupeAxiale(Point p, float largeur){
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
@@ -763,6 +764,42 @@ public class CNC {
         System.out.println("arrived");
     }
 
+    public void modifDeplacement(int startX, int startY, int endX, int endY) {
+        Point start = new Point(startX, startY);
+        Point end = new Point(endX, endY);
+        Vector<UUID> surCoupe = this.surCoupes(start);
+        UUID uuid = surCoupe.get(0);
+        Coupe coupeDéplacée = null;
+        for(Coupe coupe : coupes) {
+            if(uuid.equals(coupe.getUUID()))
+                coupeDéplacée= coupe;
+        }
+        switch(coupeDéplacée.getTypeCoupe()){
+            case "L":
+                CoupeL L = (CoupeL) coupeDéplacée;
+                L.setPointDestination(end);
+                modifierEnCascade(uuid,endX-startX,endY-startY);
+            case "Rect":
+                CoupeRec R = (CoupeRec) coupeDéplacée;
+
+                R.setPointOrigine(end);
+                int translationX = endX-startX;
+                int translationY = endY-startY;
+                Point newDest = new Point(R.getPointDestination().x+translationX, R.getPointDestination().y+translationY);
+                R.setPointDestination(newDest);
+                modifierEnCascade(uuid,translationX,translationY);
+            case "H":
+                CoupeAxe H = (CoupeAxe) coupeDéplacée;
+                H.setAxe(endX);
+                modifierEnCascade(uuid,endX-startX,endY-startY);
+            case "V":
+                CoupeAxe V = (CoupeAxe) coupeDéplacée;
+                V.setAxe(endY);
+                modifierEnCascade(uuid,endX-startX,endY-startY);
+
+
+        }
+    }
 
     public void modifierEnCascade(UUID uuid, int X, int Y) {
         for (Coupe coupe : coupes) {
@@ -1153,6 +1190,8 @@ public void exporterGCode(String cheminFichier) {
         }
 
     }
+
+
 }
 
 

@@ -67,6 +67,7 @@ public class CoupeAxe extends Coupe {
     public Point getReference() {
         return reference;
     }
+
     public void ChangeReference(Point reference) {
         assert reference != null : "La nouvelle référence ne peut pas être null.";
 

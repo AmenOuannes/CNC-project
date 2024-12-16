@@ -27,6 +27,7 @@ public class PanneauVue extends JPanel {
     public boolean modifyTriggered;
     private float BordureX;
     private float BordureY;
+    private boolean grilleMagnetique = false;
     private double zoomFactor = 1.0;
     private boolean peutCreerCoupe = false;
     private boolean peutCreerCoupeRect = false;
@@ -35,6 +36,7 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerCoupeH = false;
     private boolean peutCreerCoupeV = false;
     private boolean peutCreerZoneInterdite = false;
+    private boolean deplacementGraphique = false;
     private float AxeRelatif;
     private boolean modifyTriggeredA = false;
     private boolean modifyTriggeredR = false;
@@ -111,7 +113,51 @@ public class PanneauVue extends JPanel {
             }
         });
 
-      
+        this.addMouseListener(new MouseAdapter() {
+            private int startX, startY; // Variables to hold the start position
+
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                // Save the starting position when mouse press occurs
+                startX = evt.getX();
+                startY = evt.getY();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent evt) {
+                // Capture the released point
+                int endX = evt.getX();
+                int endY = evt.getY();
+                if(grilleMagnetique){
+                    int n = (int) ( endX / intervalleGrilleX);
+                    if(endX % intervalleGrilleX >= (intervalleGrilleX/2)){
+                        n = (n+1)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
+                    }
+                    else{
+                        n = (n)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
+                    }
+                    int y = (int) ( endY / intervalleGrilleX);
+                    if(endY % intervalleGrilleX >= (intervalleGrilleX/2)){
+                        y = (y+1)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
+                    }
+                    else{
+                        y = (y)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
+                    }
+                    endX = n;
+                    endY = y;
+
+                }
+
+                // Call your controller method with start and end points
+                if(deplacementGraphique) {
+                    controleur.modifDeplacement(startX, startY, endX, endY);
+                    deplacementGraphique = false;
+                }
+
+                System.out.println("Dragged from (" + startX + ", " + startY +
+                        ") to (" + endX + ", " + endY + ")");
+            }
+        });
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent evt) {
@@ -516,6 +562,13 @@ public class PanneauVue extends JPanel {
     
     public void activerModifOutil(){
         ModifOutil = true;
+    }
+
+    public void setDeplacementGraphique() { deplacementGraphique = true;
+    }
+    public void changeMagnetique(){
+        if(grilleMagnetique) grilleMagnetique = false;
+        else grilleMagnetique = true;
     }
 
  /*   
