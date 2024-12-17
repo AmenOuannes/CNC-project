@@ -3,7 +3,6 @@ package equipe06.Domaine;
 import java.util.UUID;
 
 public class Outil implements Cloneable {
-
     private String Nom;
     private UUID id;
     private float largeur_coupe;
@@ -21,20 +20,16 @@ public class Outil implements Cloneable {
         this.largeur_coupe = largeur_coupe;
     }
 
-    // Méthode clone avec clonage profond
+    // Clonage profond explicite
     @Override
     public Outil clone() {
-        try {
-            Outil copie = (Outil) super.clone(); // Copie superficielle de base
-            copie.id = UUID.randomUUID();       // Générer un nouvel UUID pour éviter les collisions
-            // Pas besoin de cloner "Nom" ou "largeur_coupe", car ce sont des types immuables ou primitifs.
-            return copie;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError("Erreur lors du clonage profond de l'objet Outil", e);
-        }
+     
+        Outil copie = new Outil(this.Nom, this.largeur_coupe);
+        
+        copie.id = UUID.randomUUID();
+        return copie;
     }
 
-    // Getters et setters
     public float getLargeur_coupe() {
         return largeur_coupe;
     }

@@ -129,14 +129,13 @@ public class Panneau implements Cloneable {
     }
 
     // Méthode de clonage pour permettre la sauvegarde/restauration des états du panneau
-    @Override
-    public Panneau clone() {
-        try {
-            Panneau cloned = (Panneau) super.clone();
-            
-            return cloned;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError("Erreur de clonage du panneau", e);
-        }
-    }
+   @Override
+public Panneau clone() {
+    // On crée un nouvel objet Panneau manuellement avec les mêmes champs primitifs
+    Panneau cloned = new Panneau(this.longueur, this.largeur, this.profondeur);
+    // Si la zoneInterdite est non nulle, on la clone
+  
+    return cloned;
+}
+
 } 

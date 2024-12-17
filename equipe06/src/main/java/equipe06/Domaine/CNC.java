@@ -26,6 +26,7 @@ public class CNC {
     private Outil outil_courant;
     private final UndoRedoManager undoRedoManager = new UndoRedoManager();
     private Point pointDeReferenceEnCours = null;
+    private float epaisseurActuelle = 12.7f; // Un exemple de valeur par défaut
      private float coteGrille = 200;
     private float marge= 0.5f;
     private int largeurPixelsTable;
@@ -44,7 +45,8 @@ public class CNC {
         hauteurPixelsTable = (int) (Repere.getInstance().convertirEnPixelsDepuisPouces(60));
         
         outil_courant = outils.firstElement();
-        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+       undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
 
     }
 
@@ -63,7 +65,8 @@ public class CNC {
     public void creerPanneau(float longueurX, float largeurY, float profondeurZ) {
         // Création de l'objet Panneau avec les attributs donnés
         this.panneau = new Panneau(longueurX, largeurY, profondeurZ);
-         undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
 
     }
      public void reset() {
@@ -95,7 +98,8 @@ public class CNC {
             
             outils.add(outil);
             System.out.println("Outil ajouté avec succès : " + outil); //remove @zied
-           undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+           undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         } else {
             System.out.println("Le nombre maximum d'outils (12) est atteint. Impossible d'ajouter un nouvel outil."); //remove @zied
         }
@@ -140,7 +144,8 @@ public class CNC {
     public void supprimerOutilParIndex(int index) {
     if (index >= 0 && index < outils.size()) {
         // Sauvegarder l'état actuel avant la suppression
-      undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+    undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         
         Outil outil = outils.remove(index);
 
@@ -151,7 +156,8 @@ public class CNC {
 
         System.out.println("Outil supprimé avec succès.");
         Controleur.getInstance().mettreAJourVue(); // Mise à jour de la vue
-        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+       undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
     } else {
         System.out.println("Index invalide. Impossible de supprimer l'outil.");
     }
@@ -170,7 +176,8 @@ public class CNC {
                     outil.setLargeur_coupe(NewLargeur);
             }
         }
-       undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+    undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
       
 
     }
@@ -246,7 +253,8 @@ public class CNC {
         
         CoupeRec coupe = new CoupeRec(e);
         coupes.add(coupe);
-        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+      undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
 
         System.out.println("Coupe bordure enregistrée.");
         
@@ -310,14 +318,16 @@ public class CNC {
             
             CoupeAxe coupe = (CoupeAxe) coupes.get(0);
             coupe.setAxe(axe);
-            undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+          undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
 
 
     }
     
     public void ModifierCoupeRectL() {
         //verifier si ma coupe est modifiée lors de la modification d'un axe
-          undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+       undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
     }
     public boolean IsThere(Vector<UUID> uuids, String s){
 
@@ -419,7 +429,8 @@ public class CNC {
         }while(uuids.contains(coupe.getUUID()));
 
         coupes.add(coupe);
-       undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+    undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         getCoupes();
         System.out.print("coupe enregistrée\n");
 
@@ -627,7 +638,8 @@ public class CNC {
                 System.out.println("Coupe supprimée : " + coupe.getUUID());
                 return;
             }
-             undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+         undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         }
 
         // Si aucune coupe n'a été supprimée
@@ -677,7 +689,8 @@ public class CNC {
             System.out.println("TranslationX : " + TranslationX);
             System.out.println("TranslationY : " + TranslationY);
             modifierEnCascade(ma_coupe.getUUID(), TranslationX,TranslationY);
-            undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+          undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         }
         else if (cut.getTypeCoupe()=="L") {
             CoupeL ma_coupe = (CoupeL) cut;
@@ -760,7 +773,8 @@ public class CNC {
             }
         System.out.println("went here");
         modifierEnCascade(ma_coupe.getUUID(), translationX, translationY);
-        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
+    undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
         System.out.println("arrived");
     }
 
@@ -965,9 +979,9 @@ public class CNC {
     public void setCoteGrille(float cote) {
     this.coteGrille = cote;
     // Sauvegarder l'état après modification de la taille de la grille
-    undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille);
-}
+   undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
 
+}
 public void undo() {
     UndoRedoManager.State previousState = undoRedoManager.undo();
     if (previousState != null) {
@@ -975,7 +989,8 @@ public void undo() {
         this.panneau = previousState.panneau;
         this.outils = previousState.outils;
         this.outil_courant = previousState.outilCourant;
-        this.coteGrille = previousState.coteGrille; 
+        this.coteGrille = previousState.coteGrille;
+        this.epaisseurActuelle = previousState.epaisseurActuelle;
         Controleur.getInstance().mettreAJourVue();
         System.out.println("Undo effectué.");
         getCoupes();
@@ -984,7 +999,6 @@ public void undo() {
     }
 }
 
-
 public void redo() {
     UndoRedoManager.State nextState = undoRedoManager.redo();
     if (nextState != null) {
@@ -992,7 +1006,8 @@ public void redo() {
         this.panneau = nextState.panneau;
         this.outils = nextState.outils;
         this.outil_courant = nextState.outilCourant;
-        this.coteGrille = nextState.coteGrille; // Restaurer la taille de la grille
+        this.coteGrille = nextState.coteGrille;
+        this.epaisseurActuelle = nextState.epaisseurActuelle;
         Controleur.getInstance().mettreAJourVue();
         System.out.println("Redo effectué.");
         getCoupes();
@@ -1000,6 +1015,7 @@ public void redo() {
         System.out.println("Aucune action à rétablir (Redo).");
     }
 }
+
 
     public boolean isUndoAvailable() {
         return undoRedoManager.canUndo();

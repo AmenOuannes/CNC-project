@@ -9,10 +9,12 @@ public class Afficheur {
 
     public Afficheur(Controleur controleur) {
         this.controleur = controleur;
+        
     }
 
     public void DessinerPanneau(Graphics g, int hauteurTable) {
         Repere repere = Repere.getInstance();
+       
         // Dessiner le panneau au-dessus de la table CNC en marron clair, positionné en bas à gauche
         g.setColor(new Color(205, 133, 63)); // Couleur marron clair pour le panneau
 
@@ -34,12 +36,15 @@ public class Afficheur {
 
           // if (x != -1) {
         Repere repere = Repere.getInstance();
+         float epaisseurMm = coupe.getOutilDTO();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
+        
         int axe_pixel = repere.convertirEnPixelsDepuisMm(coupe.getAxeDTO());
         //float x_mm = x;
         if(xy) {
 
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO()));
+          g2d.setStroke(new BasicStroke(epaisseurPixels));
             // Partie Largeur outil :
 
             if(coupe.getValideDTO()) g2d.setColor(Color.RED);
@@ -52,7 +57,7 @@ public class Afficheur {
         }
         else{     
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); //for now
+          g2d.setStroke(new BasicStroke(epaisseurPixels));
             if(coupe.getValideDTO()) g2d.setColor(Color.RED);
             else {
                 g2d.setColor(Color.BLACK);
@@ -90,13 +95,16 @@ public class Afficheur {
     public void dessinerRectangleAVdeuxpoints (Graphics g, Point origine, Point destination, CoupeDTO coupe) {
         if (origine != null && destination != null) {
             // Extraire les coordonnées des points
+             Repere repere = Repere.getInstance();
+         float epaisseurMm = coupe.getOutilDTO();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
             int x1px = origine.x;
             int y1px = origine.y;
             int x2px = destination.x;
             int y2px = destination.y; 
             Graphics2D g2d = (Graphics2D) g;
 
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); // Appliquer l'épaisseur
+           g2d.setStroke(new BasicStroke(epaisseurPixels));
             if(coupe.getValideDTO()) g2d.setColor(Color.RED);
             else {
                 g2d.setColor(Color.BLACK);
@@ -142,13 +150,16 @@ public class Afficheur {
     public void dessinerL (Graphics g, Point origine, Point destination, CoupeDTO coupe) {
         if (origine != null && destination != null) {
             // Extraire les coordonnées des point
+            Repere repere = Repere.getInstance();
+         float epaisseurMm = coupe.getOutilDTO();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
         int x1 = origine.x;
         int y1= origine.y;
         int x2 = destination.x;
         int y2 = destination.y; 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setStroke(new BasicStroke(coupe.getOutilDTO())); // Appliquer l'épaisseur
+          g2d.setStroke(new BasicStroke(epaisseurPixels));
         if(coupe.getValideDTO()) g2d.setColor(Color.RED);
             else {
                 g2d.setColor(Color.BLACK);
@@ -178,7 +189,10 @@ public class Afficheur {
             else {
                 g2d.setColor(Color.BLACK);
             }
-            g2d.setStroke(new BasicStroke(coupe.getOutilDTO()));
+           
+         float epaisseurMm = coupe.getOutilDTO();
+        float epaisseurPixels = repere.convertirEnPixelsDepuisMm(epaisseurMm);
+          g2d.setStroke(new BasicStroke(epaisseurPixels));
 
             g2d.drawRect(xOrigine, yOrigine, bordureXPx, bordureYPx);
         }   
