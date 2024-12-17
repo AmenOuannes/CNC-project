@@ -19,13 +19,12 @@ import java.io.FileWriter;
 
 public class CNC {
     private Panneau panneau;
-    private Repere repere;
+
     private Vector<Coupe> coupes;
     private Vector<Point> points_de_reference;
     private Vector<Outil> outils;
     private Outil outil_courant;
     private final UndoRedoManager undoRedoManager = new UndoRedoManager();
-    private Point pointDeReferenceEnCours = null;
     private float epaisseurActuelle = 12.7f; // Un exemple de valeur par défaut
      private float coteGrille = 200;
     private float marge= 0.5f;
@@ -36,7 +35,6 @@ public class CNC {
 
     public CNC() {
         panneau = new Panneau(1200,1000,10);
-        //repere = new Repere(); // Repère pour gérer les conversions
         coupes = new Vector <Coupe>();
         outils = new Vector<Outil>(12);
         outils.add(new Outil("defaut", 12.7f));
@@ -81,9 +79,7 @@ public class CNC {
         return new PanneauDTO(panneau);
     }
 
-    public Repere getRepere() {
-        return repere;
-    }
+
 
     public Vector<CoupeDTO> getCoupes() {
         Vector<CoupeDTO> cDTO = new Vector<CoupeDTO>();
@@ -182,11 +178,7 @@ public class CNC {
 
     }
     
-    /*public void ModifierCoupesOutilCourant(){
-        for(Coupe coupe: coupes){
-            coupe.setOutil(outil_courant);
-        }
-    }*/
+
 
 
     //-------------------------------------------------COUPES--------------------------------------------------------
@@ -259,7 +251,7 @@ public class CNC {
         System.out.println("Coupe bordure enregistrée.");
         
     }
-    
+    //TODO --------------------------------------------------------------------------------
     public void CreerZoneInterdite(Point Origine, Point Destination){
         
         assert (Origine != null);
@@ -351,14 +343,16 @@ public class CNC {
             System.out.print(uuids);
             System.out.print(uuids_coin);
             System.out.print(c.getElement().getPointDestination());
-            //if (panneau.inPanneau(c.getElement().getPointDestination().x, 50))
-            //{
+            float x = Repere.getInstance().convertirEnMmDepuisPixels(c.getElement().getPointDestination().x);
+            float y = Repere.getInstance().convertirEnMmDepuisPixels(c.getElement().getPointDestination().y);
+            if (panneau.inPanneau(x, y))
+            {
                 System.out.println("hethi mrgla");
                 if(uuids.size() >= 2 || panneau.surPanneau(c.getReference()) || 
                     (uuids.size()== 1 && (IsThere(uuids_coin, "Bordure") || IsThere(uuids_coin, "L") || IsThere(uuids_coin, "Rect"))) ){
                 System.out.println("parfait");
                 return true;
-            //}
+            }
             }
             
             //if(!c.getMyRef().isEmpty())
@@ -723,7 +717,7 @@ public class CNC {
 
     }
     //TODO remove!!!!
-    public void modifierCoupeAxiale(Point p, float largeur){
+    /*public void modifierCoupeAxiale(Point p, float largeur){
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
         Coupe ma_coupe = null ;
@@ -739,7 +733,7 @@ public class CNC {
             else{
                 ma_coupe.setValide(true);
             }
-    }
+    }*/
     public void modifierCoupeAxiale(float a, Point p) {
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
@@ -782,6 +776,7 @@ public class CNC {
         Point start = new Point(startX, startY);
         Point end = new Point(endX, endY);
         Vector<UUID> surCoupe = this.surCoupes(start);
+        if(surCoupe.isEmpty()) return;
         UUID uuid = surCoupe.get(0);
         Coupe coupeDéplacée = null;
         for(Coupe coupe : coupes) {
@@ -793,6 +788,9 @@ public class CNC {
                 CoupeL L = (CoupeL) coupeDéplacée;
                 L.setPointDestination(end);
                 modifierEnCascade(uuid,endX-startX,endY-startY);
+                L.setValide(!CoupeValide(L, panneau));
+
+                break;
             case "Rect":
                 CoupeRec R = (CoupeRec) coupeDéplacée;
 
@@ -802,14 +800,25 @@ public class CNC {
                 Point newDest = new Point(R.getPointDestination().x+translationX, R.getPointDestination().y+translationY);
                 R.setPointDestination(newDest);
                 modifierEnCascade(uuid,translationX,translationY);
+                R.setValide(!CoupeValide(R, panneau));
+
+
+                break;
             case "H":
                 CoupeAxe H = (CoupeAxe) coupeDéplacée;
-                H.setAxe(endX);
+                H.setAxe(Repere.getInstance().convertirEnMmDepuisPixels(endY));
+                H.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
                 modifierEnCascade(uuid,endX-startX,endY-startY);
+
+                break;
             case "V":
                 CoupeAxe V = (CoupeAxe) coupeDéplacée;
-                V.setAxe(endY);
+                V.setAxe(Repere.getInstance().convertirEnMmDepuisPixels(endX));
+                V.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
+
                 modifierEnCascade(uuid,endX-startX,endY-startY);
+
+                break;
 
 
         }

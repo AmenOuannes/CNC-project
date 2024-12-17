@@ -70,26 +70,7 @@ public class Afficheur {
     }
 
 
-    //rendre la fonction de modification declenche le Dessiner coupe au lieu de celle là
-   /* public void dessinerCoupeModifie(Graphics g, int hauteurTable){
-        CoupeDTO coupe = controleur.getCoupes().get(0);
-        Graphics2D g2d = (Graphics2D) g;
-        
-        
-        float epaisseur = controleur.getEpaisseurActuelle();
-        g2d.setStroke(new BasicStroke(epaisseur)); // Appliquer l'épaisseur
-        
-        
-        float axe = coupe.getAxeDTO();
-        Repere repere = Repere.getInstance();
-        int x = (int) ( repere.convertirEnPixelsDepuisMm(axe));
-        System.out.printf(String.valueOf(x));
-        g2d.setColor(Color.BLACK); // Set color for the line
 
-        int ligneY1 = hauteurTable; // Starting point of the line
-        g2d.drawLine(x, ligneY1, x, ligneY1-repere.convertirEnPixelsDepuisMm(controleur.getPanneau().getLongueur()));
-
-    }*/
     
     //TODO zied Change en rect
     public void dessinerRectangleAVdeuxpoints (Graphics g, Point origine, Point destination, CoupeDTO coupe) {

@@ -47,22 +47,13 @@ public class Controleur {
         //transmettreDimensionsPanneau();
     }
     
-    
-    // cette methode permet au controleur de transmettre la valeur de x a mainwindow et de mettre a jours distancex (jtextframe ou s'affiche la valeur a cote bout modif coupe)
-    /*public void mettreAJourDistanceX(float x) {
-    if (mainWindow != null) {
-        //System.out.println("MainWindow est bien référencée"); // verification console ne peut l'enlever
-        mainWindow.afficherValeurDistanceX(x); // Appeler la méthode de MainWindow pour afficher la distance 
-    }else {
-        System.out.println("MainWindow est null"); // verification console ne peut l'enlever 
-    }
-}*/ //TODO: enlever par zied
+
 
     //getters
     public CNC getCNC() {
         return cnc;
     }
-    public Repere getRepere() {return cnc.getRepere();}
+
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
 //------------------------------------------------------COUPES----------------------------------------------------------
@@ -192,7 +183,7 @@ public void modifierCoupeAxiale(float a, Point Ref) {
     }
     public void modifierCoupeOutil(Point Ref) {
        float largeur = epaisseurActuelle;
-        cnc.modifierCoupeAxiale(Ref, largeur);
+        cnc.modifierCoupeAxiale(largeur, Ref);
     }
 
     public void modifierCoupeCarre(float longueur, float largeur, Point Ref) {

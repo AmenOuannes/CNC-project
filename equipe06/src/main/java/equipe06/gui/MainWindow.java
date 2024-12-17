@@ -688,7 +688,7 @@ private void genererGCode() {
             }
         });
 
-        jLabel18.setText("Si Bordure");
+        jLabel18.setText("Bordure");
 
         BordureX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -702,7 +702,7 @@ private void genererGCode() {
 
         UniteBordure.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm", "cm", "metre", "pouce" }));
 
-        jLabel21.setText("3.Modifie Reférence");
+        jLabel21.setText("3.Panneau après découpe");
 
         DimX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

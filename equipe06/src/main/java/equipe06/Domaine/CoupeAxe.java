@@ -21,6 +21,7 @@ public class CoupeAxe extends Coupe {
     private float axeRelatif;
     private boolean composante;
     private Point reference;
+    private Point destination;
     private Vector<UUID> myRef;
     private ElementCoupe element;
 
@@ -36,6 +37,7 @@ public class CoupeAxe extends Coupe {
         this.reference = reference;
         this.myRef = myRef;
         this.axeRelatif = e.getAxe();
+        this.destination = e.getPointDestination();
         this.element = e;
 
     }
@@ -50,6 +52,10 @@ public class CoupeAxe extends Coupe {
             throw new IllegalArgumentException("La valeur de l'axe doit etre superieure ou egale a zero.");
         }
         this.axe = axe;
+        int ymax = (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60);
+
+        /*if(this.getTypeCoupe()=="V") this.setDestination(new Point(Repere.getInstance().convertirEnPixelsDepuisMm(axe), ymax-1));
+        else this.setDestination(new Point(1, ymax-Repere.getInstance().convertirEnPixelsDepuisMm(axe)));*/
     }
 
     // Getter et Setter pour Composante
@@ -75,6 +81,10 @@ public class CoupeAxe extends Coupe {
     }
     public Vector<UUID> getMyRef() {
         return myRef;
+    }
+
+    public void setDestination(Point destination) {
+        this.destination = destination;
     }
     public void setAxeRelatif(boolean reference, Panneau panneau, float a) {
         if(this.getTypeCoupe()=="V") {

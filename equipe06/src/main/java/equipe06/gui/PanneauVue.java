@@ -119,13 +119,24 @@ public class PanneauVue extends JPanel {
             @Override
             public void mousePressed(MouseEvent evt) {
                 // Save the starting position when mouse press occurs
+                if(!deplacementGraphique) return;
                 startX = evt.getX();
                 startY = evt.getY();
+            }
+            public void mouseDragged(MouseEvent evt) {
+                // Real-time feedback for dragging
+                if(!deplacementGraphique) return;
+                int currentX = evt.getX();
+                int currentY = evt.getY();
+                // Update controller or visuals for real-time dragging
+                controleur.modifDeplacement(startX, startY, currentX, currentY);
+                repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent evt) {
                 // Capture the released point
+                if(!deplacementGraphique) return;
                 int endX = evt.getX();
                 int endY = evt.getY();
                 if(grilleMagnetique){
@@ -149,15 +160,17 @@ public class PanneauVue extends JPanel {
                 }
 
                 // Call your controller method with start and end points
-                if(deplacementGraphique) {
-                    controleur.modifDeplacement(startX, startY, endX, endY);
-                    deplacementGraphique = false;
-                }
+
+                controleur.modifDeplacement(startX, startY, endX, endY);
+                deplacementGraphique = false;
+
 
                 System.out.println("Dragged from (" + startX + ", " + startY +
                         ") to (" + endX + ", " + endY + ")");
+                repaint();
             }
         });
+
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent evt) {
