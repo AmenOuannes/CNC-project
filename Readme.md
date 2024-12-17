@@ -1,7 +1,7 @@
 # Guide d'utilisation de l'application Panneau et Coupe CNC
 
 ## Introduction
-Cette application permet de visualiser un panneau CNC, de créer des coupes, de modifier des outils et de gérer divers types de coupes. Elle se compose de trois onglets principaux, chacun ayant une fonction spécifique. Le panneau CNC est initialement configuré en **centimètres**, avec une graduation incrémentant de **200 cm** par case par défaut.
+Cette application permet de visualiser un panneau CNC, de créer des coupes, de modifier des outils et de gérer divers types de coupes. Elle se compose de trois onglets principaux, chacun ayant une fonction spécifique. Le panneau CNC est initialement configuré en **centimètres**, avec une graduation incrémentant de **200 mm** par case par défaut.
 
 ## Étapes d'utilisation
 
