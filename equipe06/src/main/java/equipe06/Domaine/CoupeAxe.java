@@ -68,6 +68,9 @@ public class CoupeAxe extends Coupe {
 
         this.composante = composante;
     }
+    public Point getPointDestination(){
+        return destination;
+    }
 
 
     public Point getReference() {

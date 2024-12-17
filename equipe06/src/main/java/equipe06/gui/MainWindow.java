@@ -1619,6 +1619,7 @@ if (outilSelectionne != null) {
         
         
         System.out.println("Chemin du fichier sélectionné : " + selectedFile.getAbsolutePath());
+        controleur.import_cnc(selectedFile.getAbsolutePath());
     }
     }//GEN-LAST:event_Import_cncActionPerformed
 

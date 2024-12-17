@@ -251,6 +251,10 @@ public boolean inPanneau(float x, float y) {
     public void modifDeplacement(int startX, int startY, int endX, int endY) {
         cnc.modifDeplacement(startX, startY, endX, endY);
     }
+
+    public void import_cnc(String absolutePath) {
+        cnc.loadCNC(absolutePath);
+    }
 }
 
 
