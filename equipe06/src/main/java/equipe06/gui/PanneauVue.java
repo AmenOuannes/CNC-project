@@ -141,24 +141,24 @@ public class PanneauVue extends JPanel {
                 // Capture the released point
                 if(!deplacementGraphique) return;
                 int endX = evt.getX();
-                int endY = evt.getY();
+                int endY =  (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60) - evt.getY();
                 if(grilleMagnetique){
-                    int n = (int) ( endX / intervalleGrilleX);
-                    if(endX % intervalleGrilleX >= (intervalleGrilleX/2)){
+                    int n =  ( endX / Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX));
+                    if((endX % intervalleGrilleX) >= (intervalleGrilleX/2)){
                         n = (n+1)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
                     }
                     else{
                         n = (n)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
                     }
-                    int y = (int) ( endY / intervalleGrilleX);
+                    int y = ( endY / Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX));
                     if(endY % intervalleGrilleX >= (intervalleGrilleX/2)){
-                        y = (y+1)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
+                        y = (y-1)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
                     }
                     else{
                         y = (y)*Repere.getInstance().convertirEnPixelsDepuisMm(intervalleGrilleX);
                     }
                     endX = n;
-                    endY = y;
+                    endY = (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60)-y;
 
                 }
 

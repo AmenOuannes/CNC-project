@@ -1109,7 +1109,7 @@ public void exporterGCode(String cheminFichier) {
             switch (coupe.getTypeCoupe()) {
                 case "V": // Coupe axiale verticale
                     double xV = element.getPointDestination().getX(); // Point de départ en X
-                    double yV = panneau.getLargeur(); // Largeur complète du panneau
+                    double yV = (panneau.getLargeur()/4.18); // Largeur complète du panneau
                     double zV = 0;
 
                     // Écrire les instructions pour la coupe verticale
@@ -1130,7 +1130,7 @@ public void exporterGCode(String cheminFichier) {
 
                 case "H": // Coupe axiale horizontale
                     double yH = element.getPointDestination().getY(); // Point de départ en Y
-                    double xH = panneau.getLongueur(); // Longueur complète du panneau
+                    double xH = (panneau.getLongueur()/4.18); // Longueur complète du panneau
                     double zH = 0;
 
                     // Écrire les instructions pour la coupe horizontale
