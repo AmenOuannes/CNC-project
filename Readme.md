@@ -1,7 +1,7 @@
 # Guide d'utilisation de l'application Panneau et Coupe CNC
 
 ## Introduction
-Cette application permet de visualiser un panneau CNC, de créer des coupes, de modifier des outils et de gérer divers types de coupes. Elle se compose de trois onglets principaux, chacun ayant une fonction spécifique. Le panneau CNC est initialement configuré en millimètres, avec une graduation incrémentant de 100 mm par case.
+Cette application permet de visualiser un panneau CNC, de créer des coupes, de modifier des outils et de gérer divers types de coupes. Elle se compose de trois onglets principaux, chacun ayant une fonction spécifique. Le panneau CNC est initialement configuré en **centimètres**, avec une graduation incrémentant de **200 cm** par case par défaut.
 
 ## Étapes d'utilisation
 
@@ -10,9 +10,12 @@ Lorsque vous ouvrez l'application, vous accédez à trois onglets principaux :
 
 ### Onglet 1 : **Dessin du panneau**
 - Cet onglet est dédié au dessin du panneau.
-- Un panneau par défaut de **1200 mm sur 1000 mm** est automatiquement affiché à l'ouverture.
-- Vous pouvez spécifier vos propres dimensions en modifiant les champs correspondants et choisir l'unité (par exemple, millimètres, pouces).
-- Cependant,les axes la table de la CNC sont en millimètres par défaut, avec des graduations de 100 mm pour chaque case.
+- Un panneau par défaut de **120 cm sur 100 cm** est automatiquement affiché à l'ouverture.
+- Vous pouvez spécifier vos propres dimensions en modifiant les champs correspondants et choisir l'unité (par exemple, centimètres, pouces, millimètres).
+- Les axes de la table de la CNC sont configurés selon l'unité sélectionnée, avec des graduations de **200 cm** par défaut pour chaque case, modifiables selon vos préférences.
+- **Activation et personnalisation de la grille :**
+  - Vous pouvez activer une grille dans la zone de travail en cliquant sur le bouton **"Activer la grille"**.
+  - La longueur de côté de la grille est de **200 cm** par défaut, mais peut être modifiée dans les paramètres.
 - Une fois les dimensions renseignées, cliquez sur le bouton **"Dessiner le panneau"** pour afficher le panneau dans la zone de travail.
 
 ### Onglet 2 : **Création et modification des outils**
@@ -32,6 +35,9 @@ Lorsque vous ouvrez l'application, vous accédez à trois onglets principaux :
 
 ### Onglet 3 : **Création et gestion des coupes**
 - Cet onglet vous permet de gérer les coupes en sélectionnant un outil dans le menu déroulant.
+- **Fonctionnalités supplémentaires :**
+  - **Undo/Redo :** Vous pouvez annuler ou rétablir toutes les actions effectuées (création, modification, suppression de coupes) en utilisant les boutons **"Annuler"** et **"Rétablir"** situés en haut de l'onglet.
+  - **Modification par glisser-déposer :** Les coupes peuvent être modifiées directement sur le panneau en les sélectionnant et en les déplaçant avec la souris.
 
 #### Changer l'outil d'une coupe
 1. Sélectionnez un nouvel outil dans le menu déroulant.
@@ -47,24 +53,32 @@ Lorsque vous ouvrez l'application, vous accédez à trois onglets principaux :
 
 #### Création d'une coupe
 1. Cliquez sur le panneau pour définir un point de référence.
-2. Cliquez à nouveau pour tracer la coupe. 
+2. Cliquez à nouveau pour tracer la coupe.
    - Pour les coupes de bordure, entrez les dimensions sur les axes X et Y, puis cliquez sur **"Créer une coupe"**.
 
 #### Modification d'une coupe
-
 - Cliquez sur le bouton **"Modifier une coupe"**.
 - Sélectionnez une coupe directement sur le panneau.
-- Mettre les nouvelles coordonnées en fonction de la type de la coupe.
+- Mettez les nouvelles coordonnées en fonction du type de la coupe ou déplacez-la par glisser-déposer avec la souris.
 
 #### Suppression d'une coupe
-
 - Cliquez sur le bouton **"Supprimer une coupe"**.
 - Sélectionnez une coupe directement sur le panneau.
 
 #### Coupes invalides
 - Si une coupe est invalide, elle sera affichée en rouge pour signaler l'erreur.
 
-### 4. Quitter l'application
+#### Importation et exportation de projets
+- **Importer un projet :**
+  1. Cliquez sur **"Fichier"** dans le menu situé en haut de la fenêtre.
+  2. Sélectionnez **"Importer un projet"**.
+  3. Choisissez le fichier contenant les coupes nécessaires.
+- **Exporter un projet :**
+  1. Cliquez sur **"Fichier"** dans le menu situé en haut de la fenêtre.
+  2. Sélectionnez **"Exporter un projet"**.
+  3. Choisissez l'emplacement et le format du fichier à exporter.
+
+### 4. **Quitter l'application**
 Pour quitter l'application :
 1. Cliquez sur **"Fichier"** dans le menu situé en haut de la fenêtre.
 2. Sélectionnez l'option **"Quitter"**.
@@ -72,5 +86,9 @@ Pour quitter l'application :
 ## Remarques
 - Assurez-vous de bien sélectionner ou cliquer dans la zone marron clair pour effectuer des actions sur le panneau.
 - Chaque modification ou suppression de coupe est immédiatement visible après validation ou application.
+- **Undo/Redo :** Utilisez les fonctionnalités d'annulation et de rétablissement pour gérer vos actions efficacement.
+- **Grille personnalisée :** Ajustez la grille selon vos besoins pour une meilleure précision dans vos dessins.
+- **Importation/Exportation :** Sauvegardez vos projets et partagez-les facilement grâce aux fonctionnalités d'importation et d'exportation.
+- **Modification intuitive :** Profitez de la fonctionnalité de glisser-déposer pour une modification rapide et intuitive des coupes.
 
 Nous espérons que cette application répondra à vos besoins pour visualiser et manipuler des panneaux CNC efficacement !
