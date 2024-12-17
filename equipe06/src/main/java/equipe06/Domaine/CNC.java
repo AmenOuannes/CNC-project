@@ -265,6 +265,9 @@ public class CNC {
         ZoneInterdite z = new ZoneInterdite(Origine, Destination);
         zones.add(z);
          undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle, zones);
+        for(Coupe c: coupes){
+            c.invalide = z.surZoneInterdite(c);
+        }
 
     }
     
@@ -1020,8 +1023,9 @@ public void undo() {
         this.outil_courant = previousState.outilCourant;
         this.coteGrille = previousState.coteGrille;
         this.epaisseurActuelle = previousState.epaisseurActuelle;
-        this.zones = previousState.zonesInterdites; 
+        this.zones = previousState.zonesInterdites;
         Controleur.getInstance().mettreAJourVue();
+        getCoupes();
         System.out.println("Undo effectué.");
     } else {
         System.out.println("Aucune action à annuler (Undo).");
@@ -1037,9 +1041,10 @@ public void redo() {
         this.outil_courant = nextState.outilCourant;
         this.coteGrille = nextState.coteGrille;
         this.epaisseurActuelle = nextState.epaisseurActuelle;
-        this.zones = nextState.zonesInterdites; 
+        this.zones = nextState.zonesInterdites;
         Controleur.getInstance().mettreAJourVue();
         System.out.println("Redo effectué.");
+        getCoupes();
     } else {
         System.out.println("Aucune action à rétablir (Redo).");
     }
@@ -1247,9 +1252,11 @@ public void exporterGCode(String cheminFichier) {
                     // Remove the "P:" prefix and split by commas
                     String[] parts = line.substring(2).trim().split(",");
 
+
                     if (parts.length == 3) {
                         // Parse longueur, largeur, and profondeur
                         float longueur = Float.parseFloat(parts[0].trim());
+                        System.out.println(parts[0]);
                         float largeur = Float.parseFloat(parts[1].trim());
                         float profondeur = Float.parseFloat(parts[2].trim());
                         // Create or update a Panneau object
