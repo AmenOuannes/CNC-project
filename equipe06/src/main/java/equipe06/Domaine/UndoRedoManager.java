@@ -2,19 +2,10 @@ package equipe06.Domaine;
 
 import java.util.Stack;
 import java.util.Vector;
+import equipe06.Domaine.Utils.ZoneInterdite;
 
 /**
- * Classe UndoRedoManager gérant les opérations Undo/Redo.
- * Cette version gère :
- * - Les coupes (Vector<Coupe>)
- * - Le panneau (Panneau)
- * - Les outils (Vector<Outil>)
- * - L’outil courant (Outil)
- * - La taille de la grille (float coteGrille)
- * - L’épaisseur actuelle (float epaisseurActuelle)
- *
- * Ajout de prints pour debug :
- * A chaque saveState, undo, redo, on imprime l’état des piles undos et redos.
+ * Gestionnaire pour les opérations Undo/Redo.
  */
 public class UndoRedoManager {
     private final Stack<State> undos = new Stack<>();
@@ -27,18 +18,20 @@ public class UndoRedoManager {
         Outil outilCourant;
         float coteGrille;
         float epaisseurActuelle;
+        Vector<ZoneInterdite> zonesInterdites;
 
-        State(Vector<Coupe> coupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant, float coteGrille, float epaisseurActuelle) {
+        State(Vector<Coupe> coupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant,
+              float coteGrille, float epaisseurActuelle, Vector<ZoneInterdite> zonesInterdites) {
             this.coupes = coupes;
             this.panneau = panneau;
             this.outils = outils;
             this.outilCourant = outilCourant;
             this.coteGrille = coteGrille;
             this.epaisseurActuelle = epaisseurActuelle;
+            this.zonesInterdites = zonesInterdites;
         }
     }
 
-    // Copie profonde des coupes
     private Vector<Coupe> deepCopyCoupes(Vector<Coupe> originalCoupes) {
         Vector<Coupe> copie = new Vector<>();
         for (Coupe coupe : originalCoupes) {
@@ -47,7 +40,14 @@ public class UndoRedoManager {
         return copie;
     }
 
-    // Copie profonde des outils
+    private Vector<ZoneInterdite> deepCopyZones(Vector<ZoneInterdite> originalZones) {
+        Vector<ZoneInterdite> copie = new Vector<>();
+        for (ZoneInterdite zone : originalZones) {
+            copie.add(zone.clone());
+        }
+        return copie;
+    }
+
     private Vector<Outil> deepCopyOutils(Vector<Outil> originalOutils) {
         Vector<Outil> copie = new Vector<>();
         for (Outil outil : originalOutils) {
@@ -56,21 +56,23 @@ public class UndoRedoManager {
         return copie;
     }
 
-    // Méthode pour cloner un panneau
     private Panneau deepCopyPanneau(Panneau panneau) {
-        return panneau != null ? panneau.clone() : null; 
+        return panneau != null ? panneau.clone() : null;
     }
 
-    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau, Vector<Outil> outils, Outil outilCourant, float coteGrille, float epaisseurActuelle) {
+    public void saveState(Vector<Coupe> currentCoupes, Panneau panneau, Vector<Outil> outils,
+                          Outil outilCourant, float coteGrille, float epaisseurActuelle,
+                          Vector<ZoneInterdite> zonesInterdites) {
         Vector<Coupe> copiedCoupes = deepCopyCoupes(currentCoupes);
         Panneau copiedPanneau = deepCopyPanneau(panneau);
         Vector<Outil> copiedOutils = deepCopyOutils(outils);
+        Vector<ZoneInterdite> copiedZones = deepCopyZones(zonesInterdites);
         Outil copiedOutilCourant = (outilCourant != null) ? outilCourant.clone() : null;
 
-        undos.push(new State(copiedCoupes, copiedPanneau, copiedOutils, copiedOutilCourant, coteGrille, epaisseurActuelle));
+        undos.push(new State(copiedCoupes, copiedPanneau, copiedOutils, copiedOutilCourant,
+                             coteGrille, epaisseurActuelle, copiedZones));
         redos.clear();
-        System.out.println("État sauvegardé.");
-        printStacks();
+        System.out.println("État sauvegardé avec zones interdites.");
     }
 
     public State undo() {
@@ -82,10 +84,7 @@ public class UndoRedoManager {
         State currentState = undos.pop();
         redos.push(currentState);
 
-        State previousState = undos.peek();
-        System.out.println("Undo effectué.");
-        printStacks();
-        return previousState;
+        return undos.peek();
     }
 
     public State redo() {
@@ -97,8 +96,6 @@ public class UndoRedoManager {
         State redoState = redos.pop();
         undos.push(redoState);
 
-        System.out.println("Redo effectué.");
-        printStacks();
         return redoState;
     }
 
@@ -109,6 +106,7 @@ public class UndoRedoManager {
     public boolean canRedo() {
         return !redos.isEmpty();
     }
+
 
     public Vector<Coupe> getCurrentCoupes() {
         return canUndo() ? deepCopyCoupes(undos.peek().coupes) : null;

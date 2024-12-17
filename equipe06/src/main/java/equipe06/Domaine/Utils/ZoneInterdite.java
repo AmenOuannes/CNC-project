@@ -17,7 +17,7 @@ import static java.util.Collections.min;
  *
  * @author ziedd
  */
-public class ZoneInterdite {
+public class ZoneInterdite implements Cloneable{
     
     private float longueur;
     private float largeur;
@@ -109,12 +109,15 @@ public class ZoneInterdite {
     public void setDestination(Point Destination) {
         this.Destination = Destination;
     }
-      @Override
+     @Override
     public ZoneInterdite clone() {
         try {
-            return (ZoneInterdite) super.clone();
+            ZoneInterdite cloned = (ZoneInterdite) super.clone();
+            cloned.Origin = new Point(this.Origin);
+            cloned.Destination = new Point(this.Destination);
+            return cloned;
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError("Erreur de clonage de ZoneInterdite", e);
+            throw new AssertionError("Erreur lors du clonage de ZoneInterdite", e);
         }
     }
 
@@ -184,5 +187,6 @@ public class ZoneInterdite {
         }
         return false;
     }
+      
     
 }
