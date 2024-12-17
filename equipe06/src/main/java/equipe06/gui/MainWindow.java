@@ -700,7 +700,12 @@ private void genererGCode() {
 
         jLabel20.setText("Y :");
 
-        UniteBordure.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm", "cm", "metre", "pouce" }));
+        UniteBordure.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mm", "cm", "metre", "pouce", "pouce_fraction" }));
+        UniteBordure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UniteBordureActionPerformed(evt);
+            }
+        });
 
         jLabel21.setText("3.Panneau après découpe");
 
@@ -781,20 +786,20 @@ private void genererGCode() {
                     .addComponent(jSeparator7)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
                         .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanneauContrôleLayout.createSequentialGroup()
                                     .addComponent(jLabel20)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(BordureY, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                    .addComponent(BordureY, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
                                 .addGroup(PanneauContrôleLayout.createSequentialGroup()
                                     .addComponent(jLabel19)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(BordureX, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                                    .addComponent(BordureX))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -811,7 +816,7 @@ private void genererGCode() {
                         .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(DistanceY, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21)
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
@@ -1179,18 +1184,38 @@ if (outilSelectionne != null) {
             switch (selection) {
                 case "Vertical", "Horizontal":
                 try{
-                    Float AxeRelatif = Float.parseFloat(DistanceX.getText());
+                    //Float AxeRelatif = Float.parseFloat(DistanceX.getText());
+                    String AxeRelatifInput = DistanceX.getText().trim();
+                    float AxeRelatif = 0;
                     String unite = (String) UniteBordure.getSelectedItem();
                     switch (unite) {
                         case "cm":
-                        AxeRelatif *= 10; // Convertir en mm
+                        //AxeRelatif *= 10; // Convertir en mm
+                        AxeRelatif = Float.parseFloat(AxeRelatifInput) * 10;
                         break;
                         case "metre":
-                        AxeRelatif *= 1000; // Convertir en mm
-
+                        //AxeRelatif *= 1000; // Convertir en mm
+                        AxeRelatif = Float.parseFloat(AxeRelatifInput) * 1000;
                         break;
                         case "pouce":
-                        AxeRelatif *= 25.4f; // Convertir en mm
+                        //AxeRelatif *= 25.4f; // Convertir en mm
+                        AxeRelatif = Float.parseFloat(AxeRelatifInput) * 25.4f;
+                        break;
+                        case "pouce_fraction":
+                        if (AxeRelatifInput.contains(" ")) { // Format "10 127/128"
+                            String[] parts = AxeRelatifInput.split(" ");
+                            float entier = Float.parseFloat(parts[0]);
+                            String[] fraction = parts[1].split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            AxeRelatif = (entier + (numerateur / denominateur)) * 25.4f;
+                        } else if (AxeRelatifInput.contains("/")) { // Format "127/128"
+                            String[] fraction = AxeRelatifInput.split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            AxeRelatif = (numerateur / denominateur) * 25.4f;
+                        }
+                        break;
 
                     }
                     panneauVue.activerModifierCoupeAxiale(AxeRelatif);
@@ -1202,21 +1227,63 @@ if (outilSelectionne != null) {
                 break;
                 case "Rect", "L":
                 try{
-                    Float longueur = Float.parseFloat(DistanceX.getText());
-                    Float largeur = Float.parseFloat(DistanceY.getText());
+                    String LongueurInput = DistanceX.getText().trim();
+                    String LargeurInput = DistanceY.getText().trim();
+                    float longueur = 0;
+                    float largeur = 0;
+                    //Float longueur = Float.parseFloat(DistanceX.getText());
+                    //Float largeur = Float.parseFloat(DistanceY.getText());
                     String unite = (String) UniteBordure.getSelectedItem();
                     switch (unite) {
                         case "cm":
-                        longueur *= 10; // Convertir en mm
-                        largeur *= 10;
+                        //longueur *= 10; // Convertir en mm
+                        //largeur *= 10;
+                        longueur = Float.parseFloat(LongueurInput) * 10;
+                        largeur = Float.parseFloat(LargeurInput) * 10;
                         break;
                         case "metre":
-                        longueur *= 1000; // Convertir en mm
-                        largeur *= 1000;
+                        longueur = Float.parseFloat(LongueurInput) * 1000;
+                        largeur = Float.parseFloat(LargeurInput) * 1000;
+                        //longueur *= 1000; // Convertir en mm
+                        //largeur *= 1000;
                         break;
                         case "pouce":
-                        longueur *= 25.4f; // Convertir en mm
-                        largeur *= 25.4f;
+                        longueur = Float.parseFloat(LongueurInput) * 25.4f;
+                        largeur = Float.parseFloat(LargeurInput) * 25.4f;
+                        //longueur *= 25.4f; // Convertir en mm
+                        //largeur *= 25.4f;
+                        break;
+                        
+                        case "pouce_fraction":
+                        // Traitement pour Longueur
+                        if (LongueurInput.contains(" ")) { // Format "10 127/128"
+                            String[] parts = LongueurInput.split(" ");
+                            float entier = Float.parseFloat(parts[0]);
+                            String[] fraction = parts[1].split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            longueur = (entier + (numerateur / denominateur)) * 25.4f;
+                        } else if (LongueurInput.contains("/")) { // Format "127/128"
+                            String[] fraction = LongueurInput.split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            longueur = (numerateur / denominateur) * 25.4f;
+                        }
+                        // Traitement pour Largeur
+                        if (LargeurInput.contains(" ")) { // Format "10 127/128"
+                            String[] parts = LargeurInput.split(" ");
+                            float entier = Float.parseFloat(parts[0]);
+                            String[] fraction = parts[1].split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            largeur = (entier + (numerateur / denominateur)) * 25.4f;
+                        } else if (LargeurInput.contains("/")) { // Format "127/128"
+                            String[] fraction = LargeurInput.split("/");
+                            float numerateur = Float.parseFloat(fraction[0]);
+                            float denominateur = Float.parseFloat(fraction[1]);
+                            largeur = (numerateur / denominateur) * 25.4f;
+                        }
+                        break;    
                     }
                     panneauVue.activerModifierR(longueur, largeur);
                     panneauVue.repaint();
@@ -1259,29 +1326,85 @@ if (outilSelectionne != null) {
             System.out.println("Création d'une coupe Bordure");
             try {
                 // Récupération des valeurs des champs de texte
-                float BordureXValue = Float.parseFloat(BordureX.getText());
-                float BordureYValue = Float.parseFloat(BordureY.getText());
+                //float BordureXValue = Float.parseFloat(BordureX.getText());
+                //float BordureYValue = Float.parseFloat(BordureY.getText());
+                String BordureXInput = BordureX.getText();
+                String BordureYInput = BordureY.getText();
+                float BordureXValue = 0;
+                float BordureYValue = 0;
 
                 String unite = (String) UniteBordure.getSelectedItem();
                 switch (unite) {
                     case "cm":
-                    BordureXValue *= 10; // Convertir en mm
-                    BordureYValue *= 10;
+                    BordureXValue = Float.parseFloat(BordureXInput) * 10; // Convertir en mm
+                    BordureYValue = Float.parseFloat(BordureYInput) * 10;   
+                    //BordureXValue *= 10; // Convertir en mm
+                    //BordureYValue *= 10;
                     break;
+                    
                     case "metre":
-                    BordureXValue *= 1000; // Convertir en mm
-                    BordureYValue *= 1000;
+                    BordureXValue = Float.parseFloat(BordureXInput) * 1000; // Convertir en mm
+                    BordureYValue = Float.parseFloat(BordureYInput) * 1000;
+                    //BordureXValue *= 1000; // Convertir en mm
+                    //BordureYValue *= 1000;
                     break;
+                    
                     case "pouce":
-                    BordureXValue *= 25.4; // Convertir en mm
-                    BordureYValue *= 25.4;
+                    BordureXValue = Float.parseFloat(BordureXInput) * 25.4f; // Convertir en mm
+                    BordureYValue = Float.parseFloat(BordureYInput) * 25.4f;
+                    //BordureXValue *= 25.4; // Convertir en mm
+                    //BordureYValue *= 25.4;
+                    break;
+                    
+                    case "pouce_fraction":
+                        try {
+                            // Traitement direct de l'entrée (ex: "10 127/128")
+                            if (BordureXInput.contains(" ")) {
+                                String[] partieEntiereEtFraction = BordureXInput.split(" ");
+                                float partieEntiere = Float.parseFloat(partieEntiereEtFraction[0]);
+                                String[] fraction = partieEntiereEtFraction[1].split("/");
+                                float numerateur = Float.parseFloat(fraction[0]);
+                                float denominateur = Float.parseFloat(fraction[1]);
+                                BordureXValue  = (partieEntiere + (numerateur / denominateur)) * 25.4f;
+                            } else if (BordureXInput.contains("/")) {
+                                // Cas où seule une fraction est entrée (ex: "127/128")
+                                String[] fraction = BordureXInput.split("/");
+                                float numerateur = Float.parseFloat(fraction[0]);
+                                float denominateur = Float.parseFloat(fraction[1]);
+                                BordureXValue  = (numerateur / denominateur) * 25.4f;
+                            } else {
+                                throw new Exception("Format invalide pour BordureXValue.");
+                            }
+
+                            // Même traitement pour largeur
+                            if (BordureYInput.contains(" ")) {
+                                String[] partieEntiereEtFraction = BordureYInput.split(" ");
+                                float partieEntiere = Float.parseFloat(partieEntiereEtFraction[0]);
+                                String[] fraction = partieEntiereEtFraction[1].split("/");
+                                float numerateur = Float.parseFloat(fraction[0]);
+                                float denominateur = Float.parseFloat(fraction[1]);
+                                BordureYValue  = (partieEntiere + (numerateur / denominateur)) * 25.4f;
+                            } else if (BordureYInput.contains("/")) {
+                                // Cas où seule une fraction est entrée
+                                String[] fraction = BordureYInput.split("/");
+                                float numerateur = Float.parseFloat(fraction[0]);
+                                float denominateur = Float.parseFloat(fraction[1]);
+                                BordureYValue  = (numerateur / denominateur) * 25.4f;
+                            } else {
+                                throw new Exception("Format invalide pour BordureYValue.");
+                            }
+
+                        } catch (Exception e) {
+                            message.setText("format non valide.");
+                        }
+                        break;
                 }
                 controleur.SetCoupeBordure(BordureXValue, BordureYValue);
                 System.out.print("Coupe créé!\n");
                 //panneauVue.DimensionsBordure(BordureXValue, BordureYValue);
                 panneauVue.repaint();
             } catch (NumberFormatException ex) {
-                message.setText("format non valide.");
+                message.setText("format non valide final.");
             }
             break;
             default:
@@ -1622,6 +1745,10 @@ if (outilSelectionne != null) {
         controleur.import_cnc(selectedFile.getAbsolutePath());
     }
     }//GEN-LAST:event_Import_cncActionPerformed
+
+    private void UniteBordureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UniteBordureActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UniteBordureActionPerformed
 
     /*
      * @param args the command line arguments
