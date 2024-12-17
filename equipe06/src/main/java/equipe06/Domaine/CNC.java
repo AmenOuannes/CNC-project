@@ -1196,7 +1196,7 @@ public void exporterGCode(String cheminFichier) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))){
             writer.write("P:"+panneau.getLongueur()+","+panneau.getLargeur()+","+ panneau.getProfondeur()+"\n");
             for(Outil outil: outils){
-                writer.write(outil.getNom()+":"+ outil.getLargeur_coupe()+"\n" );
+                writer.write(outil.getNom()+";"+ outil.getLargeur_coupe()+"\n" );
             }
             writer.write( marge+"\n" );
 
@@ -1204,24 +1204,24 @@ public void exporterGCode(String cheminFichier) {
                 switch(coupe.getTypeCoupe()){
                     case "H":
                         CoupeAxe c = (CoupeAxe) coupe;
-                        writer.write("H:"  + c.getAxe() +","+ c.getReference()+"," +c.getPointDestination() +","+c.getMyRef()+"\n");
+                        writer.write("H:"  + c.getAxe() +","+ c.getReference().getX() +"-"+c.getReference().getY()+"," +c.getPointDestination().getX() +"-"+c.getPointDestination().getY() +","+c.getMyRef()+"\n");
                         break;
                     case "V":
                         CoupeAxe c1 = (CoupeAxe) coupe;
-                        writer.write("V:"  + c1.getAxe() +","+ c1.getReference()+","+c1.getPointDestination() +"," + c1.getMyRef()+"\n");
+                        writer.write("V:"  + c1.getAxe() +","+ c1.getReference().getX() +"-"+c1.getReference().getY()+"," +c1.getPointDestination().getX() +"-"+c1.getPointDestination().getY() +"," + c1.getMyRef()+"\n");
                         break;
                     case "Rect":
                         CoupeRec c2 = (CoupeRec) coupe;
                         writer.write("Rect:"+ c2.getReference().getX() + "-" + c2.getReference().getY() +","+
                                 c2.getPointOrigine().getX() + "-" + c2.getPointOrigine().getY()+","+
                                 c2.getPointDestination().getX() + "-" + c2.getPointDestination().getY() + ","+
-                                c2.getMyRef()+")\n");
+                                c2.getMyRef()+"\n");
                         break;
                     case "L":
                         CoupeL c3 = (CoupeL) coupe;
                         writer.write("L:"+ c3.getPointOrigine().getX() + "-" + c3.getPointOrigine().getY() +","+
                                 c3.getPointDestination().getX() + "-" + c3.getPointDestination().getY() +","+
-                                c3.getMyRef()+")\n");
+                                c3.getMyRef()+"\n");
 
                         break;
                     case "Bordure":
@@ -1240,7 +1240,7 @@ public void exporterGCode(String cheminFichier) {
     }
     public void loadCNC(String cheminFichier) {
         outils.clear();  // Clear existing tools
-        coupes.clear();  // Clear existing cuts
+        //coupes.clear();  // Clear existing cuts
         zones.clear();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
@@ -1248,51 +1248,43 @@ public void exporterGCode(String cheminFichier) {
 
             // Read tools
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("P:")) {
-                    // Remove the "P:" prefix and split by commas
-                    String[] parts = line.substring(2).trim().split(",");
 
-
-                    if (parts.length == 3) {
-                        // Parse longueur, largeur, and profondeur
-                        float longueur = Float.parseFloat(parts[0].trim());
-                        System.out.println(parts[0]);
-                        float largeur = Float.parseFloat(parts[1].trim());
-                        float profondeur = Float.parseFloat(parts[2].trim());
-                        // Create or update a Panneau object
-                        this.panneau = new Panneau(longueur, largeur, profondeur);
-                    }
-                }
-                if (line.contains(":")) {
+                if (line.contains(";")) {
                     // This is a tool (format: name:width)
-                    String[] parts = line.split(":");
+                    String[] parts = line.split(";");
                     if (parts.length == 2) {
                         String nom = parts[0];
                         float largeurCoupe = Float.parseFloat(parts[1]);
                         outils.add(new Outil(nom, largeurCoupe));
+                        System.out.println("outil inséré");
                     }
-                }
+                    }
                 else if (!line.isEmpty() && line.matches("^-?\\d+(\\.\\d+)?$")) {
                     // This is the margin (a single float value)
                     marge = Float.parseFloat(line);
+                    System.out.println(marge);
+
                 }
                 else if (line.startsWith("H:") || line.startsWith("V:")) {
                     // Horizontal or Vertical cut
                     String[] parts = line.split(":")[1].split(",");
-                    float axe = Float.parseFloat(parts[0]);
 
-                    String reference = parts[1];
-                    String referenceString = parts[1].replaceAll("[^0-9,]", ""); // Remove non-numeric and commas
-                    String[] referenceCoords = referenceString.split(",");
-                    int referenceX = Integer.parseInt(referenceCoords[0]);
-                    int referenceY = Integer.parseInt(referenceCoords[1]);
+                    // Parse the axe
+                    float axe = Float.parseFloat(parts[0].trim());
+
+                    // Parse the reference point (formatted as "referenceX-referenceY")
+                    String[] referenceCoords = parts[1].split("-");
+                    System.out.println("here");
+                    int referenceX = (int) Float.parseFloat(referenceCoords[0].trim());
+                    int referenceY = (int) Float.parseFloat(referenceCoords[1].trim());
                     Point referencePoint = new Point(referenceX, referenceY);
 
-                    String destinationString = parts[2].replaceAll("[^0-9,]", ""); // Remove non-numeric and commas
-                    String[] destinationCoords = destinationString.split(",");
-                    int destinationX = Integer.parseInt(destinationCoords[0]);
-                    int destinationY = Integer.parseInt(destinationCoords[1]);
+                    // Parse the destination point (formatted as "destinationX-destinationY")
+                    String[] destinationCoords = parts[2].split("-");
+                    int destinationX = (int) Float.parseFloat(destinationCoords[0].trim());
+                    int destinationY = (int) Float.parseFloat(destinationCoords[1].trim());
                     Point destination = new Point(destinationX, destinationY);
+
 
                     String myRef = parts[3];
                     Vector<UUID> myRefVector = new Vector<>();
@@ -1301,7 +1293,7 @@ public void exporterGCode(String cheminFichier) {
 
                     for (String uuidStr : myRefParts) {
                         try {
-                            myRefVector.add(UUID.fromString(uuidStr));
+                            if(!uuidStr.isEmpty())myRefVector.add(UUID.fromString(uuidStr));
                         } catch (IllegalArgumentException e) {
                             System.err.println("Invalid UUID format: " + uuidStr);
                         }
@@ -1310,9 +1302,11 @@ public void exporterGCode(String cheminFichier) {
                     String type = line.startsWith("H:") ? "H" : "V";
                     ElementCoupe e = new ElementCoupe(
                             referencePoint, destination, panneau.getProfondeur()+marge,marge,
-                            axe, line.startsWith("H:"), 0.0f, 0.0f, type, outil_courant.getLargeur_coupe());
+                            axe, !line.startsWith("H:"), 0.0f, 0.0f, type, outil_courant.getLargeur_coupe());
                     CoupeAxe coupe = new CoupeAxe(e,myRefVector,referencePoint );
+
                     coupes.add(coupe);
+
                 }
                 else if (line.startsWith("Rect:")) {
                     // Rectangle cut
@@ -1320,41 +1314,86 @@ public void exporterGCode(String cheminFichier) {
                     String[] refCoords = parts[0].split("-");
                     String[] originCoords = parts[1].split("-");
                     String[] destinationCoords = parts[2].split("-");
-                    String myRef = parts[3];
 
-                    Point reference = new Point(Integer.parseInt(refCoords[0]), Integer.parseInt(refCoords[1]));
-                    Point origine = new Point(Integer.parseInt(originCoords[0]), Integer.parseInt(originCoords[1]));
-                    Point destination = new Point(Integer.parseInt(destinationCoords[0]), Integer.parseInt(destinationCoords[1]));
+                    Vector<UUID> myRefVector = new Vector<>();
+                    String myRefString = parts[3].replaceAll("[\\[\\] ]", ""); // Remove brackets and spaces
+                    String[] myRefParts = myRefString.split(",");
 
-                    //CoupeRec coupe = new CoupeRec(reference, origine, destination, myRef);
-                    //coupe.setTypeCoupe("Rect");
-                    //coupes.add(coupe);
+                    for (String uuidStr : myRefParts) {
+                        try {
+                            if(!uuidStr.isEmpty()) myRefVector.add(UUID.fromString(uuidStr));
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Invalid UUID format: " + uuidStr);
+                        }
+                    }
+
+                    Point reference = new Point((int) Float.parseFloat(refCoords[0]), (int) Float.parseFloat(refCoords[1]));
+                    Point origine = new Point((int) Float.parseFloat(originCoords[0]), (int) Float.parseFloat(originCoords[1]));
+                    Point destination = new Point((int) Float.parseFloat(destinationCoords[0]), (int) Float.parseFloat(destinationCoords[1]));
+                    float x = Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(origine.x-destination.x));
+                    float y = Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(origine.y-destination.y));
+
+                    ElementCoupe e = new ElementCoupe(
+                            origine, destination, panneau.getProfondeur()+marge,marge,
+                            0, !line.startsWith("H:"), x, y, "Rect", outil_courant.getLargeur_coupe());
+                    CoupeRec coupe = new CoupeRec(e, myRefVector,reference);
+
+                    coupes.add(coupe);
                 }
                 else if (line.startsWith("L:")) {
                     // L-shaped cut
                     String[] parts = line.split(":")[1].split(",");
                     String[] originCoords = parts[0].split("-");
                     String[] destinationCoords = parts[1].split("-");
-                    String myRef = parts[2];
 
-                    Point origine = new Point(Integer.parseInt(originCoords[0]), Integer.parseInt(originCoords[1]));
-                    Point destination = new Point(Integer.parseInt(destinationCoords[0]), Integer.parseInt(destinationCoords[1]));
 
-                    //CoupeL coupe = new CoupeL(origine, destination, myRef);
-                    //coupe.setTypeCoupe("L");
-                    //coupes.add(coupe);
+                    Point origine = new Point((int) Float.parseFloat(originCoords[0]), (int) Float.parseFloat(originCoords[1]));
+                    Point destination = new Point((int) Float.parseFloat(destinationCoords[0]), (int) Float.parseFloat(destinationCoords[1]));
+                    Vector<UUID> myRefVector = new Vector<>();
+                    String myRefString = parts[2].replaceAll("[\\[\\] ]", ""); // Remove brackets and spaces
+                    String[] myRefParts = myRefString.split(",");
+
+                    for (String uuidStr : myRefParts) {
+                        try {
+                            if(!uuidStr.isEmpty()) myRefVector.add(UUID.fromString(uuidStr));
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Invalid UUID format: " + uuidStr);
+                        }
+                    }
+                    ElementCoupe e = new ElementCoupe(
+                            origine, destination, panneau.getProfondeur()+marge,marge,
+                            0, !line.startsWith("H:"), 0.0f, 0.0f, "L", outil_courant.getLargeur_coupe());
+                    CoupeL coupe = new CoupeL(e, myRefVector);
+
+                    coupes.add(coupe);
                 }
                 else if (line.startsWith("Bordure:")) {
                     // Border cut
                     String[] parts = line.split(":")[1].split(",");
                     float bordureX = Float.parseFloat(parts[0]);
                     float bordureY = Float.parseFloat(parts[1]);
+                    int bordureXPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureX);
+                    int bordureYPx = Repere.getInstance().convertirEnPixelsDepuisMm(bordureY);
 
-                    //CoupeRec coupe = new CoupeRec();
-                    //coupe.setBordureX(bordureX);
-                   // coupe.setBordureY(bordureY);
-                    //coupe.setTypeCoupe("Bordure");
-                   // coupes.add(coupe);
+                    int longueurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLongueur());
+                    int largeurOriginalePx = Repere.getInstance().convertirEnPixelsDepuisMm(panneau.getLargeur());
+
+                    int xOrigine = (longueurOriginalePx - bordureXPx) / 2;
+                    int yOrigine = (int) Repere.getInstance().convertirEnPixelsDepuisPouces(60) - largeurOriginalePx + (largeurOriginalePx - bordureYPx) / 2;
+
+                    // Calcul du point de destination basé sur l'origine et les dimensions
+                    int xDestination = xOrigine + bordureXPx; // Point à l'extrémité droite
+                    int yDestination = yOrigine + bordureYPx; // Point à l'extrémité basse
+
+                    Point pointOrigine = new Point(xOrigine, yOrigine);
+                    Point pointDestination = new Point(xDestination, yDestination);
+
+                    ElementCoupe e = new ElementCoupe(
+                            pointOrigine, pointDestination, panneau.getProfondeur()+marge,marge, 0, false, bordureX, bordureY, "Bordure", outil_courant.getLargeur_coupe() );
+
+                    CoupeRec coupe = new CoupeRec(e);
+                    coupes.add(coupe);
+
                 }
             }
         } catch (IOException | NumberFormatException e) {

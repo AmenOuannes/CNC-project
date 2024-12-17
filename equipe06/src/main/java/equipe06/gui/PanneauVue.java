@@ -426,9 +426,12 @@ public class PanneauVue extends JPanel {
         }
 
         Vector<CoupeDTO> Coupes = controleur.getCoupes();
+
         for(CoupeDTO coupe: Coupes) {
+
             if(coupe.getTypeCoupeDTO().equals("V") && coupe.isComposanteDTO()) {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, true);
+
             }
             else if(coupe.getTypeCoupeDTO().equals("H") && !coupe.isComposanteDTO())  {
                 afficheur.dessinerCoupeAxiale(g, coupe, hauteurPixelsTable, largeurPixelsTable, false);
