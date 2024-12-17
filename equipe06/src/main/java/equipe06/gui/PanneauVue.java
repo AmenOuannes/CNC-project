@@ -39,7 +39,9 @@ public class PanneauVue extends JPanel {
     private boolean peutCreerZoneInterdite = false;
     private boolean deplacementGraphique = false;
     private float AxeRelatif;
+    private float z;
     private boolean modifyTriggeredA = false;
+    private boolean modifyTriggeredProfondeur = false;
     private boolean modifyTriggeredR = false;
     private boolean afficherGrille = false;
     private float longueur_modify;
@@ -102,7 +104,7 @@ public class PanneauVue extends JPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if(peutCreerCoupeL || peutCreerCoupeRect || peutCreerCoupeV ||
-                   peutCreerCoupeH || modifyTriggeredA || modifyTriggeredR || 
+                   peutCreerCoupeH || modifyTriggeredA || modifyTriggeredProfondeur || modifyTriggeredR || 
                    deleteTriggered || EditRef || ModifOutil || peutCreerZoneInterdite ) {
                     captureRectanglePoints(evt);
                 }
@@ -308,6 +310,16 @@ public class PanneauVue extends JPanel {
                 controleur.modifierCoupeAxiale(AxeRelatif, Ref);
                 repaint();
                 modifyTriggeredA = false;
+                rectX1 = -1;
+                rectY1 = -1;
+            }
+            else if(modifyTriggeredProfondeur)
+            {
+                Point Ref = new Point(rectX1, rectY1);
+                System.out.print("Point pour modifier un axe\n");
+                controleur.modifierCoupeProfondeur(z, Ref);
+                repaint();
+                modifyTriggeredProfondeur = false;
                 rectX1 = -1;
                 rectY1 = -1;
             }
@@ -536,6 +548,11 @@ public class PanneauVue extends JPanel {
     public void activerModifierCoupeAxiale(float axe) {
         modifyTriggeredA = true;
         AxeRelatif = axe;
+    }
+    
+    public void activerModifierProfondeur(float z_entree) {
+        modifyTriggeredProfondeur = true;
+        z = z_entree;
     }
 
     public void activerModifierR(float longueur, float largeur) {

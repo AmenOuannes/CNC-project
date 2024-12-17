@@ -48,7 +48,10 @@ public class Controleur {
         //transmettreDimensionsPanneau();
     }
     
-
+    public void modifierCoupeProfondeur(float z, Point Ref) {
+   cnc.modifierCoupeProfondeur(Ref, z);
+    }
+    
 
     //getters
     public CNC getCNC() {
@@ -185,7 +188,7 @@ public void modifierCoupeAxiale(float a, Point Ref) {
     }
     public void modifierCoupeOutil(Point Ref) {
        float largeur = epaisseurActuelle;
-        cnc.modifierCoupeAxiale(largeur, Ref);
+        cnc.modifierCoupeOutil(Ref, largeur);
     }
 
     public void modifierCoupeCarre(float longueur, float largeur, Point Ref) {

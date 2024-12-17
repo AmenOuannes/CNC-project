@@ -101,13 +101,11 @@ public class MainWindow extends javax.swing.JFrame {
    
     //////////////////////////////////////////////////
  
-public void updateDimensions(float x, float y) {
+public void updateDimensions(float y) {
     Repere repere = Repere.getInstance();
-    float xMm = repere.convertirEnMmDepuisPixels(x);
     float yMm = repere.convertirEnMmDepuisPixels(y);
 
     // Affichage dans les champs de texte
-    DimX.setText(String.format("%.2f", xMm));
     DimY.setText(String.format("%.2f", yMm));
 }
 // ZZedtha khater naarch ken el fou9 yestaamlou feha louled lel points de reference 
@@ -120,11 +118,6 @@ public void updateCoord(float x, float y) {
     // Affichage dans les champs de texte
     //CoordX.setText(String.format("%.2f", xMm));
     //CoordY.setText(String.format("%.2f", yMm));
-}
-
-public void updateDimX(float x) {
-    // Mettre à jour le champ DimX
-    DimX.setText(String.valueOf(x));
 }
 
 public void updateDimY(float y) {
@@ -275,9 +268,7 @@ private void genererGCode() {
         jLabel20 = new javax.swing.JLabel();
         UniteBordure = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
-        DimX = new javax.swing.JTextField();
         DimY = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         DistanceY = new javax.swing.JTextField();
         ModifRef = new javax.swing.JButton();
@@ -290,6 +281,7 @@ private void genererGCode() {
         CoordY = new javax.swing.JTextField();
         AjouterZI = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -707,17 +699,9 @@ private void genererGCode() {
             }
         });
 
-        jLabel21.setText("3.Panneau après découpe");
+        jLabel21.setText("3.Modifier profondeur");
 
-        DimX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DimXActionPerformed(evt);
-            }
-        });
-
-        jLabel22.setText("x:");
-
-        jLabel23.setText("y:");
+        jLabel23.setText("z:");
 
         ModifRef.setText("Modif ref");
         ModifRef.setActionCommand("ModifRef");
@@ -766,10 +750,53 @@ private void genererGCode() {
             }
         });
 
+        jButton5.setText("Modifier Profondeur");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanneauContrôleLayout = new javax.swing.GroupLayout(PanneauContrôle);
         PanneauContrôle.setLayout(PanneauContrôleLayout);
         PanneauContrôleLayout.setHorizontalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DistanceY, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                                .addComponent(jLabel23)
+                                .addGap(18, 18, 18)
+                                .addComponent(DimY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ModifRef, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel14)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addComponent(jSeparator4))
+                        .addContainerGap())))
             .addGroup(PanneauContrôleLayout.createSequentialGroup()
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanneauContrôleLayout.createSequentialGroup()
@@ -804,61 +831,26 @@ private void genererGCode() {
                             .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(AjouterZI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(AjouterZI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SuppCoupe))
+                            .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel24)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel25)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel26)
+                                .addGap(26, 26, 26)
+                                .addComponent(CoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ModCoupe, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DistanceY, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel23))
-                        .addGap(18, 18, 18)
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DimY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DimX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(ModifRef, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
-            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel14)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
-                            .addComponent(jSeparator4))
-                        .addContainerGap())))
-            .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SuppCoupe))
-                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel26)
-                        .addGap(26, 26, 26)
-                        .addComponent(CoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanneauContrôleLayout.setVerticalGroup(
             PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -907,11 +899,13 @@ private void genererGCode() {
                     .addComponent(jLabel14)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DimX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22)
-                    .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(DistanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanneauContrôleLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addGap(10, 10, 10)))
                 .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DistanceY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DimY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1134,10 +1128,6 @@ if (controleur.isRedoAvailable()) {
         panneauVue.repaint();
     }//GEN-LAST:event_ModifRefActionPerformed
 
-    private void DimXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DimXActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DimXActionPerformed
-
     private void BordureXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BordureXActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BordureXActionPerformed
@@ -1186,7 +1176,7 @@ if (outilSelectionne != null) {
                 try{
                     //Float AxeRelatif = Float.parseFloat(DistanceX.getText());
                     String AxeRelatifInput = DistanceX.getText().trim();
-                    float AxeRelatif = 0;
+                    float AxeRelatif = Float.parseFloat(AxeRelatifInput);
                     String unite = (String) UniteBordure.getSelectedItem();
                     switch (unite) {
                         case "cm":
@@ -1229,8 +1219,8 @@ if (outilSelectionne != null) {
                 try{
                     String LongueurInput = DistanceX.getText().trim();
                     String LargeurInput = DistanceY.getText().trim();
-                    float longueur = 0;
-                    float largeur = 0;
+                    float longueur = Float.parseFloat(LongueurInput);
+                    float largeur = Float.parseFloat(LargeurInput);
                     //Float longueur = Float.parseFloat(DistanceX.getText());
                     //Float largeur = Float.parseFloat(DistanceY.getText());
                     String unite = (String) UniteBordure.getSelectedItem();
@@ -1326,12 +1316,11 @@ if (outilSelectionne != null) {
             System.out.println("Création d'une coupe Bordure");
             try {
                 // Récupération des valeurs des champs de texte
-                //float BordureXValue = Float.parseFloat(BordureX.getText());
-                //float BordureYValue = Float.parseFloat(BordureY.getText());
+                float BordureXValue = Float.parseFloat(BordureX.getText());
+                float BordureYValue = Float.parseFloat(BordureY.getText());
                 String BordureXInput = BordureX.getText();
                 String BordureYInput = BordureY.getText();
-                float BordureXValue = 0;
-                float BordureYValue = 0;
+
 
                 String unite = (String) UniteBordure.getSelectedItem();
                 switch (unite) {
@@ -1750,6 +1739,12 @@ if (outilSelectionne != null) {
         // TODO add your handling code here:
     }//GEN-LAST:event_UniteBordureActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        float z = Float.parseFloat(DimY.getText());
+        panneauVue.activerModifierProfondeur(z);
+        panneauVue.repaint();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /*
      * @param args the command line arguments
      */
@@ -1795,7 +1790,6 @@ if (outilSelectionne != null) {
     private javax.swing.JButton Creer_Outil;
     private javax.swing.JButton DefCoupe;
     private javax.swing.JButton DessinerPanneau;
-    private javax.swing.JTextField DimX;
     private javax.swing.JTextField DimY;
     private javax.swing.JTextField DistanceX;
     private javax.swing.JTextField DistanceY;
@@ -1828,6 +1822,7 @@ if (outilSelectionne != null) {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1842,7 +1837,6 @@ if (outilSelectionne != null) {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;

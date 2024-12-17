@@ -723,14 +723,24 @@ public class CNC {
 
     }
     //TODO remove!!!!
-    /*public void modifierCoupeAxiale(Point p, float largeur){
+    public void modifierCoupeOutil(Point p, float largeur){
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
         Coupe ma_coupe = null ;
-        int translationX=0, translationY=0;
         for(Coupe coupe : coupes) {
-          if(uuid.equals(coupe.getUUID()))
-        ma_coupe = (CoupeAxe) coupe;}
+          if(uuid.equals(coupe.getUUID())){
+        if(coupe.getTypeCoupe()=="H" || coupe.getTypeCoupe()=="V"){
+            System.out.println("lehneee sehbiii2222");
+            ma_coupe = (CoupeAxe) coupe;
+        }
+        if(coupe.getTypeCoupe()=="Bordure" || coupe.getTypeCoupe()=="Rect"){
+
+            ma_coupe = (CoupeRec) coupe;
+        }
+        if(coupe.getTypeCoupe()=="L"){
+            ma_coupe = (CoupeL) coupe;
+        }
+          }}
         ma_coupe.setOutil(largeur);
         if (CoupeValide(ma_coupe, panneau))
             {
@@ -739,7 +749,33 @@ public class CNC {
             else{
                 ma_coupe.setValide(true);
             }
-    }*/
+}
+    
+    public void modifierCoupeProfondeur(Point p, float z){
+        System.out.print("profondeur mrgla nchlh");
+        if(surCoupes(p).isEmpty()) return;
+        UUID uuid = this.surCoupes(p).firstElement();
+        Coupe ma_coupe = null ;
+        for(Coupe coupe : coupes) {
+          if(uuid.equals(coupe.getUUID())){
+        if(coupe.getTypeCoupe()=="H" || coupe.getTypeCoupe()=="V"){
+        ma_coupe = (CoupeAxe) coupe;
+        ma_coupe.setProfondeur(z);
+        }
+        if(coupe.getTypeCoupe()=="Bordure" || coupe.getTypeCoupe()=="Rect"){
+        ma_coupe = (CoupeRec) coupe;
+        ma_coupe.setProfondeur(z);
+        }
+        if(coupe.getTypeCoupe()=="L"){
+        ma_coupe = (CoupeL) coupe;
+        ma_coupe.setProfondeur(z);
+
+        }
+        System.out.print("profondeur mrgla nchlh");
+        System.out.print(z);
+          }
+        }
+}
     public void modifierCoupeAxiale(float a, Point p) {
         if(surCoupes(p).isEmpty()) return;
         UUID uuid = this.surCoupes(p).firstElement();
