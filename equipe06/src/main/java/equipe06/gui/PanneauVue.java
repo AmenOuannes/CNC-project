@@ -1,6 +1,7 @@
 package equipe06.gui;
 
 import equipe06.Domaine.CoupeDTO;
+import equipe06.Domaine.Utils.ZoneInterditeDTO;
 import equipe06.gui.MainWindow;
 import equipe06.Domaine.Repere;
 import javax.swing.*;
@@ -446,6 +447,11 @@ public class PanneauVue extends JPanel {
             else if(coupe.getTypeCoupeDTO().equals("ZoneInterdite")){
                 afficheur.dessinerZoneInterdite(g, coupe.getPointOrigineDTO(), coupe.getPointDestinoDTO());
             }
+
+        }
+        Vector<ZoneInterditeDTO> z = controleur.getZones();
+        for(ZoneInterditeDTO zone: z) {
+            afficheur.dessinerZoneInterdite(g, zone.getOrigineDTO(), zone.getDestinoDTO());
         }
       // Dessiner le curseur virtuel si les coordonnées sont valides
         if (cursorX != -1 && cursorY != -1) {

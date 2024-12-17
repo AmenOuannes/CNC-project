@@ -5,6 +5,8 @@ import equipe06.Domaine.Repere;
 import equipe06.Domaine.Coupe;
 import equipe06.Domaine.*;
 import equipe06.Domaine.Utils.ElementCoupe;
+import equipe06.Domaine.Utils.ZoneInterdite;
+import equipe06.Domaine.Utils.ZoneInterditeDTO;
 import org.w3c.dom.css.Rect;
 import java.awt.Point;
 import java.util.List;
@@ -21,7 +23,7 @@ public class CNC {
     private Panneau panneau;
 
     private Vector<Coupe> coupes;
-    private Vector<Point> points_de_reference;
+    private Vector<ZoneInterdite> zones;
     private Vector<Outil> outils;
     private Outil outil_courant;
     private final UndoRedoManager undoRedoManager = new UndoRedoManager();
@@ -36,6 +38,7 @@ public class CNC {
     public CNC() {
         panneau = new Panneau(1200,1000,10);
         coupes = new Vector <Coupe>();
+        zones = new Vector<ZoneInterdite>();
         outils = new Vector<Outil>(12);
         outils.add(new Outil("defaut", 12.7f));
         // Conversion des dimensions de la table CNC en appliquant un facteur d'échelle
@@ -85,6 +88,11 @@ public class CNC {
         Vector<CoupeDTO> cDTO = new Vector<CoupeDTO>();
         for (Coupe coupe : coupes) cDTO.add(new CoupeDTO(coupe));
         return cDTO;
+    }
+    public Vector<ZoneInterditeDTO> getZones() {
+        Vector<ZoneInterditeDTO> zDTO = new Vector<ZoneInterditeDTO>();
+        for (ZoneInterdite z : zones) zDTO.add(new ZoneInterditeDTO(z));
+        return zDTO;
     }
     //-------------------------------------------------OUTILS--------------------------------------------
     // TODO fix redundancy
@@ -256,13 +264,8 @@ public class CNC {
         
         assert (Origine != null);
         assert (Destination != null);
-        float BordureX = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.x-Destination.x)));
-        float BordureY = (Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(Origine.y-Destination.y)));
-        ElementCoupe e = new ElementCoupe(
-                Origine, Destination, 0f,
-                0f,0,false,BordureX, BordureY,"ZoneInterdite",0);
-        CoupeRec ZI = new CoupeRec(e);
-        AjouterCoupe(ZI);
+        ZoneInterdite z = new ZoneInterdite(Origine, Destination);
+        zones.add(z);
 
     }
     
@@ -335,7 +338,9 @@ public class CNC {
         assert coupe != null : "La coupe ne peut pas etre invalide.";
         assert panneau != null : "Le panneau ne peut pas être invalide.";
 
-
+        for (ZoneInterdite z : zones) {
+            if(z.surZoneInterdite(coupe)) return false;
+        }
         if((Objects.equals(coupe.getTypeCoupe(), "H") || Objects.equals(coupe.getTypeCoupe(), "V")) ){
             CoupeAxe c = (CoupeAxe) coupe;
             Vector<UUID> uuids = surCoupes(c.getReference());
@@ -345,7 +350,8 @@ public class CNC {
             System.out.print(c.getElement().getPointDestination());
             float x = Repere.getInstance().convertirEnMmDepuisPixels(c.getElement().getPointDestination().x);
             float y = Repere.getInstance().convertirEnMmDepuisPixels(c.getElement().getPointDestination().y);
-            if (panneau.inPanneau(x, y))
+            float axe = Repere.getInstance().convertirEnMmDepuisPixels(c.getElement().getAxe());
+            if ((panneau.inPanneau(c.getElement().getAxe(), y) && c.getTypeCoupe() == "V") || (panneau.inPanneau(x, c.getElement().getAxe()) && c.getTypeCoupe() == "H"))
             {
                 System.out.println("hethi mrgla");
                 if(uuids.size() >= 2 || panneau.surPanneau(c.getReference()) || 
@@ -807,21 +813,38 @@ public class CNC {
             case "H":
                 CoupeAxe H = (CoupeAxe) coupeDéplacée;
                 H.setAxe(Repere.getInstance().convertirEnMmDepuisPixels(endY));
-                H.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
+                if(CoupeValide(H, panneau) && inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ))
+                {
+                    H.setValide(false);
+                }
+                else{
+                    H.setValide(true);
+                }
+                //H.setValide(!CoupeValide(H, panneau));
+                //H.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
                 modifierEnCascade(uuid,endX-startX,endY-startY);
 
                 break;
             case "V":
                 CoupeAxe V = (CoupeAxe) coupeDéplacée;
                 V.setAxe(Repere.getInstance().convertirEnMmDepuisPixels(endX));
-                V.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
-
+                //V.setValide(!inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ));
+                //V.setValide(!CoupeValide(V, panneau));
+                if(CoupeValide(V, panneau) && inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(endX),Repere.getInstance().convertirEnMmDepuisPixels(endY) ))
+                {
+                    V.setValide(false);
+                }
+                else{
+                    V.setValide(true);
+                }
                 modifierEnCascade(uuid,endX-startX,endY-startY);
 
                 break;
 
 
         }
+        undoRedoManager.saveState(coupes, panneau, outils, outil_courant, coteGrille, epaisseurActuelle);
+
     }
 
     public void modifierEnCascade(UUID uuid, int X, int Y) {
@@ -1215,6 +1238,7 @@ public void exporterGCode(String cheminFichier) {
         }
 
     }
+
 
 
 }

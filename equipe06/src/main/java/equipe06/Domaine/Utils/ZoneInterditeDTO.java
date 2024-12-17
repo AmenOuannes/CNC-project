@@ -1,49 +1,25 @@
 package equipe06.Domaine.Utils;
 
+import equipe06.Domaine.Repere;
+
+import java.awt.*;
+
 public class ZoneInterditeDTO {
-    private float longueurDTO;
-    private float largeurDTO;
-    private float DistanceToXDTO;
-    private float DistanceToYDTO;
+    private Point OrigineDTO;
+    private Point DestinoDTO;
 
     public ZoneInterditeDTO(ZoneInterdite zoneInterdite) {
         if (zoneInterdite != null) {
-            this.longueurDTO = zoneInterdite.getLongueur();
-            this.largeurDTO = zoneInterdite.getLargeur();
-            this.DistanceToXDTO = zoneInterdite.getDistanceToX();
-            this.DistanceToYDTO = zoneInterdite.getDistanceToY();
+            OrigineDTO = zoneInterdite.getOrigin();
+            DestinoDTO = zoneInterdite.getDestination();
         }
     }
 
-    public float getLongueurDTO() {
-        return longueurDTO;
+    public Point getDestinoDTO() {
+        return DestinoDTO;
     }
 
-    public void setLongueurDTO(float longueurDTO) {
-        this.longueurDTO = longueurDTO;
-    }
-
-    public float getLargeurDTO() {
-        return largeurDTO;
-    }
-
-    public void setLargeurDTO(float largeurDTO) {
-        this.largeurDTO = largeurDTO;
-    }
-
-    public float getDistanceToXDTO() {
-        return DistanceToXDTO;
-    }
-
-    public void setDistanceToXDTO(float DistanceToXDTO) {
-        this.DistanceToXDTO = DistanceToXDTO;
-    }
-
-    public float getDistanceToYDTO() {
-        return DistanceToYDTO;
-    }
-
-    public void setDistanceToYDTO(float DistanceToYDTO) {
-        this.DistanceToYDTO = DistanceToYDTO;
+    public Point getOrigineDTO() {
+        return OrigineDTO;
     }
 }

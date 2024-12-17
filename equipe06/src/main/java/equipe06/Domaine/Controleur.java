@@ -4,6 +4,7 @@
  */
 package equipe06.Domaine;
 import equipe06.Domaine.CNC;
+import equipe06.Domaine.Utils.ZoneInterditeDTO;
 import equipe06.drawing.Afficheur;
 import equipe06.gui.MainWindow;
 import java.awt.Point;
@@ -56,6 +57,7 @@ public class Controleur {
 
     public Vector<CoupeDTO> getCoupes() {return cnc.getCoupes();}
     public PanneauDTO getPanneau() {return cnc.getPanneau();}
+    public Vector<ZoneInterditeDTO> getZones() {return cnc.getZones();}
 //------------------------------------------------------COUPES----------------------------------------------------------
      public void CreerCoupeAxiale(Point p, boolean composante, Point reference) {
 

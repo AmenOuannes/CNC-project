@@ -108,6 +108,7 @@ public class Afficheur {
             int x2px = destination.x;
             int y2px = destination.y; 
             Graphics2D g2d = (Graphics2D) g;
+            g2d.setStroke(new BasicStroke(2f));
             g2d.setColor(Color.BLACK);
             if(controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x1px)), Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y1px)))
                     && controleur.inPanneau(Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(x2px)),Repere.getInstance().convertirEnMmDepuisPixels(Math.abs(y2px))))

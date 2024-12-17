@@ -29,7 +29,7 @@ public class Panneau implements Cloneable {
         this.longueur = longueur;
         this.largeur = largeur;
         this.profondeur = profondeur;
-        this.zoneInterdite = new ZoneInterdite(10, 10, 0, 0); // Initialisation par défaut
+        this.zoneInterdite = null;// Initialisation par défaut
     }
 
     // Getters pour les dimensions
