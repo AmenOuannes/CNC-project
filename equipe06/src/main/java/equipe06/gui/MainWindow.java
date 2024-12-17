@@ -210,6 +210,7 @@ private void genererGCode() {
     private void initComponents() {
 
         jSeparator3 = new javax.swing.JSeparator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         PanneauVisualisation = new javax.swing.JPanel();
         message = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -300,6 +301,10 @@ private void genererGCode() {
         jMenu5 = new javax.swing.JMenu();
         Gen_Gcode = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        Import_cnc = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -791,8 +796,8 @@ private void genererGCode() {
                                 .addComponent(UniteBordure, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                         .addGroup(PanneauContrôleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(DefCoupe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(AjouterZI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -1014,6 +1019,19 @@ private void genererGCode() {
         jMenu5.add(jMenuItem3);
 
         jMenuBar1.add(jMenu5);
+
+        jMenu3.setText("Import");
+
+        Import_cnc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        Import_cnc.setText("CNC");
+        Import_cnc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Import_cncActionPerformed(evt);
+            }
+        });
+        jMenu3.add(Import_cnc);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -1586,6 +1604,24 @@ if (outilSelectionne != null) {
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void Import_cncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Import_cncActionPerformed
+   
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Choisir un fichier");
+
+   
+    int userSelection = fileChooser.showOpenDialog(this);
+
+    
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+       
+        File selectedFile = fileChooser.getSelectedFile();
+        
+        
+        System.out.println("Chemin du fichier sélectionné : " + selectedFile.getAbsolutePath());
+    }
+    }//GEN-LAST:event_Import_cncActionPerformed
+
     /*
      * @param args the command line arguments
      */
@@ -1638,6 +1674,7 @@ if (outilSelectionne != null) {
     private javax.swing.JTextField Epaisseur_Outil;
     private javax.swing.JMenuItem Gen_Gcode;
     private javax.swing.JTextField GrilleX;
+    private javax.swing.JMenuItem Import_cnc;
     private javax.swing.JButton ModCoupe;
     private javax.swing.JButton ModMarge;
     private javax.swing.JButton ModifOutil;
@@ -1694,9 +1731,11 @@ if (outilSelectionne != null) {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
